@@ -1,5 +1,5 @@
 import { CheckCircle2, Clock, Compass, ExternalLink, Github, ShieldCheck, Target, Zap } from 'lucide-react';
-import { NOVALIS_PILLARS, NOVALIS_ROADMAP, ORG_META } from '../data/catalog';
+import { KRONVEX_PILLARS, KRONVEX_ROADMAP, ORG_META } from '../data/catalog';
 
 export function VisionPage() {
   return (
@@ -13,7 +13,7 @@ export function VisionPage() {
           Built to Turn Real-World Complexity Into Enduring Systems.
         </h1>
         <p className="text-base sm:text-lg text-slate-900 dark:text-slate-100 leading-relaxed">
-          <strong>NOVALIS</strong> is an independent engineering and applied intelligence organization founded
+          <strong>KRONVEX</strong> is an independent engineering and applied intelligence organization founded
           by <strong>{ORG_META.founderName}</strong>. Our mission is straightforward: <em>{ORG_META.tagline}</em>
         </p>
       </section>
@@ -60,7 +60,7 @@ export function VisionPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {NOVALIS_ROADMAP.map((phase) => {
+          {KRONVEX_ROADMAP.map((phase) => {
             const statusStyle =
               phase.status === 'completed'
                 ? 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
@@ -103,7 +103,7 @@ export function VisionPage() {
         <div className="lg:col-span-7 rounded-2xl glass-panel p-6 sm:p-8 space-y-4">
           <h2 className="font-display font-bold text-2xl text-black dark:text-white">Core Engineering Divisions</h2>
           <div className="space-y-4">
-            {NOVALIS_PILLARS.map((p) => (
+            {KRONVEX_PILLARS.map((p) => (
               <div key={p.id} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
                 <div className="font-mono text-xs text-sky-500 font-semibold">
                   {p.code} // {p.title}
@@ -119,7 +119,7 @@ export function VisionPage() {
             <span className="font-mono text-xs text-emerald-500 uppercase">Founder &amp; Lead Architect</span>
             <h2 className="font-display font-bold text-2xl text-black dark:text-white">{ORG_META.founderName}</h2>
             <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">
-              Software engineer, quantitative finance researcher, and systems architect leading NOVALIS across
+              Software engineer, quantitative finance researcher, and systems architect leading KRONVEX across
               cross-platform applications, market intelligence, and mission-critical AI.
             </p>
           </div>

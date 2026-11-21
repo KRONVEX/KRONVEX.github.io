@@ -1,9 +1,9 @@
 {
-  "name": "novalis-platform",
+  "name": "kronvex-platform",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Official web platform for N.O.V.A.L.I.S — Cross-Platform Apps, Market Intelligence, AI Skills & Local-First AI Models",
+  "description": "Official web platform for KRONVEX — Cross-Platform Apps, Market Intelligence, AI Skills & Local-First AI Models",
   "scripts": {
     "dev": "vite",
     "sync": "node scripts/sync-catalog.mjs",

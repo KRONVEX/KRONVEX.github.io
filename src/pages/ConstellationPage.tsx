@@ -9,11 +9,11 @@ export function ConstellationPage() {
           <Network className="w-3.5 h-3.5" /> INTERACTIVE ECOSYSTEM GRAPH · 7-NODE CORE
         </div>
         <h1 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white">
-          NOVALIS Ecosystem Constellation
+          KRONVEX Ecosystem Constellation
         </h1>
         <p className="text-slate-900 dark:text-slate-100">
           Navigate how our Cross-Platform Apps, Market Intelligence engines, AI Models, and Agent Skills orbit around
-          the 7-Node NOVALIS Core. Filter by layer or click any node to inspect its Mission Dossier.
+          the 7-Node KRONVEX Core. Filter by layer or click any node to inspect its Mission Dossier.
         </p>
       </div>
 

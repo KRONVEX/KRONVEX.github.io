@@ -10,10 +10,10 @@ import {
   Terminal,
   Zap,
 } from 'lucide-react';
-import { NOVALIS_MODELS } from '../data/catalog';
+import { KRONVEX_MODELS } from '../data/catalog';
 import { evaluateHardwareFit } from '../utils/hardware';
 import { LocalAiChat } from '../components/LocalAiChat';
-import type { DetectedHardware } from '../types/novalis';
+import type { DetectedHardware } from '../types/kronvex';
 
 interface ModelsPageProps {
   hardware: DetectedHardware;
@@ -52,7 +52,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
             AI Models &amp; Local Browser Chat Studio
           </h1>
           <p className="text-slate-900 dark:text-slate-100">
-            Download NOVALIS model weights directly to your PC (GGUF / ONNX / Safetensors) or load a compact
+            Download KRONVEX model weights directly to your PC (GGUF / ONNX / Safetensors) or load a compact
             ONNX model directly inside your browser to chat locally via WebGPU &amp; WebAssembly.
           </p>
         </div>
@@ -95,7 +95,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
               : 'glass-panel text-slate-950 dark:text-slate-100 hover:border-sky-500/50'
           }`}
         >
-          <Download className="w-4 h-4" /> Model Weights &amp; Downloads ({NOVALIS_MODELS.length})
+          <Download className="w-4 h-4" /> Model Weights &amp; Downloads ({KRONVEX_MODELS.length})
         </button>
         <button
           type="button"
@@ -116,7 +116,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
         <LocalAiChat hardware={hardware} initialModelId={chatModelId} />
       ) : (
         <div className="grid grid-cols-1 gap-6">
-          {NOVALIS_MODELS.map((model) => {
+          {KRONVEX_MODELS.map((model) => {
             const activeVarId = selectedVariantMap[model.id] || model.variants[0].id;
             const activeVar = model.variants.find((v) => v.id === activeVarId) || model.variants[0];
             const fit = evaluateHardwareFit(hardware, activeVar);

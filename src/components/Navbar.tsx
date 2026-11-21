@@ -16,7 +16,7 @@ import {
   Compass,
   Mail,
 } from 'lucide-react';
-import type { DetectedHardware } from '../types/novalis';
+import type { DetectedHardware } from '../types/kronvex';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -47,15 +47,15 @@ export function Navbar({ darkMode, onToggleTheme, onOpenCommand, hardware }: Nav
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <div className="relative">
             <img
-              src={`${import.meta.env.BASE_URL}novalis-logo.png`}
-              alt="NOVALIS Crest"
+              src={`${import.meta.env.BASE_URL}kronvex-logo.png`}
+              alt="KRONVEX Crest"
               className="w-9 h-9 rounded-lg object-cover ring-1 ring-sky-400/40 group-hover:ring-sky-400 transition-all shadow-sm"
             />
             <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white dark:ring-[#050811]" />
           </div>
           <div className="leading-tight">
             <span className="font-display font-bold tracking-[0.18em] text-sm sm:text-base text-black dark:text-white block">
-              NOVALIS
+              KRONVEX
             </span>
             <span className="font-mono text-[10px] text-sky-700 dark:text-sky-300 hidden sm:block">
               SYSTEMS · INTEL · AI
@@ -99,7 +99,7 @@ export function Navbar({ darkMode, onToggleTheme, onOpenCommand, hardware }: Nav
             type="button"
             onClick={() => onOpenCommand('palette')}
             className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-900/90 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-slate-950 dark:text-white transition"
-            title="Open NOVALIS OS Command Palette (Ctrl+K)"
+            title="Open KRONVEX OS Command Palette (Ctrl+K)"
           >
             <Command className="w-3.5 h-3.5 text-sky-500" />
             <span className="hidden sm:inline">Search</span>
@@ -112,7 +112,7 @@ export function Navbar({ darkMode, onToggleTheme, onOpenCommand, hardware }: Nav
             type="button"
             onClick={() => onOpenCommand('terminal')}
             className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/90 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-sky-700 dark:text-sky-300 transition"
-            title="Launch NOVALIS Interactive Terminal"
+            title="Launch KRONVEX Interactive Terminal"
             aria-label="Launch Terminal"
           >
             <Terminal className="w-4 h-4" />

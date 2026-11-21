@@ -13,13 +13,13 @@ export function Footer() {
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src={`${import.meta.env.BASE_URL}novalis-logo.png`}
-                alt="NOVALIS Logo"
+                src={`${import.meta.env.BASE_URL}kronvex-logo.png`}
+                alt="KRONVEX Logo"
                 className="w-9 h-9 rounded-lg ring-1 ring-sky-400/40"
               />
               <div>
                 <div className="font-display font-bold tracking-[0.18em] text-black dark:text-white">
-                  NOVALIS
+                  KRONVEX
                 </div>
                 <div className="font-mono text-[11px] font-medium text-slate-800 dark:text-slate-200">
                   CROSS-PLATFORM · MARKET INTELLIGENCE · MISSION-CRITICAL AI
@@ -85,8 +85,8 @@ export function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-slate-300 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-800 dark:text-slate-200 font-mono">
-          <span>© {year} NOVALIS Organization. Founded by {ORG_META.founderName}.</span>
-          <span>Press Ctrl+K anywhere for NOVALIS OS Command Terminal</span>
+          <span>© {year} KRONVEX Organization. Founded by {ORG_META.founderName}.</span>
+          <span>Press Ctrl+K anywhere for KRONVEX OS Command Terminal</span>
         </div>
       </div>
     </footer>

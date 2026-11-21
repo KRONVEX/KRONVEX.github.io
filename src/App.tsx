@@ -12,7 +12,7 @@ import { VisionPage } from './pages/VisionPage';
 import { ContactPage } from './pages/ContactPage';
 import { Index21Page } from './pages/Index21Page';
 import { detectHardwareProfile, detectUserOS } from './utils/hardware';
-import type { DetectedHardware } from './types/novalis';
+import type { DetectedHardware } from './types/kronvex';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -25,7 +25,7 @@ function ScrollToTop() {
 export function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
-    const saved = localStorage.getItem('novalis-theme');
+    const saved = localStorage.getItem('kronvex-theme');
     return saved ? saved === 'dark' : true;
   });
 
@@ -45,7 +45,7 @@ export function App() {
     const root = document.documentElement;
     if (darkMode) root.classList.add('dark');
     else root.classList.remove('dark');
-    localStorage.setItem('novalis-theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem('kronvex-theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
   useEffect(() => {

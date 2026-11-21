@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const ORG = process.env.ORG_NAME || 'N-O-V-A-L-I-S';
+const ORG = process.env.ORG_NAME || 'KRONVEX';
 const TOKEN = process.env.GITHUB_TOKEN || process.env.ORG_ACCESS_TOKEN || '';
 const OUT_ORG_FILE = path.resolve(process.cwd(), 'src/data/live-github.json');
 const OUT_INDEX21_FILE = path.resolve(process.cwd(), 'src/data/live-index-21.json');
@@ -9,7 +9,7 @@ const OUT_INDEX21_FILE = path.resolve(process.cwd(), 'src/data/live-index-21.jso
 async function fetchJson(url, useGithubAuth = false) {
   const headers = {
     Accept: 'application/json',
-    'User-Agent': 'NOVALIS-Platform-Sync/2.0',
+    'User-Agent': 'KRONVEX-Platform-Sync/2.0',
   };
   if (useGithubAuth) {
     headers.Accept = 'application/vnd.github+json';

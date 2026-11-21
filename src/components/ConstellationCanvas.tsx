@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Cpu, Layers, Sparkles, X } from 'lucide-react';
-import { NOVALIS_APPS, NOVALIS_MODELS, NOVALIS_PILLARS, NOVALIS_SKILLS } from '../data/catalog';
+import { KRONVEX_APPS, KRONVEX_MODELS, KRONVEX_PILLARS, KRONVEX_SKILLS } from '../data/catalog';
 
 interface GraphNode {
   id: string;
@@ -42,7 +42,7 @@ export function ConstellationCanvas() {
     const nList: GraphNode[] = [
       {
         id: 'core',
-        label: 'NOVALIS CORE',
+        label: 'KRONVEX CORE',
         kind: 'core',
         x: cx,
         y: cy,
@@ -63,7 +63,7 @@ export function ConstellationCanvas() {
     };
 
     const pillarAngles = [-145, -35, 90];
-    NOVALIS_PILLARS.forEach((p, idx) => {
+    KRONVEX_PILLARS.forEach((p, idx) => {
       const ang = (pillarAngles[idx] * Math.PI) / 180;
       const px = cx + Math.cos(ang) * 145;
       const py = cy + Math.sin(ang) * 125;
@@ -83,7 +83,7 @@ export function ConstellationCanvas() {
     });
 
     // Apps orbiting Pillar 1 (top-left)
-    NOVALIS_APPS.forEach((app, i) => {
+    KRONVEX_APPS.forEach((app, i) => {
       const ang = ((-185 + i * 38) * Math.PI) / 180;
       nList.push({
         id: app.id,
@@ -101,8 +101,8 @@ export function ConstellationCanvas() {
     });
 
     // Models orbiting Pillar 3 (bottom fan — staggered radii so all 7+ models stay crystal clear)
-    NOVALIS_MODELS.forEach((m, i) => {
-      const span = Math.max(NOVALIS_MODELS.length - 1, 1);
+    KRONVEX_MODELS.forEach((m, i) => {
+      const span = Math.max(KRONVEX_MODELS.length - 1, 1);
       const deg = 24 + (i / span) * 132;
       const ang = (deg * Math.PI) / 180;
       const rx = i % 2 === 0 ? 355 : 275;
@@ -123,7 +123,7 @@ export function ConstellationCanvas() {
     });
 
     // Skills orbiting Pillar 2 (top-right)
-    NOVALIS_SKILLS.forEach((s, i) => {
+    KRONVEX_SKILLS.forEach((s, i) => {
       const ang = ((-82 + i * 24) * Math.PI) / 180;
       nList.push({
         id: s.id,

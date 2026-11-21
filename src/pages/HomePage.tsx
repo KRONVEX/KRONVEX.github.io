@@ -12,9 +12,9 @@ import {
   Terminal,
   Zap,
 } from 'lucide-react';
-import { NOVALIS_APPS, NOVALIS_MODELS, NOVALIS_PILLARS, NOVALIS_SKILLS, ORG_META } from '../data/catalog';
+import { KRONVEX_APPS, KRONVEX_MODELS, KRONVEX_PILLARS, KRONVEX_SKILLS, ORG_META } from '../data/catalog';
 import liveGithub from '../data/live-github.json';
-import type { DetectedHardware } from '../types/novalis';
+import type { DetectedHardware } from '../types/kronvex';
 
 interface HomePageProps {
   hardware: DetectedHardware;
@@ -32,7 +32,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
   return (
     <div className="space-y-24">
       {/* Cinematic Mission Control Hero */}
-      <section className="relative overflow-hidden border-b border-slate-200/80 dark:border-slate-800/80 novalis-grid">
+      <section className="relative overflow-hidden border-b border-slate-200/80 dark:border-slate-800/80 kronvex-grid">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.16),transparent_60%),radial-gradient(ellipse_at_bottom_right,rgba(129,140,248,0.14),transparent_55%)]" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
@@ -74,7 +74,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
                   onClick={onOpenTerminal}
                   className="px-4 py-3 rounded-xl glass-panel text-slate-950 dark:text-white hover:border-sky-500/50 font-mono text-xs inline-flex items-center gap-2 transition"
                 >
-                  <Terminal className="w-4 h-4 text-emerald-400" /> novalis&gt; CLI
+                  <Terminal className="w-4 h-4 text-emerald-400" /> kronvex&gt; CLI
                 </button>
               </div>
 
@@ -83,7 +83,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
                 {[
                   { label: 'CLIENT OS', value: hardware.os, accent: 'text-sky-500' },
                   { label: 'AI ENGINE', value: hardware.webgpuSupported ? 'WebGPU' : 'WASM CPU', accent: 'text-emerald-500' },
-                  { label: 'AI SKILLS', value: `${NOVALIS_SKILLS.length} Ready`, accent: 'text-indigo-400' },
+                  { label: 'AI SKILLS', value: `${KRONVEX_SKILLS.length} Ready`, accent: 'text-indigo-400' },
                   { label: 'ORG REPOS', value: `${liveGithub.stats.publicRepos} Public`, accent: 'text-amber-500' },
                 ].map((stat) => (
                   <div key={stat.label} className="glass-panel rounded-xl px-3.5 py-2.5">
@@ -98,23 +98,23 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl p-6 sm:p-8 glass-panel glow-cyan overflow-hidden">
                 <div className="flex items-center justify-between text-[11px] font-mono text-slate-800 dark:text-slate-200 mb-6">
-                  <span>NOVALIS // CORE EMBLEM</span>
+                  <span>KRONVEX // CORE EMBLEM</span>
                   <span className="text-emerald-400">● 7-NODE MATRIX</span>
                 </div>
                 <div className="flex justify-center my-4">
                   <img
-                    src={`${import.meta.env.BASE_URL}novalis-logo.png`}
-                    alt="NOVALIS Official Owl Crest"
+                    src={`${import.meta.env.BASE_URL}kronvex-logo.png`}
+                    alt="KRONVEX Official Owl Crest"
                     className="w-56 h-56 sm:w-64 sm:h-64 rounded-2xl shadow-2xl ring-1 ring-sky-400/30 animate-float"
                   />
                 </div>
                 <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 grid grid-cols-3 gap-2 text-center font-mono text-[11px]">
                   <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/80">
-                    <div className="text-sky-500 font-bold">{NOVALIS_APPS.length}</div>
+                    <div className="text-sky-500 font-bold">{KRONVEX_APPS.length}</div>
                     <div className="text-slate-800 dark:text-slate-200 text-[10px]">APPS</div>
                   </div>
                   <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/80">
-                    <div className="text-indigo-400 font-bold">{NOVALIS_MODELS.length}</div>
+                    <div className="text-indigo-400 font-bold">{KRONVEX_MODELS.length}</div>
                     <div className="text-slate-800 dark:text-slate-200 text-[10px]">AI MODELS</div>
                   </div>
                   <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/80">
@@ -136,13 +136,13 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
             Three Pillars. One Unified Execution Stack.
           </h2>
           <p className="text-slate-900 dark:text-slate-100 mt-3">
-            Every system built under NOVALIS connects client-grade software delivery, quantitative decision
+            Every system built under KRONVEX connects client-grade software delivery, quantitative decision
             intelligence, and verifiable AI models.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {NOVALIS_PILLARS.map((pillar) => {
+          {KRONVEX_PILLARS.map((pillar) => {
             const borderTone =
               pillar.accent === 'cyan'
                 ? 'hover:border-sky-500/50'
@@ -231,7 +231,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
               badge: '1-Click Bundle',
             },
             {
-              title: 'NOVALIS Ecosystem Constellation',
+              title: 'KRONVEX Ecosystem Constellation',
               desc: 'Interactive orbital neural map connecting every application, AI model, agent skill, and engineering pillar into one navigable command view.',
               icon: Network,
               route: '/constellation',

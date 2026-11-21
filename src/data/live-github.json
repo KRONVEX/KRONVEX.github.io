@@ -1,5 +1,5 @@
 {
-  "org": "N-O-V-A-L-I-S",
+  "org": "KRONVEX",
   "syncedAt": "2026-11-20T19:24:19.967Z",
   "live": true,
   "stats": {
@@ -12,7 +12,7 @@
     {
       "name": ".github",
       "description": "Building cross-platform apps, market intelligence, and mission-critical AI to solve complex real-world problems.",
-      "url": "https://github.com/N-O-V-A-L-I-S/.github",
+      "url": "https://github.com/KRONVEX/.github",
       "language": "Multi-Stack",
       "stars": 0,
       "forks": 0,
@@ -21,9 +21,9 @@
         "cross-platform",
         "github-actions",
         "github-organization",
+        "kronvex",
         "market-intelligence",
         "mission-critical",
-        "novalis",
         "svg-telemetry"
       ],
       "pushedAt": "2026-11-20T13:21:07Z"
@@ -33,8 +33,8 @@
     {
       "repo": ".github",
       "tag": "v1.0.0",
-      "title": "v1.0.0 — N.O.V.A.L.I.S Genesis Architecture & Telemetry Engine",
-      "url": "https://github.com/N-O-V-A-L-I-S/.github/releases/tag/v1.0.0",
+      "title": "v1.0.0 — KRONVEX Genesis Architecture & Telemetry Engine",
+      "url": "https://github.com/KRONVEX/.github/releases/tag/v1.0.0",
       "publishedAt": "2026-11-20T12:43:04Z",
       "assets": []
     }

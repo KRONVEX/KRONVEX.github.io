@@ -9,8 +9,8 @@ import {
   Smartphone,
   Sparkles,
 } from 'lucide-react';
-import { NOVALIS_APPS } from '../data/catalog';
-import type { DetectedHardware, PlatformType } from '../types/novalis';
+import { KRONVEX_APPS } from '../data/catalog';
+import type { DetectedHardware, PlatformType } from '../types/kronvex';
 
 interface AppsPageProps {
   hardware: DetectedHardware;
@@ -21,8 +21,8 @@ export function AppsPage({ hardware }: AppsPageProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const filteredApps = useMemo(() => {
-    if (filter === 'all') return NOVALIS_APPS;
-    return NOVALIS_APPS.filter((a) => a.platforms.includes(filter));
+    if (filter === 'all') return KRONVEX_APPS;
+    return KRONVEX_APPS.filter((a) => a.platforms.includes(filter));
   }, [filter]);
 
   const copyHash = (id: string, text: string) => {

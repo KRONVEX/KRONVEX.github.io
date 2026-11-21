@@ -1,4 +1,4 @@
-import type { DetectedHardware, ModelVariant } from '../types/novalis';
+import type { DetectedHardware, ModelVariant } from '../types/kronvex';
 
 export function detectUserOS(): DetectedHardware['os'] {
   if (typeof navigator === 'undefined') return 'Unknown';

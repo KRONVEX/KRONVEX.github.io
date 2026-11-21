@@ -1,11 +1,11 @@
-import type { NovalisApp, NovalisModel, NovalisSkill, RoadmapPhase } from '../types/novalis';
+import type { KronvexApp, KronvexModel, KronvexSkill, RoadmapPhase } from '../types/kronvex';
 
 export const ORG_META = {
-  name: 'NOVALIS',
-  handle: 'N-O-V-A-L-I-S',
+  name: 'KRONVEX',
+  handle: 'KRONVEX',
   tagline: 'Building cross-platform apps, market intelligence, and mission-critical AI to solve complex real-world problems.',
-  githubUrl: 'https://github.com/N-O-V-A-L-I-S',
-  orgProfileRepoUrl: 'https://github.com/N-O-V-A-L-I-S/.github',
+  githubUrl: 'https://github.com/KRONVEX',
+  orgProfileRepoUrl: 'https://github.com/KRONVEX/.github',
   founderName: 'Khalid Naami',
   founderGithub: 'https://github.com/khalid-naami',
   founderSite: 'https://khalidnaami.com',
@@ -13,7 +13,7 @@ export const ORG_META = {
   twitterUrl: 'https://twitter.com/khalidnaami0',
 };
 
-export const NOVALIS_PILLARS = [
+export const KRONVEX_PILLARS = [
   {
     id: 'pillar-apps',
     code: '01',
@@ -49,10 +49,10 @@ export const NOVALIS_PILLARS = [
   },
 ];
 
-export const NOVALIS_APPS: NovalisApp[] = [
+export const KRONVEX_APPS: KronvexApp[] = [
   {
-    id: 'novalis-pulse-desktop',
-    name: 'Novalis Pulse Desktop',
+    id: 'kronvex-pulse-desktop',
+    name: 'Kronvex Pulse Desktop',
     tagline: 'Native Windows & cross-platform command cockpit for real-time market intelligence and local AI workflows.',
     description:
       'Built for speed and reliability on Windows 10/11. Combines live macro telemetry, multi-source watchlist alerts, and direct integration with local GGUF/ONNX AI models without cloud lock-in.',
@@ -62,7 +62,7 @@ export const NOVALIS_APPS: NovalisApp[] = [
     status: 'early-access',
     releaseDate: 'Q1 2027 Target',
     license: 'Apache-2.0',
-    repoUrl: 'https://github.com/N-O-V-A-L-I-S',
+    repoUrl: 'https://github.com/KRONVEX',
     features: [
       'Low-latency market & macro telemetry dashboard',
       'Built-in local LLM sidecar connector (Ollama & llama.cpp)',
@@ -80,7 +80,7 @@ export const NOVALIS_APPS: NovalisApp[] = [
         arch: 'x64',
         size: '~48 MB',
         sha256: 'Published automatically on v1.0 GitHub Release',
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
       },
       {
         label: 'Windows Portable Archive',
@@ -89,14 +89,14 @@ export const NOVALIS_APPS: NovalisApp[] = [
         arch: 'x64 / ARM64',
         size: '~42 MB',
         sha256: 'Published automatically on v1.0 GitHub Release',
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
       },
     ],
     accent: 'cyan',
   },
   {
-    id: 'novalis-sentinel-android',
-    name: 'Novalis Sentinel Mobile',
+    id: 'kronvex-sentinel-android',
+    name: 'Kronvex Sentinel Mobile',
     tagline: 'Lightweight Android companion for real-time alerts, intelligence briefings, and on-device edge AI.',
     description:
       'A sleek Flutter-powered Android application delivering instant market signal notifications, encrypted personal notes, and offline-capable compact AI utilities.',
@@ -106,7 +106,7 @@ export const NOVALIS_APPS: NovalisApp[] = [
     status: 'beta',
     releaseDate: 'Q1 2027 Target',
     license: 'Apache-2.0',
-    repoUrl: 'https://github.com/N-O-V-A-L-I-S',
+    repoUrl: 'https://github.com/KRONVEX',
     features: [
       'Signed universal & arm64-v8a Android APK builds',
       'Instant macro & risk threshold push alerts',
@@ -124,7 +124,7 @@ export const NOVALIS_APPS: NovalisApp[] = [
         arch: 'arm64-v8a',
         size: '~28 MB',
         sha256: 'Published automatically on v1.0 GitHub Release',
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
       },
       {
         label: 'Android Universal APK',
@@ -133,24 +133,24 @@ export const NOVALIS_APPS: NovalisApp[] = [
         arch: 'universal',
         size: '~38 MB',
         sha256: 'Published automatically on v1.0 GitHub Release',
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
       },
     ],
     accent: 'emerald',
   },
   {
-    id: 'novalis-local-studio',
-    name: 'Novalis AI Runner',
+    id: 'kronvex-local-studio',
+    name: 'Kronvex AI Runner',
     tagline: 'One-click local model launcher & evaluation bench for Windows and Android devices.',
     description:
-      'Download, verify SHA-256 checksums, benchmark tokens-per-second, and chat privately with NOVALIS custom GGUF & ONNX models — 100% offline on your own hardware.',
+      'Download, verify SHA-256 checksums, benchmark tokens-per-second, and chat privately with KRONVEX custom GGUF & ONNX models — 100% offline on your own hardware.',
     pillar: 'Mission-Critical AI',
     platforms: ['windows', 'android', 'cross-platform'],
     version: 'v0.5.0-alpha',
     status: 'incubating',
     releaseDate: 'Q2 2027 Target',
     license: 'MIT',
-    repoUrl: 'https://github.com/N-O-V-A-L-I-S',
+    repoUrl: 'https://github.com/KRONVEX',
     features: [
       'Automatic GPU/VRAM & NPU hardware profiling',
       'Built-in Hugging Face & GitHub Releases resumable downloader',
@@ -169,7 +169,7 @@ export const NOVALIS_APPS: NovalisApp[] = [
         arch: 'x64',
         size: '~64 MB',
         sha256: 'Published automatically on release',
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
       },
       {
         label: 'Android Edge Runner',
@@ -178,23 +178,23 @@ export const NOVALIS_APPS: NovalisApp[] = [
         arch: 'arm64-v8a',
         size: '~34 MB',
         sha256: 'Published automatically on release',
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
       },
     ],
     accent: 'violet',
   },
 ];
 
-export const NOVALIS_MODELS: NovalisModel[] = [
+export const KRONVEX_MODELS: KronvexModel[] = [
   {
-    id: 'novalis-nano-135m',
-    name: 'Novalis Nano-135M (Browser Ready)',
+    id: 'kronvex-nano-135m',
+    name: 'Kronvex Nano-135M (Browser Ready)',
     family: 'SmolLM2 / ONNX-WebGPU',
     parameters: '135M',
     contextLength: '8K',
     tagline: 'Ultra-lightweight instant-download chat model that runs 100% inside your browser on your own PC.',
     description:
-      'Designed for immediate local experimentation right inside the NOVALIS Browser Chat Studio. Downloads directly into your browser cache (~140 MB quantized ONNX) and executes via WebGPU or WebAssembly with zero cloud server cost.',
+      'Designed for immediate local experimentation right inside the KRONVEX Browser Chat Studio. Downloads directly into your browser cache (~140 MB quantized ONNX) and executes via WebGPU or WebAssembly with zero cloud server cost.',
     license: 'Apache-2.0',
     status: 'live',
     browserRunnable: true,
@@ -231,14 +231,14 @@ export const NOVALIS_MODELS: NovalisModel[] = [
     ],
     runCommands: {
       ollama: 'ollama run smollm2:135m',
-      llamacpp: 'llama-cli -hf HuggingFaceTB/SmolLM2-135M-Instruct-GGUF -p "Explain NOVALIS architecture"',
+      llamacpp: 'llama-cli -hf HuggingFaceTB/SmolLM2-135M-Instruct-GGUF -p "Explain KRONVEX architecture"',
       python: 'from transformers import pipeline\npipe = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-135M-Instruct")',
     },
     accent: 'emerald',
   },
   {
-    id: 'novalis-pulse-360m',
-    name: 'Novalis Pulse-360M (Browser Ready)',
+    id: 'kronvex-pulse-360m',
+    name: 'Kronvex Pulse-360M (Browser Ready)',
     family: 'SmolLM2 / ONNX-WebGPU',
     parameters: '360M',
     contextLength: '8K',
@@ -287,8 +287,8 @@ export const NOVALIS_MODELS: NovalisModel[] = [
     accent: 'cyan',
   },
   {
-    id: 'novalis-edge-0.5b',
-    name: 'Novalis Edge-0.5B Instruct (Browser Ready)',
+    id: 'kronvex-edge-0.5b',
+    name: 'Kronvex Edge-0.5B Instruct (Browser Ready)',
     family: 'Qwen2.5 / ONNX-WebGPU',
     parameters: '0.5B',
     contextLength: '32K',
@@ -337,8 +337,8 @@ export const NOVALIS_MODELS: NovalisModel[] = [
     accent: 'cyan',
   },
   {
-    id: 'novalis-coder-0.5b',
-    name: 'Novalis Coder-0.5B (Browser Ready)',
+    id: 'kronvex-coder-0.5b',
+    name: 'Kronvex Coder-0.5B (Browser Ready)',
     family: 'Qwen2.5-Coder / ONNX-WebGPU',
     parameters: '0.5B',
     contextLength: '32K',
@@ -387,14 +387,14 @@ export const NOVALIS_MODELS: NovalisModel[] = [
     accent: 'emerald',
   },
   {
-    id: 'novalis-quant-7b',
-    name: 'Novalis-Quant-7B',
-    family: 'NOVALIS Financial Fine-Tune',
+    id: 'kronvex-quant-7b',
+    name: 'Kronvex-Quant-7B',
+    family: 'KRONVEX Financial Fine-Tune',
     parameters: '7B',
     contextLength: '32K',
     tagline: 'Domain-specialized model engineered for options microstructure, macro research, and quantitative analysis.',
     description:
-      'Upcoming NOVALIS custom fine-tuned model trained on institutional finance literature, volatility surface mechanics, and structured macro-event synthesis. Packaged in GGUF & Safetensors for private desktop execution.',
+      'Upcoming KRONVEX custom fine-tuned model trained on institutional finance literature, volatility surface mechanics, and structured macro-event synthesis. Packaged in GGUF & Safetensors for private desktop execution.',
     license: 'Apache-2.0',
     status: 'early-access',
     browserRunnable: false,
@@ -412,7 +412,7 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '4.4 GB',
         minRamGb: 8,
         recommendedVramGb: 6,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
       {
@@ -422,7 +422,7 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '7.6 GB',
         minRamGb: 12,
         recommendedVramGb: 10,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
       {
@@ -432,21 +432,21 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '14.8 GB',
         minRamGb: 24,
         recommendedVramGb: 16,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
     ],
     runCommands: {
-      ollama: 'ollama run hf.co/N-O-V-A-L-I-S/novalis-quant-7b-gguf:Q4_K_M',
-      llamacpp: 'llama-server -hf N-O-V-A-L-I-S/novalis-quant-7b-gguf:Q4_K_M --port 8080',
-      python: 'from transformers import AutoModelForCausalLM\nmodel = AutoModelForCausalLM.from_pretrained("N-O-V-A-L-I-S/novalis-quant-7b")',
+      ollama: 'ollama run hf.co/KRONVEX/kronvex-quant-7b-gguf:Q4_K_M',
+      llamacpp: 'llama-server -hf KRONVEX/kronvex-quant-7b-gguf:Q4_K_M --port 8080',
+      python: 'from transformers import AutoModelForCausalLM\nmodel = AutoModelForCausalLM.from_pretrained("KRONVEX/kronvex-quant-7b")',
     },
     accent: 'violet',
   },
   {
-    id: 'novalis-mission-code-3b',
-    name: 'Novalis-Systems-3B',
-    family: 'NOVALIS Code & Systems',
+    id: 'kronvex-mission-code-3b',
+    name: 'Kronvex-Systems-3B',
+    family: 'KRONVEX Code & Systems',
     parameters: '3B',
     contextLength: '64K',
     tagline: 'Fast local coding & architecture copilot tuned for TypeScript, Python, Flutter, and Rust systems.',
@@ -469,7 +469,7 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '2.1 GB',
         minRamGb: 4,
         recommendedVramGb: 3,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
       {
@@ -479,21 +479,21 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '1.9 GB',
         minRamGb: 6,
         recommendedVramGb: 4,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
     ],
     runCommands: {
-      ollama: 'ollama run hf.co/N-O-V-A-L-I-S/novalis-systems-3b-gguf:Q4_K_M',
-      llamacpp: 'llama-cli -hf N-O-V-A-L-I-S/novalis-systems-3b-gguf:Q4_K_M',
-      python: '# Coming soon on Hugging Face Hub: N-O-V-A-L-I-S/novalis-systems-3b',
+      ollama: 'ollama run hf.co/KRONVEX/kronvex-systems-3b-gguf:Q4_K_M',
+      llamacpp: 'llama-cli -hf KRONVEX/kronvex-systems-3b-gguf:Q4_K_M',
+      python: '# Coming soon on Hugging Face Hub: KRONVEX/kronvex-systems-3b',
     },
     accent: 'amber',
   },
   {
-    id: 'novalis-apex-14b',
-    name: 'Novalis-Apex-14B Reasoning',
-    family: 'NOVALIS Flagship Mission-Critical',
+    id: 'kronvex-apex-14b',
+    name: 'Kronvex-Apex-14B Reasoning',
+    family: 'KRONVEX Flagship Mission-Critical',
     parameters: '14B',
     contextLength: '64K',
     tagline: 'Workstation-grade deep reasoning and deterministic multi-agent orchestration flagship model.',
@@ -516,7 +516,7 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '8.9 GB',
         minRamGb: 16,
         recommendedVramGb: 12,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
       {
@@ -526,7 +526,7 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '15.4 GB',
         minRamGb: 24,
         recommendedVramGb: 18,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
       {
@@ -536,23 +536,23 @@ export const NOVALIS_MODELS: NovalisModel[] = [
         sizeLabel: '29.2 GB',
         minRamGb: 32,
         recommendedVramGb: 32,
-        downloadUrl: 'https://github.com/N-O-V-A-L-I-S',
+        downloadUrl: 'https://github.com/KRONVEX',
         sha256: 'Published on Hugging Face Hub upon weight release',
       },
     ],
     runCommands: {
-      ollama: 'ollama run hf.co/N-O-V-A-L-I-S/novalis-apex-14b-gguf:Q4_K_M',
-      llamacpp: 'llama-server -hf N-O-V-A-L-I-S/novalis-apex-14b-gguf:Q4_K_M --port 8080',
-      python: '# Coming soon on Hugging Face Hub: N-O-V-A-L-I-S/novalis-apex-14b',
+      ollama: 'ollama run hf.co/KRONVEX/kronvex-apex-14b-gguf:Q4_K_M',
+      llamacpp: 'llama-server -hf KRONVEX/kronvex-apex-14b-gguf:Q4_K_M --port 8080',
+      python: '# Coming soon on Hugging Face Hub: KRONVEX/kronvex-apex-14b',
     },
     accent: 'violet',
   },
 ];
 
-export const NOVALIS_SKILLS: NovalisSkill[] = [
+export const KRONVEX_SKILLS: KronvexSkill[] = [
   {
     id: 'skill-quant-signal',
-    slug: 'novalis-quant-signal-analyst',
+    slug: 'kronvex-quant-signal-analyst',
     name: 'Quant Signal & Macro Analyst',
     category: 'Market Intelligence',
     version: '1.0.0',
@@ -563,11 +563,11 @@ export const NOVALIS_SKILLS: NovalisSkill[] = [
     pipeline: ['Ingest Market Data', 'Validate Schema', 'Compute Regime & Risk', 'Emit Cited Brief'],
     tags: ['quant', 'macro', 'python', 'telemetry'],
     skillMarkdown: `---
-name: novalis-quant-signal-analyst
-description: Structured quantitative finance and macro signal analysis workflow engineered by NOVALIS.
+name: kronvex-quant-signal-analyst
+description: Structured quantitative finance and macro signal analysis workflow engineered by KRONVEX.
 ---
 
-# NOVALIS Quant Signal & Macro Analyst
+# KRONVEX Quant Signal & Macro Analyst
 
 ## Core Principles
 1. **Signal Over Noise:** Separate raw verified numerical series from narrative commentary.
@@ -582,7 +582,7 @@ description: Structured quantitative finance and macro signal analysis workflow 
   },
   {
     id: 'skill-cross-platform',
-    slug: 'novalis-cross-platform-architect',
+    slug: 'kronvex-cross-platform-architect',
     name: 'Cross-Platform Systems Architect',
     category: 'Cross-Platform',
     version: '1.0.0',
@@ -593,11 +593,11 @@ description: Structured quantitative finance and macro signal analysis workflow 
     pipeline: ['Define Shared Schema', 'Scaffold Target Platforms', 'Verify Offline State', 'Package Release'],
     tags: ['typescript', 'flutter', 'windows', 'android'],
     skillMarkdown: `---
-name: novalis-cross-platform-architect
+name: kronvex-cross-platform-architect
 description: Blueprint and verify production cross-platform apps across Web, Windows, and Android.
 ---
 
-# NOVALIS Cross-Platform Systems Architect
+# KRONVEX Cross-Platform Systems Architect
 
 ## Architecture Standards
 - Keep domain logic and data contracts platform-agnostic.
@@ -612,7 +612,7 @@ description: Blueprint and verify production cross-platform apps across Web, Win
   },
   {
     id: 'skill-mission-ai-eval',
-    slug: 'novalis-mission-ai-evaluator',
+    slug: 'kronvex-mission-ai-evaluator',
     name: 'Mission-Critical AI Evaluator',
     category: 'Mission-Critical AI',
     version: '1.0.0',
@@ -623,11 +623,11 @@ description: Blueprint and verify production cross-platform apps across Web, Win
     pipeline: ['Define Golden Set', 'Run Schema Assertions', 'Measure Latency & Drift', 'Gate Release'],
     tags: ['ai-eval', 'guardrails', 'onnx', 'gguf'],
     skillMarkdown: `---
-name: novalis-mission-ai-evaluator
+name: kronvex-mission-ai-evaluator
 description: Build deterministic evaluation harnesses and reliability guardrails for production AI models.
 ---
 
-# NOVALIS Mission-Critical AI Evaluator
+# KRONVEX Mission-Critical AI Evaluator
 
 ## Reliability Mandate
 Never deploy a prompt or model change based on subjective vibes alone.
@@ -640,7 +640,7 @@ Never deploy a prompt or model change based on subjective vibes alone.
   },
   {
     id: 'skill-local-llm-optimizer',
-    slug: 'novalis-local-llm-optimizer',
+    slug: 'kronvex-local-llm-optimizer',
     name: 'Local LLM & WebGPU Optimizer',
     category: 'Mission-Critical AI',
     version: '1.0.0',
@@ -651,11 +651,11 @@ Never deploy a prompt or model change based on subjective vibes alone.
     pipeline: ['Profile Target Hardware', 'Export ONNX / GGUF', 'Quantize Q4/Q8', 'Verify Perplexity'],
     tags: ['webgpu', 'onnx', 'quantization', 'edge-ai'],
     skillMarkdown: `---
-name: novalis-local-llm-optimizer
+name: kronvex-local-llm-optimizer
 description: Optimize and quantize neural models for local GGUF, llama.cpp, and browser WebGPU execution.
 ---
 
-# NOVALIS Local LLM & WebGPU Optimizer
+# KRONVEX Local LLM & WebGPU Optimizer
 
 ## Optimization Flow
 1. Choose quantization tier by target RAM/VRAM budget (\`Q4_K_M\` default for 8GB consumer devices, \`Q8_0\` for high-precision workstations).
@@ -665,7 +665,7 @@ description: Optimize and quantize neural models for local GGUF, llama.cpp, and 
   },
   {
     id: 'skill-security-hardener',
-    slug: 'novalis-security-hardener',
+    slug: 'kronvex-security-hardener',
     name: 'Zero-Trust Security Hardener',
     category: 'Security & DevOps',
     version: '1.0.0',
@@ -676,11 +676,11 @@ description: Optimize and quantize neural models for local GGUF, llama.cpp, and 
     pipeline: ['Scan Secrets', 'Audit CI Permissions', 'Verify Checksums', 'Enforce Least Privilege'],
     tags: ['security', 'github-actions', 'csp', 'audit'],
     skillMarkdown: `---
-name: novalis-security-hardener
+name: kronvex-security-hardener
 description: Audit codebases, GitHub Actions workflows, and release pipelines for security vulnerabilities.
 ---
 
-# NOVALIS Zero-Trust Security Hardener
+# KRONVEX Zero-Trust Security Hardener
 
 ## Non-Negotiable Checks
 1. **Least-Privilege Workflows:** Explicitly scope \`permissions:\` on every GitHub Actions job.
@@ -690,7 +690,7 @@ description: Audit codebases, GitHub Actions workflows, and release pipelines fo
   },
   {
     id: 'skill-release-automator',
-    slug: 'novalis-github-release-automator',
+    slug: 'kronvex-github-release-automator',
     name: 'Zero-Cost Release Automator',
     category: 'Engineering',
     version: '1.0.0',
@@ -701,11 +701,11 @@ description: Audit codebases, GitHub Actions workflows, and release pipelines fo
     pipeline: ['Tag SemVer', 'Build Artifacts', 'Generate SHA-256', 'Sync Pages Catalog'],
     tags: ['ci-cd', 'releases', 'github-pages', 'automation'],
     skillMarkdown: `---
-name: novalis-github-release-automator
+name: kronvex-github-release-automator
 description: Automate semantic GitHub Releases, checksum generation, and static site catalog syncing.
 ---
 
-# NOVALIS Zero-Cost Release Automator
+# KRONVEX Zero-Cost Release Automator
 
 ## Distribution Pattern
 - Host binaries (Windows .exe/.msi, Android .apk) on **GitHub Releases**.
@@ -715,17 +715,17 @@ description: Automate semantic GitHub Releases, checksum generation, and static 
   },
 ];
 
-export const NOVALIS_ROADMAP: RoadmapPhase[] = [
+export const KRONVEX_ROADMAP: RoadmapPhase[] = [
   {
     phase: 'PHASE 01',
     title: 'Genesis Control Plane & Brand Architecture',
     window: 'Q4 2026',
     status: 'completed',
-    summary: 'Established the NOVALIS GitHub organization, automated SVG telemetry engine, governance standards, and official web platform.',
+    summary: 'Established the KRONVEX GitHub organization, automated SVG telemetry engine, governance standards, and official web platform.',
     milestones: [
-      'Launched N-O-V-A-L-I-S/.github organization profile & 6h CI telemetry',
+      'Launched KRONVEX/.github organization profile & 6h CI telemetry',
       'Published org-wide Security, Contributing & Issue/PR governance defaults',
-      'Designed official NOVALIS 4K Owl Crest brand identity',
+      'Designed official KRONVEX 4K Owl Crest brand identity',
       'Engineered zero-cost GitHub Pages platform with browser AI sandbox & skill bundler',
     ],
   },
@@ -736,19 +736,19 @@ export const NOVALIS_ROADMAP: RoadmapPhase[] = [
     status: 'active',
     summary: 'Shipping first signed Windows and Android builds via GitHub Releases alongside an expanding library of open AI agent skills.',
     milestones: [
-      'Release Novalis Pulse Desktop (Windows x64) & Novalis Sentinel Mobile (Android APK)',
+      'Release Kronvex Pulse Desktop (Windows x64) & Kronvex Sentinel Mobile (Android APK)',
       'Expand open-source AI Skills registry with automated CLI installation',
       'Connect custom domain & live GitHub Releases download telemetry',
     ],
   },
   {
     phase: 'PHASE 03',
-    title: 'Custom NOVALIS AI Models & Market Intelligence Engine',
+    title: 'Custom KRONVEX AI Models & Market Intelligence Engine',
     window: 'Q2 – Q3 2027',
     status: 'upcoming',
     summary: 'Publishing specialized fine-tuned GGUF & ONNX models for quantitative intelligence and high-reliability local software engineering.',
     milestones: [
-      'Release Novalis-Quant-7B & Novalis-Systems-3B on Hugging Face Hub',
+      'Release Kronvex-Quant-7B & Kronvex-Systems-3B on Hugging Face Hub',
       'Open-source real-time market microstructure & macro telemetry pipelines',
       'Launch reproducible public benchmark leaderboards',
     ],

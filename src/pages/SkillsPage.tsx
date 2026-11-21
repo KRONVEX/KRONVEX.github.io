@@ -12,22 +12,22 @@ import {
   Square,
   X,
 } from 'lucide-react';
-import { NOVALIS_SKILLS } from '../data/catalog';
-import type { NovalisSkill } from '../types/novalis';
+import { KRONVEX_SKILLS } from '../data/catalog';
+import type { KronvexSkill } from '../types/kronvex';
 
 const CATEGORIES = ['All', 'Market Intelligence', 'Cross-Platform', 'Mission-Critical AI', 'Security & DevOps', 'Engineering'] as const;
 
 export function SkillsPage() {
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('All');
   const [query, setQuery] = useState('');
-  const [selectedIds, setSelectedIds] = useState<string[]>([NOVALIS_SKILLS[0].id, NOVALIS_SKILLS[1].id]);
-  const [previewSkill, setPreviewSkill] = useState<NovalisSkill | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([KRONVEX_SKILLS[0].id, KRONVEX_SKILLS[1].id]);
+  const [previewSkill, setPreviewSkill] = useState<KronvexSkill | null>(null);
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return NOVALIS_SKILLS.filter((s) => {
+    return KRONVEX_SKILLS.filter((s) => {
       const catOk = category === 'All' || s.category === category;
       const qOk =
         !q ||
@@ -43,7 +43,7 @@ export function SkillsPage() {
   };
 
   const selectedSkills = useMemo(
-    () => NOVALIS_SKILLS.filter((s) => selectedIds.includes(s.id)),
+    () => KRONVEX_SKILLS.filter((s) => selectedIds.includes(s.id)),
     [selectedIds]
   );
 
@@ -52,10 +52,10 @@ export function SkillsPage() {
     setExporting(true);
     try {
       const zip = new JSZip();
-      const root = zip.folder('novalis-ai-skills');
+      const root = zip.folder('kronvex-ai-skills');
       root?.file(
         'README.md',
-        `# NOVALIS AI Skills Bundle\n\nIncluded skills (${selectedSkills.length}):\n` +
+        `# KRONVEX AI Skills Bundle\n\nIncluded skills (${selectedSkills.length}):\n` +
           selectedSkills.map((s) => `- \`${s.slug}/SKILL.md\` — ${s.tagline}`).join('\n') +
           `\n\nDrop any skill folder into your agent's \`skills/\` directory (Antigravity, Claude Code, Cursor, Gemini CLI).\n`
       );
@@ -66,7 +66,7 @@ export function SkillsPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `novalis-skills-bundle-${selectedSkills.length}.zip`;
+      a.download = `kronvex-skills-bundle-${selectedSkills.length}.zip`;
       a.click();
       URL.revokeObjectURL(url);
     } finally {
@@ -74,7 +74,7 @@ export function SkillsPage() {
     }
   };
 
-  const copySkillMd = (skill: NovalisSkill) => {
+  const copySkillMd = (skill: KronvexSkill) => {
     navigator.clipboard?.writeText(skill.skillMarkdown);
     setCopiedSlug(skill.slug);
     setTimeout(() => setCopiedSlug(null), 1600);

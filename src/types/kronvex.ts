@@ -11,7 +11,7 @@ export interface AppDownloadArtifact {
   downloadUrl: string;
 }
 
-export interface NovalisApp {
+export interface KronvexApp {
   id: string;
   name: string;
   tagline: string;
@@ -43,7 +43,7 @@ export interface ModelVariant {
   sha256: string;
 }
 
-export interface NovalisModel {
+export interface KronvexModel {
   id: string;
   name: string;
   family: string;
@@ -68,7 +68,7 @@ export interface NovalisModel {
   accent: 'cyan' | 'emerald' | 'violet' | 'amber';
 }
 
-export interface NovalisSkill {
+export interface KronvexSkill {
   id: string;
   slug: string;
   name: string;

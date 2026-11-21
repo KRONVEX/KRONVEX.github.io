@@ -13,8 +13,8 @@ import {
   Zap,
   FileDown,
 } from 'lucide-react';
-import { NOVALIS_MODELS } from '../data/catalog';
-import type { DetectedHardware, NovalisModel } from '../types/novalis';
+import { KRONVEX_MODELS } from '../data/catalog';
+import type { DetectedHardware, KronvexModel } from '../types/kronvex';
 
 interface LocalAiChatProps {
   hardware: DetectedHardware;
@@ -34,20 +34,20 @@ type GeneratorFn = (
 ) => Promise<Array<{ generated_text?: Array<{ role: string; content: string }> | string }>>;
 
 const STARTER_PROMPTS = [
-  'Summarize how NOVALIS runs AI models locally on a user PC with zero server cost.',
+  'Summarize how KRONVEX runs AI models locally on a user PC with zero server cost.',
   'Design a clean architecture for a cross-platform Windows & Android telemetry app.',
   'Explain what makes a quantitative market intelligence signal reliable vs noisy.',
 ];
 
 export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
-  const browserModels = useMemo(() => NOVALIS_MODELS.filter((m) => m.browserRunnable), []);
+  const browserModels = useMemo(() => KRONVEX_MODELS.filter((m) => m.browserRunnable), []);
   const [selectedId, setSelectedId] = useState<string>(
     initialModelId && browserModels.some((m) => m.id === initialModelId)
       ? initialModelId
       : browserModels[0]?.id || ''
   );
 
-  const selectedModel: NovalisModel | undefined = useMemo(
+  const selectedModel: KronvexModel | undefined = useMemo(
     () => browserModels.find((m) => m.id === selectedId) || browserModels[0],
     [browserModels, selectedId]
   );
@@ -60,7 +60,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const [systemPrompt, setSystemPrompt] = useState<string>(
-    'You are NOVALIS Local AI, a concise, accurate engineering and applied intelligence assistant running locally on the user device.'
+    'You are KRONVEX Local AI, a concise, accurate engineering and applied intelligence assistant running locally on the user device.'
   );
   const [maxTokens, setMaxTokens] = useState<number>(180);
   const [temperature, setTemperature] = useState<number>(0.4);
@@ -71,7 +71,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
       id: 'welcome',
       role: 'assistant',
       content:
-        'Welcome to **NOVALIS Neural Chat Studio**.\n\nClick **"Download & Load Model on My PC"** above to pull quantized ONNX weights directly into your browser cache (100% local execution on your CPU/WebGPU, zero server cost). Once loaded, every prompt executes privately on your machine.',
+        'Welcome to **KRONVEX Neural Chat Studio**.\n\nClick **"Download & Load Model on My PC"** above to pull quantized ONNX weights directly into your browser cache (100% local execution on your CPU/WebGPU, zero server cost). Once loaded, every prompt executes privately on your machine.',
       meta: 'LOCAL-FIRST RUNTIME · $0 SERVER COST',
     },
   ]);
@@ -256,13 +256,13 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
 
   const exportTranscript = () => {
     const md = messages
-      .map((m) => `### ${m.role === 'user' ? 'User' : 'NOVALIS AI'}\n\n${m.content}\n`)
+      .map((m) => `### ${m.role === 'user' ? 'User' : 'KRONVEX AI'}\n\n${m.content}\n`)
       .join('\n---\n\n');
     const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `novalis-chat-${Date.now()}.md`;
+    a.download = `kronvex-chat-${Date.now()}.md`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -280,7 +280,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="font-display font-bold text-base text-black dark:text-white">
-                NOVALIS Local Neural Chat
+                KRONVEX Local Neural Chat
               </h3>
               <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30">
                 100% ON YOUR PC

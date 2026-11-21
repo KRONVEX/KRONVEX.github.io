@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Command, Cpu, Layers, Network, Search, Sparkles, Terminal, X } from 'lucide-react';
-import { NOVALIS_APPS, NOVALIS_MODELS, NOVALIS_SKILLS, ORG_META } from '../data/catalog';
-import type { DetectedHardware } from '../types/novalis';
+import { KRONVEX_APPS, KRONVEX_MODELS, KRONVEX_SKILLS, ORG_META } from '../data/catalog';
+import type { DetectedHardware } from '../types/kronvex';
 
 interface CommandTerminalProps {
   open: boolean;
@@ -30,7 +30,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
   const [query, setQuery] = useState('');
   const [cmdInput, setCmdInput] = useState('');
   const [history, setHistory] = useState<TermLine[]>([
-    { type: 'accent', text: 'NOVALIS OS // MISSION CONTROL CLI v1.0.0' },
+    { type: 'accent', text: 'KRONVEX OS // MISSION CONTROL CLI v1.0.0' },
     { type: 'output', text: 'Type "help" to list commands, or switch to Quick Search.' },
   ]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -57,25 +57,25 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
       { id: 'p-models', title: 'AI Models & Local Browser Chat', subtitle: 'Download weights or chat locally via WebGPU/WASM', category: 'Page', route: '/models' },
       { id: 'p-skills', title: 'AI Skills Marketplace & Composer', subtitle: 'Preview SKILL.md & export .zip bundles', category: 'Page', route: '/skills' },
       { id: 'p-top21', title: 'Top 21 — Weekly GitHub & Hugging Face', subtitle: 'Top 21 GitHub repos & Top 21 Hugging Face AI models this week', category: 'Page', route: '/top-21' },
-      { id: 'p-const', title: 'Ecosystem Constellation', subtitle: 'Interactive neural orbital map of NOVALIS', category: 'Page', route: '/constellation' },
+      { id: 'p-const', title: 'Ecosystem Constellation', subtitle: 'Interactive neural orbital map of KRONVEX', category: 'Page', route: '/constellation' },
       { id: 'p-vision', title: 'Vision, Mission & Roadmap', subtitle: 'Organization goals, governance & multi-phase plan', category: 'Page', route: '/vision' },
-      { id: 'p-contact', title: 'Contact & Partnerships', subtitle: 'Connect with NOVALIS leadership', category: 'Page', route: '/contact' },
+      { id: 'p-contact', title: 'Contact & Partnerships', subtitle: 'Connect with KRONVEX leadership', category: 'Page', route: '/contact' },
     ];
-    const apps: SearchEntry[] = NOVALIS_APPS.map((a) => ({
+    const apps: SearchEntry[] = KRONVEX_APPS.map((a) => ({
       id: a.id,
       title: a.name,
       subtitle: `${a.version} · ${a.platforms.join(', ')}`,
       category: 'App',
       route: '/apps',
     }));
-    const models: SearchEntry[] = NOVALIS_MODELS.map((m) => ({
+    const models: SearchEntry[] = KRONVEX_MODELS.map((m) => ({
       id: m.id,
       title: m.name,
       subtitle: `${m.parameters} · ${m.browserRunnable ? 'Browser Chat Ready' : m.family}`,
       category: 'AI Model',
       route: '/models',
     }));
-    const skills: SearchEntry[] = NOVALIS_SKILLS.map((s) => ({
+    const skills: SearchEntry[] = KRONVEX_SKILLS.map((s) => ({
       id: s.id,
       title: s.name,
       subtitle: `${s.category} · ${s.slug}`,
@@ -103,7 +103,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
     const head = parts[0].toLowerCase();
     const arg = parts[1]?.toLowerCase() || '';
 
-    const next: TermLine[] = [{ type: 'input', text: `novalis> ${cmd}` }];
+    const next: TermLine[] = [{ type: 'input', text: `kronvex> ${cmd}` }];
 
     if (head === 'help') {
       next.push(
@@ -112,7 +112,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
         { type: 'output', text: '  hardware        — Inspect your PC CPU, RAM & WebGPU readiness' },
         { type: 'output', text: '  apps            — List Windows & Android apps' },
         { type: 'output', text: '  models          — List downloadable & browser-runnable AI models' },
-        { type: 'output', text: '  skills          — List NOVALIS AI agent skills' },
+        { type: 'output', text: '  skills          — List KRONVEX AI agent skills' },
         { type: 'output', text: '  open <page>     — Navigate (home|apps|models|skills|constellation|vision|contact)' },
         { type: 'output', text: '  whoami          — Organization founder & mission brief' },
         { type: 'output', text: '  clear           — Clear terminal screen' }
@@ -124,7 +124,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
     } else if (head === 'status') {
       next.push(
         { type: 'accent', text: `ORG: ${ORG_META.name} (${ORG_META.githubUrl})` },
-        { type: 'output', text: `APPS: ${NOVALIS_APPS.length} tracked | MODELS: ${NOVALIS_MODELS.length} | SKILLS: ${NOVALIS_SKILLS.length}` },
+        { type: 'output', text: `APPS: ${KRONVEX_APPS.length} tracked | MODELS: ${KRONVEX_MODELS.length} | SKILLS: ${KRONVEX_SKILLS.length}` },
         { type: 'output', text: 'HOSTING: GitHub Pages (100% Static · $0 Server Cost · Local-First AI)' }
       );
     } else if (head === 'hardware') {
@@ -136,18 +136,18 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
         { type: 'output', text: `  WebGPU:   ${hardware.webgpuSupported ? `ENABLED (${hardware.webgpuAdapter})` : 'Unavailable (WASM CPU fallback active)'}` }
       );
     } else if (head === 'apps') {
-      NOVALIS_APPS.forEach((a) =>
+      KRONVEX_APPS.forEach((a) =>
         next.push({ type: 'output', text: `  • ${a.name} (${a.version}) [${a.platforms.join('/')}] — ${a.status.toUpperCase()}` })
       );
     } else if (head === 'models') {
-      NOVALIS_MODELS.forEach((m) =>
+      KRONVEX_MODELS.forEach((m) =>
         next.push({
           type: 'output',
           text: `  • ${m.name} [${m.parameters}] — ${m.browserRunnable ? 'BROWSER CHAT READY' : 'LOCAL GGUF/HF'}`,
         })
       );
     } else if (head === 'skills') {
-      NOVALIS_SKILLS.forEach((s) =>
+      KRONVEX_SKILLS.forEach((s) =>
         next.push({ type: 'output', text: `  • ${s.slug} (${s.category}) — ${s.tagline}` })
       );
     } else if (head === 'whoami') {
@@ -219,7 +219,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
                   : 'text-slate-200 hover:text-white'
               }`}
             >
-              <Terminal className="w-3.5 h-3.5" /> novalis&gt; CLI
+              <Terminal className="w-3.5 h-3.5" /> kronvex&gt; CLI
             </button>
           </div>
           <button
@@ -282,7 +282,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
               ))}
               {filtered.length === 0 && (
                 <div className="py-8 text-center text-sm text-slate-100">
-                  No matches found. Try switching to <span className="text-emerald-400 font-mono">novalis&gt; CLI</span>.
+                  No matches found. Try switching to <span className="text-emerald-400 font-mono">kronvex&gt; CLI</span>.
                 </div>
               )}
             </div>
@@ -313,7 +313,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
               }}
               className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#050914] border border-slate-700/80"
             >
-              <span className="text-emerald-400 font-bold select-none">novalis&gt;</span>
+              <span className="text-emerald-400 font-bold select-none">kronvex&gt;</span>
               <input
                 ref={inputRef}
                 value={cmdInput}

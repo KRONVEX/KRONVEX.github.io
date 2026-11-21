@@ -9,7 +9,7 @@ export function ContactPage() {
   const [copied, setCopied] = useState(false);
 
   const formattedBody = `Organization / Name: ${name || 'Not provided'}\nTopic: ${topic}\n\n${
-    message || 'Hello NOVALIS team,'
+    message || 'Hello KRONVEX team,'
   }`;
 
   const githubIssueHref = `${ORG_META.orgProfileRepoUrl}/issues/new?title=${encodeURIComponent(
@@ -17,7 +17,7 @@ export function ContactPage() {
   )}&body=${encodeURIComponent(formattedBody)}`;
 
   const copyInquiry = () => {
-    navigator.clipboard?.writeText(`Subject: [NOVALIS] ${topic}\n\n${formattedBody}`);
+    navigator.clipboard?.writeText(`Subject: [KRONVEX] ${topic}\n\n${formattedBody}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   };
@@ -29,7 +29,7 @@ export function ContactPage() {
           <Mail className="w-3.5 h-3.5" /> DIRECT CHANNELS · ZERO TRACKING
         </div>
         <h1 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white">
-          Connect with NOVALIS
+          Connect with KRONVEX
         </h1>
         <p className="text-slate-900 dark:text-slate-100 leading-relaxed">
           Reach out for strategic partnerships, applied AI &amp; quantitative research collaborations, open-source
@@ -55,7 +55,7 @@ export function ContactPage() {
                   <div className="font-mono text-[10px] font-semibold text-slate-800 dark:text-slate-200">
                     GITHUB ORGANIZATION
                   </div>
-                  <div className="font-bold text-black dark:text-white">github.com/N-O-V-A-L-I-S</div>
+                  <div className="font-bold text-black dark:text-white">github.com/KRONVEX</div>
                 </div>
               </div>
               <ExternalLink className="w-4 h-4 text-slate-800 dark:text-slate-200" />
@@ -82,7 +82,7 @@ export function ContactPage() {
               </div>
             </div>
             <p className="text-xs text-slate-900 dark:text-slate-100 leading-relaxed">
-              An official domain-backed organization email address will be published here once the NOVALIS
+              An official domain-backed organization email address will be published here once the KRONVEX
               custom domain is attached. Until then, connect via GitHub Organization channels.
             </p>
           </div>
