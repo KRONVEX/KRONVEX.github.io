@@ -313,25 +313,27 @@ export function ConstellationCanvas() {
         </div>
       </div>
 
-      {/* Canvas Container */}
-      <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-[#050811] shadow-2xl">
-        <canvas
-          ref={canvasRef}
-          onMouseMove={(e) => {
-            const hit = getHitNode(e);
-            setHoveredId(hit ? hit.id : null);
-          }}
-          onClick={(e) => {
-            const hit = getHitNode(e);
-            if (hit) setSelected(hit);
-          }}
-          className={`w-full h-auto block ${hoveredId ? 'cursor-pointer' : 'cursor-default'}`}
-          style={{ aspectRatio: '1000 / 620' }}
-        />
+      {/* Canvas Container + Responsive Mission Dossier */}
+      <div className="relative space-y-4 sm:space-y-0">
+        <div className="rounded-2xl overflow-x-auto overflow-y-hidden border border-slate-800 bg-[#050811] shadow-2xl">
+          <canvas
+            ref={canvasRef}
+            onMouseMove={(e) => {
+              const hit = getHitNode(e);
+              setHoveredId(hit ? hit.id : null);
+            }}
+            onClick={(e) => {
+              const hit = getHitNode(e);
+              if (hit) setSelected(hit);
+            }}
+            className={`min-w-[680px] sm:min-w-0 w-full h-auto block ${hoveredId ? 'cursor-pointer' : 'cursor-default'}`}
+            style={{ aspectRatio: '1000 / 620' }}
+          />
+        </div>
 
-        {/* Slide-Over Mission Dossier */}
+        {/* Slide-Over Mission Dossier (overlay on sm+, unclipped card below canvas on mobile) */}
         {selected && (
-          <div className="absolute top-4 right-4 left-4 sm:left-auto sm:w-80 rounded-xl bg-[#0B1120]/95 backdrop-blur-xl border border-sky-500/30 p-5 text-slate-100 shadow-2xl">
+          <div className="sm:absolute sm:top-4 sm:right-4 sm:w-80 rounded-xl bg-[#0B1120]/95 backdrop-blur-xl border border-sky-500/30 p-5 text-slate-100 shadow-2xl">
             <div className="flex items-start justify-between gap-3 mb-2">
               <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono bg-sky-500/15 text-sky-300 border border-sky-500/30">
                 {selected.kind === 'app' ? (
@@ -347,6 +349,7 @@ export function ConstellationCanvas() {
                 type="button"
                 onClick={() => setSelected(null)}
                 className="p-1 rounded text-slate-200 hover:text-white hover:bg-slate-800"
+                aria-label="Close dossier"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -363,6 +366,39 @@ export function ConstellationCanvas() {
             </button>
           </div>
         )}
+      </div>
+
+      {/* Mobile Touch-Friendly Node Directory */}
+      <div className="sm:hidden space-y-2.5">
+        <div className="flex items-center justify-between text-[11px] font-mono text-slate-800 dark:text-slate-200">
+          <span>TOUCH NODE DIRECTORY</span>
+          <span>Swipe map above or tap below</span>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {nodes
+            .filter((n) => filter === 'all' || n.kind === 'core' || n.kind === 'pillar' || n.kind === filter)
+            .map((node) => {
+              const active = selected?.id === node.id;
+              return (
+                <button
+                  key={node.id}
+                  type="button"
+                  onClick={() => setSelected(node)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 border transition ${
+                    active
+                      ? 'bg-sky-500 text-slate-950 border-sky-400 font-semibold'
+                      : 'glass-panel text-black dark:text-white hover:border-sky-500/50'
+                  }`}
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: active ? '#020617' : node.color }}
+                  />
+                  <span>{node.label}</span>
+                </button>
+              );
+            })}
+        </div>
       </div>
     </div>
   );

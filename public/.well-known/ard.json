@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "@context": "https://agenticresourcediscovery.org/context/v1",
+      "identifier": "urn:air:kronvex.github.io:catalog:platform",
+      "displayName": "KRONVEX Official Web Platform",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://kronvex.github.io/llms.txt",
+      "description": "Official KRONVEX platform for cross-platform Windows and Android apps, local-first WebGPU/ONNX/GGUF AI models, reusable SKILL.md agent workflows, and Top 21 GitHub & Hugging Face leaderboards.",
+      "representativeQueries": [
+        "Download KRONVEX Windows and Android applications",
+        "Run local WebGPU ONNX AI models in the browser with KRONVEX",
+        "Browse and bundle KRONVEX AI agent SKILL.md modules",
+        "View weekly Top 21 GitHub repositories and Hugging Face AI models"
+      ],
+      "tags": [
+        "kronvex",
+        "cross-platform",
+        "market-intelligence",
+        "local-ai",
+        "ai-skills",
+        "webgpu"
+      ],
+      "trustManifest": {
+        "identity": "https://kronvex.github.io",
+        "identityType": "https",
+        "trustSchema": "https"
+      }
+    }
+  ]
+}

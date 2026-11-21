@@ -39,6 +39,30 @@ const STARTER_PROMPTS = [
   'Explain what makes a quantitative market intelligence signal reliable vs noisy.',
 ];
 
+function renderFormattedText(text: string) {
+  const tokens = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  return tokens.map((tok, i) => {
+    if (tok.startsWith('**') && tok.endsWith('**') && tok.length > 4) {
+      return (
+        <strong key={i} className="font-semibold">
+          {tok.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (tok.startsWith('`') && tok.endsWith('`') && tok.length > 2) {
+      return (
+        <code
+          key={i}
+          className="px-1 py-0.5 rounded bg-slate-200/90 dark:bg-slate-800 font-mono text-[12px]"
+        >
+          {tok.slice(1, -1)}
+        </code>
+      );
+    }
+    return <span key={i}>{tok}</span>;
+  });
+}
+
 export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
   const browserModels = useMemo(() => KRONVEX_MODELS.filter((m) => m.browserRunnable), []);
   const [selectedId, setSelectedId] = useState<string>(
@@ -277,12 +301,12 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
           <div className="p-2 rounded-xl bg-sky-500/15 text-sky-500 border border-sky-500/30">
             <Bot className="w-5 h-5" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
               <h3 className="font-display font-bold text-base text-black dark:text-white">
                 KRONVEX Local Neural Chat
               </h3>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30">
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono whitespace-nowrap shrink-0 bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30">
                 100% ON YOUR PC
               </span>
             </div>
@@ -297,7 +321,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
             value={selectedId}
             onChange={(e) => setSelectedId(e.target.value)}
             disabled={engineState === 'loading'}
-            className="px-3 py-2 rounded-lg text-xs font-mono bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-black dark:text-white focus:outline-none focus:border-sky-500"
+            className="max-w-full min-w-0 px-3 py-2 rounded-lg text-xs font-mono bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-black dark:text-white focus:outline-none focus:border-sky-500"
           >
             {browserModels.map((m) => (
               <option key={m.id} value={m.id}>
@@ -433,7 +457,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
                   : 'bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-black dark:text-white'
               }`}
             >
-              <div className="whitespace-pre-wrap">{m.content}</div>
+              <div className="whitespace-pre-wrap break-words">{renderFormattedText(m.content)}</div>
               {m.meta && (
                 <div className="mt-2 pt-1.5 border-t border-slate-200/70 dark:border-slate-800 text-[10px] font-mono text-slate-800 dark:text-slate-200">
                   {m.meta}

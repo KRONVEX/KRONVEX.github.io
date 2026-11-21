@@ -1,0 +1,21 @@
+# KRONVEX
+
+> Building cross-platform apps, market intelligence, and mission-critical AI to solve complex real-world problems. 100% static, privacy-first, local-execution platform hosted on GitHub Pages.
+
+## Core Pages
+
+- [Mission Control Home](https://kronvex.github.io/): Organization overview, Three-Pillar architecture, hardware detection, and quick links.
+- [Android & Windows Apps](https://kronvex.github.io/apps): Direct GitHub Releases downloads (.apk, .exe, .msi, .zip) with SHA-256 verification.
+- [AI Models & Local Browser Chat Studio](https://kronvex.github.io/models): Download GGUF/ONNX/Safetensors weights or run quantized ONNX models locally in the browser via WebGPU/WASM.
+- [AI Skills Marketplace & .ZIP Bundler](https://kronvex.github.io/skills): Production-ready SKILL.md modules for Antigravity, Claude Code, Cursor, and Gemini CLI.
+- [Top 21 Weekly Leaderboard](https://kronvex.github.io/top-21): Live weekly Top 21 GitHub breakout repositories and Hugging Face trending/most-downloaded AI models.
+- [Ecosystem Constellation](https://kronvex.github.io/constellation): Interactive orbital map of KRONVEX pillars, apps, AI models, and skills.
+- [Vision & Roadmap](https://kronvex.github.io/vision): Organization manifesto, engineering principles, and multi-phase strategic roadmap.
+- [Contact & Governance](https://kronvex.github.io/contact): Direct GitHub channels, zero-tracking inquiry composer, and security disclosure policy.
+
+## GitHub Organization & Governance
+
+- [KRONVEX GitHub Organization](https://github.com/KRONVEX): Official repositories and releases.
+- [Control Plane Repository](https://github.com/KRONVEX/.github): Organization profile README, automated SVG telemetry engine, and org-wide defaults.
+- [Security Policy](https://github.com/KRONVEX/.github/blob/main/SECURITY.md): Responsible vulnerability disclosure policy.
+- [Contributing Guide](https://github.com/KRONVEX/.github/blob/main/CONTRIBUTING.md): Engineering standards and contribution workflow.

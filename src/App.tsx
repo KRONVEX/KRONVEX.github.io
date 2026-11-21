@@ -1,18 +1,23 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
-import { CommandTerminal } from './components/CommandTerminal';
 import { HomePage } from './pages/HomePage';
-import { AppsPage } from './pages/AppsPage';
-import { ModelsPage } from './pages/ModelsPage';
-import { SkillsPage } from './pages/SkillsPage';
-import { ConstellationPage } from './pages/ConstellationPage';
-import { VisionPage } from './pages/VisionPage';
-import { ContactPage } from './pages/ContactPage';
-import { Index21Page } from './pages/Index21Page';
 import { detectHardwareProfile, detectUserOS } from './utils/hardware';
 import type { DetectedHardware } from './types/kronvex';
+
+const AppsPage = lazy(() => import('./pages/AppsPage').then((m) => ({ default: m.AppsPage })));
+const ModelsPage = lazy(() => import('./pages/ModelsPage').then((m) => ({ default: m.ModelsPage })));
+const SkillsPage = lazy(() => import('./pages/SkillsPage').then((m) => ({ default: m.SkillsPage })));
+const Index21Page = lazy(() => import('./pages/Index21Page').then((m) => ({ default: m.Index21Page })));
+const ConstellationPage = lazy(() =>
+  import('./pages/ConstellationPage').then((m) => ({ default: m.ConstellationPage }))
+);
+const VisionPage = lazy(() => import('./pages/VisionPage').then((m) => ({ default: m.VisionPage })));
+const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
+const CommandTerminal = lazy(() =>
+  import('./components/CommandTerminal').then((m) => ({ default: m.CommandTerminal }))
+);
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -20,6 +25,17 @@ function ScrollToTop() {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [pathname]);
   return null;
+}
+
+function PageFallback() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex items-center justify-center">
+      <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl glass-panel text-xs font-mono text-sky-600 dark:text-sky-300">
+        <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+        Loading KRONVEX module...
+      </div>
+    </div>
+  );
 }
 
 export function App() {
@@ -83,33 +99,39 @@ export function App() {
         />
 
         <main className="flex-1">
-          <Routes>
-            <Route
-              path="/"
-              element={<HomePage hardware={hardware} onOpenTerminal={() => openCommand('terminal')} />}
-            />
-            <Route path="/apps" element={<AppsPage hardware={hardware} />} />
-            <Route path="/models" element={<ModelsPage hardware={hardware} />} />
-            <Route path="/skills" element={<SkillsPage />} />
-            <Route path="/top-21" element={<Index21Page />} />
-            <Route path="/constellation" element={<ConstellationPage />} />
-            <Route path="/vision" element={<VisionPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route
-              path="*"
-              element={<HomePage hardware={hardware} onOpenTerminal={() => openCommand('terminal')} />}
-            />
-          </Routes>
+          <Suspense fallback={<PageFallback />}>
+            <Routes>
+              <Route
+                path="/"
+                element={<HomePage hardware={hardware} onOpenTerminal={() => openCommand('terminal')} />}
+              />
+              <Route path="/apps" element={<AppsPage hardware={hardware} />} />
+              <Route path="/models" element={<ModelsPage hardware={hardware} />} />
+              <Route path="/skills" element={<SkillsPage />} />
+              <Route path="/top-21" element={<Index21Page />} />
+              <Route path="/constellation" element={<ConstellationPage />} />
+              <Route path="/vision" element={<VisionPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route
+                path="*"
+                element={<HomePage hardware={hardware} onOpenTerminal={() => openCommand('terminal')} />}
+              />
+            </Routes>
+          </Suspense>
         </main>
 
         <Footer />
 
-        <CommandTerminal
-          open={cmdOpen}
-          initialMode={cmdMode}
-          onClose={() => setCmdOpen(false)}
-          hardware={hardware}
-        />
+        {cmdOpen && (
+          <Suspense fallback={null}>
+            <CommandTerminal
+              open={cmdOpen}
+              initialMode={cmdMode}
+              onClose={() => setCmdOpen(false)}
+              hardware={hardware}
+            />
+          </Suspense>
+        )}
       </div>
     </BrowserRouter>
   );

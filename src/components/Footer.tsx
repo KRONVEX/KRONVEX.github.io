@@ -13,8 +13,12 @@ export function Footer() {
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src={`${import.meta.env.BASE_URL}kronvex-logo.png`}
+                src={`${import.meta.env.BASE_URL}kronvex-logo-96.webp`}
                 alt="KRONVEX Logo"
+                width={36}
+                height={36}
+                loading="lazy"
+                decoding="async"
                 className="w-9 h-9 rounded-lg ring-1 ring-sky-400/40"
               />
               <div>

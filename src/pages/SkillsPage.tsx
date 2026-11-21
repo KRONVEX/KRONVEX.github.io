@@ -81,7 +81,7 @@ export function SkillsPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10 pb-28">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
         <div className="space-y-3 max-w-2xl">
@@ -216,9 +216,9 @@ export function SkillsPage() {
         })}
       </div>
 
-      {/* Floating 1-Click Skill Bundle Composer Tray */}
+      {/* Sticky 1-Click Skill Bundle Composer Tray (stops cleanly above Footer) */}
       {selectedSkills.length > 0 && (
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-30 w-[calc(100%-2rem)] max-w-2xl rounded-2xl bg-[#080E1C]/95 backdrop-blur-xl border border-emerald-500/40 px-5 py-3.5 shadow-2xl shadow-emerald-950/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
+        <div className="sticky bottom-4 z-30 mx-auto w-full max-w-2xl rounded-2xl bg-[#080E1C]/95 backdrop-blur-xl border border-emerald-500/40 px-4 sm:px-5 py-3.5 shadow-2xl shadow-emerald-950/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
               <Package className="w-5 h-5" />
@@ -256,23 +256,23 @@ export function SkillsPage() {
       {/* SKILL.md Inspector Modal */}
       {previewSkill && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm"
+          className="fixed inset-0 !mt-0 z-[60] flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm"
           onClick={() => setPreviewSkill(null)}
         >
           <div
             className="w-full max-w-2xl rounded-2xl overflow-hidden bg-[#080E1C] border border-slate-700 text-slate-100 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-[#050914]">
-              <div>
-                <div className="font-mono text-xs text-emerald-400">{previewSkill.slug}/SKILL.md</div>
-                <div className="font-display font-bold text-base text-white">{previewSkill.name}</div>
+            <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 px-4 sm:px-5 py-3.5 border-b border-slate-800 bg-[#050914]">
+              <div className="min-w-0 flex-1">
+                <div className="font-mono text-xs text-emerald-400 truncate">{previewSkill.slug}/SKILL.md</div>
+                <div className="font-display font-bold text-sm sm:text-base text-white truncate">{previewSkill.name}</div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => copySkillMd(previewSkill)}
-                  className="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-semibold inline-flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
                 >
                   {copiedSlug === previewSkill.slug ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   {copiedSlug === previewSkill.slug ? 'Copied!' : 'Copy Markdown'}
@@ -280,7 +280,8 @@ export function SkillsPage() {
                 <button
                   type="button"
                   onClick={() => setPreviewSkill(null)}
-                  className="p-1.5 rounded-lg text-slate-200 hover:text-white hover:bg-slate-800"
+                  className="p-1.5 rounded-lg text-slate-200 hover:text-white hover:bg-slate-800 shrink-0"
+                  aria-label="Close modal"
                 >
                   <X className="w-4 h-4" />
                 </button>

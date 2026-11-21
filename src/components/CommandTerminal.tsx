@@ -113,7 +113,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
         { type: 'output', text: '  apps            — List Windows & Android apps' },
         { type: 'output', text: '  models          — List downloadable & browser-runnable AI models' },
         { type: 'output', text: '  skills          — List KRONVEX AI agent skills' },
-        { type: 'output', text: '  open <page>     — Navigate (home|apps|models|skills|constellation|vision|contact)' },
+        { type: 'output', text: '  open <page>     — Navigate (home|apps|models|skills|top-21|constellation|vision|contact)' },
         { type: 'output', text: '  whoami          — Organization founder & mission brief' },
         { type: 'output', text: '  clear           — Clear terminal screen' }
       );
@@ -176,7 +176,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
         setCmdInput('');
         return;
       }
-      next.push({ type: 'output', text: `Unknown target "${arg}". Try: open apps | models | skills | constellation | vision | contact` });
+      next.push({ type: 'output', text: `Unknown target "${arg}". Try: open apps | models | skills | top-21 | constellation | vision | contact` });
     } else {
       next.push({ type: 'output', text: `Command not found: "${head}". Type "help" to see available commands.` });
     }
@@ -189,23 +189,23 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/75 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/75 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl rounded-2xl overflow-hidden border border-slate-700/80 bg-[#080E1C] text-slate-100 shadow-2xl shadow-sky-950/50"
+        className="w-full max-w-2xl rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-700/80 bg-white dark:bg-[#080E1C] text-slate-900 dark:text-slate-100 shadow-2xl shadow-slate-950/30 dark:shadow-sky-950/50"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-[#050914]">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#050914]">
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setMode('palette')}
-              className={`px-3 py-1 rounded-md text-xs font-mono flex items-center gap-1.5 transition ${
+              className={`px-3 py-1 rounded-md text-xs font-mono flex items-center gap-1.5 whitespace-nowrap transition ${
                 mode === 'palette'
-                  ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
-                  : 'text-slate-200 hover:text-white'
+                  ? 'bg-sky-500/15 text-sky-800 dark:text-sky-300 border border-sky-500/40 font-semibold'
+                  : 'text-slate-700 dark:text-slate-200 hover:text-black dark:hover:text-white'
               }`}
             >
               <Command className="w-3.5 h-3.5" /> Quick Search
@@ -213,10 +213,10 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
             <button
               type="button"
               onClick={() => setMode('terminal')}
-              className={`px-3 py-1 rounded-md text-xs font-mono flex items-center gap-1.5 transition ${
+              className={`px-3 py-1 rounded-md text-xs font-mono flex items-center gap-1.5 whitespace-nowrap transition ${
                 mode === 'terminal'
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                  : 'text-slate-200 hover:text-white'
+                  ? 'bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/40 font-semibold'
+                  : 'text-slate-700 dark:text-slate-200 hover:text-black dark:hover:text-white'
               }`}
             >
               <Terminal className="w-3.5 h-3.5" /> kronvex&gt; CLI
@@ -225,7 +225,7 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-md text-slate-200 hover:text-white hover:bg-slate-800"
+            className="p-1 rounded-md text-slate-700 dark:text-slate-200 hover:text-black dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800"
             aria-label="Close modal"
           >
             <X className="w-4 h-4" />
@@ -234,14 +234,14 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
 
         {mode === 'palette' ? (
           <div>
-            <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
-              <Search className="w-4 h-4 text-sky-400 shrink-0" />
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+              <Search className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search apps, AI models, skills, or pages..."
-                className="w-full bg-transparent text-sm text-white placeholder-slate-400 dark:placeholder-slate-300 focus:outline-none"
+                className="w-full bg-transparent text-sm text-black dark:text-white placeholder-slate-500 dark:placeholder-slate-300 focus:outline-none"
               />
             </div>
             <div className="max-h-80 overflow-y-auto p-2 space-y-1">
@@ -253,10 +253,10 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
                     navigate(item.route);
                     onClose();
                   }}
-                  className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-800/80 flex items-center justify-between gap-3 group transition"
+                  className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center justify-between gap-3 group transition"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-sky-400">
+                    <span className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sky-600 dark:text-sky-400 shrink-0">
                       {item.category === 'App' ? (
                         <Layers className="w-3.5 h-3.5" />
                       ) : item.category === 'AI Model' ? (
@@ -268,27 +268,27 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
                       )}
                     </span>
                     <div className="min-w-0">
-                      <div className="text-sm font-medium text-slate-100 truncate">{item.title}</div>
-                      <div className="text-xs text-slate-200 truncate">{item.subtitle}</div>
+                      <div className="text-sm font-medium text-black dark:text-slate-100 truncate">{item.title}</div>
+                      <div className="text-xs text-slate-700 dark:text-slate-200 truncate">{item.subtitle}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-900 border border-slate-700 text-slate-200">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200">
                       {item.category}
                     </span>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-100 group-hover:text-sky-400 transition" />
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 dark:text-slate-100 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition" />
                   </div>
                 </button>
               ))}
               {filtered.length === 0 && (
-                <div className="py-8 text-center text-sm text-slate-100">
-                  No matches found. Try switching to <span className="text-emerald-400 font-mono">kronvex&gt; CLI</span>.
+                <div className="py-8 text-center text-sm text-slate-700 dark:text-slate-100">
+                  No matches found. Try switching to <span className="text-emerald-600 dark:text-emerald-400 font-mono">kronvex&gt; CLI</span>.
                 </div>
               )}
             </div>
           </div>
         ) : (
-          <div className="p-4 font-mono text-xs">
+          <div className="p-4 font-mono text-xs bg-[#080E1C] text-slate-100">
             <div className="h-64 overflow-y-auto space-y-1.5 pr-1 mb-3">
               {history.map((line, i) => (
                 <div

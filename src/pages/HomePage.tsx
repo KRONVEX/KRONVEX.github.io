@@ -38,9 +38,9 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/25">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                SYSTEMS OPERATIONAL · LOCAL-FIRST AI &amp; SOFTWARE LAB
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl sm:rounded-full text-[11px] sm:text-xs font-mono bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/25 max-w-full">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                <span className="leading-snug">SYSTEMS OPERATIONAL · LOCAL-FIRST AI &amp; SOFTWARE LAB</span>
               </div>
 
               <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-black dark:text-white leading-[1.08]">
@@ -103,8 +103,12 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
                 </div>
                 <div className="flex justify-center my-4">
                   <img
-                    src={`${import.meta.env.BASE_URL}kronvex-logo.png`}
+                    src={`${import.meta.env.BASE_URL}kronvex-logo-512.webp`}
                     alt="KRONVEX Official Owl Crest"
+                    width={256}
+                    height={256}
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-56 h-56 sm:w-64 sm:h-64 rounded-2xl shadow-2xl ring-1 ring-sky-400/30 animate-float"
                   />
                 </div>

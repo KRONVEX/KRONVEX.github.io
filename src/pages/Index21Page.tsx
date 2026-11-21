@@ -470,9 +470,9 @@ export function Index21Page() {
             return (
               <div
                 key={repo.fullName}
-                className="rounded-2xl glass-panel p-5 hover:border-sky-500/60 transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                className="rounded-2xl glass-panel p-5 overflow-hidden hover:border-sky-500/60 transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
               >
-                <div className="flex items-start gap-4 min-w-0 flex-1">
+                <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-xs shrink-0 ${rankStyle(
                       repo.rank
@@ -482,21 +482,22 @@ export function Index21Page() {
                   </div>
 
                   <div className="min-w-0 flex-1 space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
                       <a
                         href={repo.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="font-display font-bold text-lg text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-300 truncate inline-flex items-center gap-1.5"
+                        className="font-display font-bold text-base sm:text-lg text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-300 max-w-full min-w-0 inline-flex items-center gap-1.5"
                       >
-                        {repo.fullName} <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                        <span className="truncate">{repo.fullName}</span>
+                        <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-70" />
                       </a>
-                      <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-sky-500/15 text-sky-900 dark:text-sky-200 border border-sky-500/30">
+                      <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-sky-500/15 text-sky-900 dark:text-sky-200 border border-sky-500/30 shrink-0">
                         {repo.language}
                       </span>
                     </div>
 
-                    <p className="text-sm text-slate-900 dark:text-slate-100 line-clamp-2">{repo.description}</p>
+                    <p className="text-sm text-slate-900 dark:text-slate-100 line-clamp-2 break-words">{repo.description}</p>
 
                     <div className="flex flex-wrap items-center gap-2 pt-1">
                       {repo.topics.map((t) => (
@@ -524,7 +525,7 @@ export function Index21Page() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap lg:flex-col items-center lg:items-end justify-between gap-2 shrink-0 pl-14 lg:pl-0">
+                <div className="flex flex-wrap lg:flex-col items-center lg:items-end justify-between gap-2 shrink-0">
                   <div className="flex items-center gap-3 font-mono text-sm">
                     <span className="inline-flex items-center gap-1 font-bold text-amber-700 dark:text-amber-300">
                       <Star className="w-4 h-4 fill-current" /> {fmtCompact(repo.stars)}
@@ -571,9 +572,9 @@ export function Index21Page() {
             return (
               <div
                 key={model.id}
-                className="rounded-2xl glass-panel p-5 hover:border-amber-400/60 transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                className="rounded-2xl glass-panel p-5 overflow-hidden hover:border-amber-400/60 transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
               >
-                <div className="flex items-start gap-4 min-w-0 flex-1">
+                <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-xs shrink-0 ${rankStyle(
                       model.rank
@@ -583,19 +584,20 @@ export function Index21Page() {
                   </div>
 
                   <div className="min-w-0 flex-1 space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
                       <a
                         href={model.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="font-display font-bold text-lg text-black dark:text-white hover:text-amber-600 dark:hover:text-amber-300 truncate inline-flex items-center gap-1.5"
+                        className="font-display font-bold text-base sm:text-lg text-black dark:text-white hover:text-amber-600 dark:hover:text-amber-300 max-w-full min-w-0 inline-flex items-center gap-1.5"
                       >
-                        {model.id} <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                        <span className="truncate">{model.id}</span>
+                        <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-70" />
                       </a>
-                      <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-amber-500/15 text-amber-900 dark:text-amber-200 border border-amber-500/30">
+                      <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-amber-500/15 text-amber-900 dark:text-amber-200 border border-amber-500/30 shrink-0">
                         {model.pipelineTag}
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-200/80 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
+                      <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-200/80 dark:bg-slate-800 text-slate-900 dark:text-slate-100 shrink-0">
                         {model.libraryName}
                       </span>
                     </div>
@@ -618,7 +620,7 @@ export function Index21Page() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap lg:flex-col items-center lg:items-end justify-between gap-2 shrink-0 pl-14 lg:pl-0">
+                <div className="flex flex-wrap lg:flex-col items-center lg:items-end justify-between gap-2 shrink-0">
                   <div className="flex items-center gap-3 font-mono text-sm">
                     <span className="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-300">
                       <Download className="w-4 h-4" /> {fmtCompact(model.downloads)}
