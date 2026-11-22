@@ -26,9 +26,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://kronvex.github.io/research</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kronvex.github.io/arcade</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://kronvex.github.io/constellation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kronvex.github.io/enterprise</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://kronvex.github.io/vision</loc>

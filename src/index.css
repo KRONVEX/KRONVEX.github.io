@@ -22,6 +22,26 @@
   }
 }
 
+/* Global Ambient Atmospheric Glow — Neon Green (Light) / Luminous Emerald (Dark) */
+.kronvex-ambient-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 68% 54% at 18% 6%, rgba(34, 235, 122, 0.22), transparent 62%),
+    radial-gradient(ellipse 60% 50% at 86% 24%, rgba(16, 215, 130, 0.16), transparent 60%),
+    radial-gradient(ellipse 64% 48% at 50% 96%, rgba(74, 245, 148, 0.18), transparent 64%);
+  transition: background 350ms ease;
+}
+
+.dark .kronvex-ambient-glow {
+  background:
+    radial-gradient(ellipse 68% 54% at 18% 6%, rgba(34, 255, 136, 0.19), transparent 62%),
+    radial-gradient(ellipse 60% 50% at 86% 24%, rgba(16, 235, 132, 0.14), transparent 60%),
+    radial-gradient(ellipse 66% 50% at 52% 96%, rgba(57, 255, 148, 0.15), transparent 65%);
+}
+
 .kronvex-grid {
   background-size: 40px 40px;
   background-image:

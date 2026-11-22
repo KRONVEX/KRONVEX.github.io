@@ -54,7 +54,9 @@ Engineered on a **zero-backend, local-first philosophy**, the platform eliminate
 
 - **Direct Distribution:** Windows (`.exe`, `.msi`, `.zip`) and Android (`.apk`) builds are delivered directly from GitHub Releases CDN with SHA-256 verification.
 - **On-Device AI Execution:** Compact quantized ONNX models download directly into the visitor's browser cache via `@huggingface/transformers` and run locally on **WebGPU** or **WebAssembly (WASM)** at **$0 server cost**.
-- **Automated Live Intelligence:** Scheduled GitHub Actions synchronize KRONVEX repositories, releases, and global **Top 21** GitHub & Hugging Face leaderboards every 6 hours into static JSON payloads.
+- **Native 6-Language i18n + RTL:** Modular, lazy-loaded internationalization (**English, العربية RTL, Français, Español, Deutsch, 简体中文**) powered by an Antigravity-style switcher — zero third-party translation widgets and zero bundle bloat on `/`.
+- **Automated Live Intelligence:** Scheduled GitHub Actions synchronize KRONVEX repositories, releases, and global **Top 21** GitHub, Hugging Face AI, and Daily Research Papers leaderboards every 6 hours into static JSON payloads.
+- **Open Editorial Full-Width Visual Identity:** Card-free `max-w-[1560px]` editorial layout, pure high-contrast typography, global **Neon Green** atmospheric glow across Light & Dark modes, continuous 60fps `KronvexSignalField`, and a free-floating coded SVG Owl Crest (`KronvexLivingEmblem`).
 - **Agent-Native Discoverability:** Ships with standard `robots.txt`, `sitemap.xml`, `llms.txt`, and `/.well-known/ard.json` (Agentic Resource Discovery) manifests out of the box.
 
 ---
@@ -89,15 +91,17 @@ flowchart LR
 
 | Route | Module | Key Engineering Capabilities |
 | :--- | :--- | :--- |
-| **`/`** | **Mission Control Home** | Auto-detected client OS download CTA, live hardware/org telemetry strip, Three-Pillar architecture overview, and optimized WebP emblem showcase. |
+| **`/`** | **Mission Control Home** | Auto-detected client OS download CTA, live hardware/org telemetry strip, Three-Pillar architecture overview, and reactive coded SVG Owl Crest (`KronvexLivingEmblem`) coupled to the global `KronvexSignalField`. |
 | **`/apps`** | **Android & Windows Apps Storefront** | Platform filters (Windows / Android / Cross-Platform), OS-recommended artifact highlighting, direct GitHub Releases links, and 1-click SHA-256 checksum copying. |
-| **`/models`** | **AI Models Hub & Local Chat Studio** | Live Hardware Fit Detector (CPU threads, RAM estimate, WebGPU adapter), GGUF/ONNX/Safetensors quantization selector, copyable `ollama` / `llama.cpp` / Python snippets, and **100% In-Browser Neural Chat** (`?tab=chat`) with Markdown transcript export. |
+| **`/models`** | **AI Models Hub & Local Chat Studio** | Live Hardware Fit Detector (CPU threads, RAM estimate, WebGPU adapter), verified Hugging Face GGUF/ONNX/Safetensors weights across all 7 models, copyable `ollama` / `llama.cpp` / Python snippets, and **100% In-Browser Neural Chat** (`?tab=chat`) with Markdown transcript export. |
 | **`/skills`** | **AI Skills Marketplace & Bundler** | Searchable catalog of `SKILL.md` agent workflows for Antigravity, Claude Code, Cursor & Gemini CLI, interactive Markdown inspector modal, and in-browser multi-skill `.zip` composer (`JSZip`). |
-| **`/top-21`** | **Top 21 Live Leaderboard** | Weekly breakout GitHub repositories, all-time leaders, and weekly trending / most-downloaded Hugging Face AI models — synced every 6h via CI with on-demand browser refresh and 1-click `git clone` / `huggingface-cli` copy. |
+| **`/top-21`** & **`/research`** | **Top 21 Radar & Research Papers** | Weekly GitHub breakouts, **All-Time Most Starred**, **All-Time Most Downloaded** GitHub Releases, Hugging Face Weekly/30D/All-Time AI models, plus **Top 21 Research Papers** (21 verified arXiv landmark papers from Google/DeepMind, OpenAI, Anthropic, DeepSeek, NVIDIA, Microsoft, Samsung AI, MIT, Meta AI, Stanford, Apple & Alibaba Qwen + live **Hugging Face Daily Papers** with 1-click BibTeX & PDF). |
+| **`/arcade`** | **KRONVEX Arcade (3 Games)** | **Tech & AI Mastery Arena** (45 trilingual **EN / FR / AR** Python, JS/TS & AI/LLM/RAG/DeepMind challenges + Code Labs, 3 modes, lifelines & XP ranks) · **Neural Chess** (full-stage + Fullscreen SVG board, FIDE rules, Alpha-Beta local AI across 3 tiers & 2P) · **Orbital Defender** (60fps Canvas core defense, Combo & EMP Pulse). |
 | **`/constellation`** | **Ecosystem Constellation** | 60fps HTML5 Canvas orbital neural graph connecting KRONVEX pillars, apps, AI models, and skills, paired with a mobile touch node directory and slide-over Mission Dossier. |
+| **`/enterprise`** | **Enterprise & Custom Engineering** | Tailored B2B software, private AI/RAG systems, market data pipelines, Lighthouse/security audits, industry breakdown, and an interactive Project Scope Builder linked directly to `/contact`. |
 | **`/vision`** | **Vision, Mission & Roadmap** | Organization manifesto, local-first engineering principles, four-phase strategic roadmap, and leadership profile. |
 | **`/contact`** | **Zero-Tracking Contact** | Direct GitHub organization channels, `SECURITY.md` disclosure links, and a 100% client-side structured inquiry composer (GitHub Issue pre-fill or clipboard export). |
-| **`Ctrl+K`** | **KRONVEX OS Palette & CLI** | Instant global search across pages, apps, models, and skills, plus an interactive `kronvex>` terminal (`help`, `status`, `hardware`, `apps`, `models`, `skills`, `open <page>`, `whoami`). |
+| **`Ctrl+K`** | **KRONVEX OS Palette & CLI** | Instant global search across pages, apps, models, skills, and arcade games, plus an interactive `kronvex>` terminal (`help`, `status`, `hardware`, `apps`, `models`, `skills`, `open <page>`, `whoami`). |
 
 ---
 
@@ -141,25 +145,39 @@ KRONVEX.github.io/
 │   ├── components/
 │   │   ├── CommandTerminal.tsx         # Ctrl+K Quick Search & interactive kronvex> CLI
 │   │   ├── ConstellationCanvas.tsx     # 60fps interactive orbital graph + mobile node directory
-│   │   ├── Footer.tsx                  # Adaptive footer with governance links & sync status
+│   │   ├── Footer.tsx                  # 4-column Anthropic-style executive Mega-Footer
+│   │   ├── KronvexLivingEmblem.tsx     # Reactive 3-Pillar Coded SVG Owl Crest (eye tracking, 3D tilt, 7-node pulse)
+│   │   ├── KronvexSignalField.tsx      # Global continuous 60fps Hybrid Magnetic Flow & Neural Signal Canvas
+│   │   ├── LanguageSwitcher.tsx        # Native Antigravity-style 6-language switcher (EN/AR/FR/ES/DE/ZH-CN)
 │   │   ├── LocalAiChat.tsx             # WebGPU/WASM in-browser AI chat (@huggingface/transformers)
-│   │   └── Navbar.tsx                  # Single-line sticky navigation, theme toggle & mobile drawer
+│   │   ├── Navbar.tsx                  # Single-line sticky navigation, i18n switcher, theme toggle & mobile drawer
+│   │   ├── NeuralChessGame.tsx         # Interactive SVG chessboard, 3-tier AI, 2-Player & Fullscreen mode
+│   │   ├── OrbitalDefenderGame.tsx     # 60fps HTML5 Canvas defense game with EMP Pulse & Web Audio SFX
+│   │   └── TechQuizArena.tsx           # Trilingual (EN/FR/AR) Python, JS & AI/LLM/RAG/DeepMind Quiz Arena
 │   ├── data/
 │   │   ├── catalog.ts                  # Pillars, apps, AI models, SKILL.md modules & roadmap
 │   │   ├── live-github.json            # Auto-synced KRONVEX org repository & release telemetry
-│   │   └── live-index-21.json          # Auto-synced weekly GitHub & Hugging Face Top 21 snapshot
+│   │   ├── live-index-21.json          # Auto-synced weekly & all-time GitHub/HF Top 21 snapshot
+│   │   └── techQuizBank.ts             # 45 trilingual (EN/FR/AR) Python, JS/TS & AI/DeepMind questions
+│   ├── i18n/
+│   │   ├── I18nContext.tsx             # Lazy-loaded React i18n provider with RTL & localStorage persistence
+│   │   ├── types.ts                    # Strict TranslationSchema & LOCALE_OPTIONS registry
+│   │   └── locales/                    # Modular 1-file-per-language dictionaries (en, ar, fr, es, de, zh-CN)
 │   ├── pages/
 │   │   ├── HomePage.tsx                # Mission Control landing page (eagerly loaded)
 │   │   ├── AppsPage.tsx                # Windows & Android storefront (lazy-loaded)
+│   │   ├── ArcadePage.tsx              # Tech & AI Quiz, Neural Chess & Orbital Defender hub (lazy-loaded)
 │   │   ├── ModelsPage.tsx              # AI models catalog & chat studio switcher (lazy-loaded)
 │   │   ├── SkillsPage.tsx              # AI skills marketplace & JSZip bundler (lazy-loaded)
-│   │   ├── Index21Page.tsx             # Weekly Top 21 live leaderboard (lazy-loaded)
+│   │   ├── Index21Page.tsx             # Weekly & all-time Top 21 live leaderboard (lazy-loaded)
 │   │   ├── ConstellationPage.tsx       # Ecosystem Constellation view (lazy-loaded)
+│   │   ├── EnterprisePage.tsx          # Custom B2B engineering, industries & scope builder (lazy-loaded)
 │   │   ├── VisionPage.tsx              # Manifesto & strategic roadmap (lazy-loaded)
-│   │   └── ContactPage.tsx             # Zero-tracking inquiry composer (lazy-loaded)
+│   │   └── ContactPage.tsx             # Zero-tracking inquiry composer with URL pre-fill (lazy-loaded)
 │   ├── types/
 │   │   └── kronvex.ts                  # Strict TypeScript domain models & hardware profile types
 │   ├── utils/
+│   │   ├── chessEngine.ts              # Full FIDE chess engine + Alpha-Beta & Quiescence local AI
 │   │   └── hardware.ts                 # Client OS, CPU, RAM & WebGPU adapter fit evaluator
 │   ├── App.tsx                         # Router, lazy route boundaries, theme & command controller
 │   ├── index.css                       # Tailwind layers, glass tokens & blueprint grid styles

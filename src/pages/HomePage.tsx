@@ -1,8 +1,14 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
+  ArrowUpRight,
+  ChevronDown,
   Cpu,
   Download,
+  Flame,
+  FolderGit2,
+  Gamepad2,
   Github,
   Layers,
   MessageSquare,
@@ -14,6 +20,12 @@ import {
 } from 'lucide-react';
 import { KRONVEX_APPS, KRONVEX_MODELS, KRONVEX_PILLARS, KRONVEX_SKILLS, ORG_META } from '../data/catalog';
 import liveGithub from '../data/live-github.json';
+import { useI18n } from '../i18n/I18nContext';
+import {
+  KronvexLivingEmblem,
+  SENTINEL_PILLARS,
+  type SentinelPillarIndex,
+} from '../components/KronvexLivingEmblem';
 import type { DetectedHardware } from '../types/kronvex';
 
 interface HomePageProps {
@@ -22,109 +34,393 @@ interface HomePageProps {
 }
 
 export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
+  const { t } = useI18n();
+  const navigate = useNavigate();
+  const [sentinelPillar, setSentinelPillar] = useState<SentinelPillarIndex>(0);
+  const [studioRuntime, setStudioRuntime] = useState<'webgpu' | 'wasm' | 'cli'>(
+    hardware.webgpuSupported ? 'webgpu' : 'wasm'
+  );
+  const activeSentinel = SENTINEL_PILLARS[sentinelPillar];
+
   const osTarget =
     hardware.os === 'Android'
-      ? { label: 'Explore Android (.APK) Apps', route: '/apps' }
+      ? { label: t.home.ctaAppsAndroid, route: '/apps' }
       : hardware.os === 'Windows'
-      ? { label: 'Explore Windows (.EXE) Apps', route: '/apps' }
-      : { label: 'Explore Cross-Platform Apps', route: '/apps' };
+      ? { label: t.home.ctaAppsWindows, route: '/apps' }
+      : { label: t.home.ctaAppsCross, route: '/apps' };
+
+  const pillarCopy = [t.home.pillars.apps, t.home.pillars.intel, t.home.pillars.ai];
+  const pillarIcons = [Layers, Flame, Cpu];
+
+  const platformModules = [
+    {
+      title: t.home.platformCards.chat.title,
+      desc: t.home.platformCards.chat.desc,
+      icon: Cpu,
+      route: '/models?tab=chat',
+      cta: t.home.platformCards.chat.cta,
+      meta: 'WebGPU / WASM',
+      accent: 'text-sky-600 dark:text-sky-400',
+    },
+    {
+      title: t.home.platformCards.apps.title,
+      desc: t.home.platformCards.apps.desc,
+      icon: Layers,
+      route: '/apps',
+      cta: t.home.platformCards.apps.cta,
+      meta: 'Direct Releases',
+      accent: 'text-emerald-600 dark:text-emerald-400',
+    },
+    {
+      title: t.home.platformCards.skills.title,
+      desc: t.home.platformCards.skills.desc,
+      icon: Sparkles,
+      route: '/skills',
+      cta: t.home.platformCards.skills.cta,
+      meta: '1-Click .ZIP',
+      accent: 'text-indigo-600 dark:text-indigo-400',
+    },
+    {
+      title: t.home.platformCards.arcade.title,
+      desc: t.home.platformCards.arcade.desc,
+      icon: Gamepad2,
+      route: '/arcade',
+      cta: t.home.platformCards.arcade.cta,
+      meta: t.home.platformCards.arcade.badge,
+      accent: 'text-sky-600 dark:text-sky-400',
+    },
+    {
+      title: t.home.platformCards.top21.title,
+      desc: t.home.platformCards.top21.desc,
+      icon: Flame,
+      route: '/top-21',
+      cta: t.home.platformCards.top21.cta,
+      meta: t.home.platformCards.top21.badge,
+      accent: 'text-amber-600 dark:text-amber-400',
+    },
+    {
+      title: t.home.platformCards.constellation.title,
+      desc: t.home.platformCards.constellation.desc,
+      icon: Network,
+      route: '/constellation',
+      cta: t.home.platformCards.constellation.cta,
+      meta: '7-Node Graph',
+      accent: 'text-emerald-600 dark:text-emerald-400',
+    },
+  ];
 
   return (
-    <div className="space-y-24">
-      {/* Cinematic Mission Control Hero */}
-      <section className="relative overflow-hidden border-b border-slate-200/80 dark:border-slate-800/80 kronvex-grid">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.16),transparent_60%),radial-gradient(ellipse_at_bottom_right,rgba(129,140,248,0.14),transparent_55%)]" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl sm:rounded-full text-[11px] sm:text-xs font-mono bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/25 max-w-full">
+    <div className="space-y-28 sm:space-y-32">
+      {/* Open Architectural Hero — Full-Width Balanced Composition */}
+      <section className="relative overflow-hidden border-b border-slate-200/70 dark:border-slate-800/70">
+        <div className="relative max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 pt-14 pb-20 lg:pt-24 lg:pb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+            <div className="lg:col-span-7 space-y-7">
+              <div className="inline-flex items-center gap-2.5 text-[11px] sm:text-xs font-mono font-semibold tracking-wider text-sky-700 dark:text-sky-300">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                <span className="leading-snug">SYSTEMS OPERATIONAL · LOCAL-FIRST AI &amp; SOFTWARE LAB</span>
+                <span>{t.home.statusBadge}</span>
               </div>
 
-              <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-black dark:text-white leading-[1.08]">
-                Engineering{' '}
-                <span className="bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
-                  Cross-Platform Apps
+              <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-[4.1rem] tracking-tight text-black dark:text-white leading-[1.06]">
+                {t.home.heroPrefix}{' '}
+                <span className="bg-gradient-to-r from-sky-500 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
+                  {t.home.heroHighlight}
                 </span>
-                , Market Intelligence &amp; Mission-Critical AI.
+                {t.home.heroSuffix}
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-900 dark:text-slate-100 max-w-2xl leading-relaxed">
-                {ORG_META.tagline} Download signed Android &amp; Windows software, compose AI agent skills, or run
-                quantized neural models directly on your own PC inside this browser.
+              <p className="text-base sm:text-lg text-slate-900 dark:text-white max-w-3xl leading-relaxed">
+                {t.home.heroDesc}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Link
                   to="/models?tab=chat"
-                  className="px-5 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm inline-flex items-center gap-2 shadow-lg shadow-sky-500/20 transition"
+                  className="px-6 py-3 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm inline-flex items-center gap-2 shadow-lg shadow-sky-500/20 transition"
                 >
-                  <MessageSquare className="w-4 h-4" /> Launch Local AI Chat
+                  <MessageSquare className="w-4 h-4" /> {t.home.ctaChat}
                 </Link>
                 <Link
                   to={osTarget.route}
-                  className="px-5 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 hover:opacity-90 font-semibold text-sm inline-flex items-center gap-2 transition"
+                  className="px-6 py-3 rounded-full bg-black dark:bg-white text-white dark:text-black hover:opacity-90 font-semibold text-sm inline-flex items-center gap-2 transition"
                 >
                   <Download className="w-4 h-4" /> {osTarget.label}
                 </Link>
                 <button
                   type="button"
                   onClick={onOpenTerminal}
-                  className="px-4 py-3 rounded-xl glass-panel text-slate-950 dark:text-white hover:border-sky-500/50 font-mono text-xs inline-flex items-center gap-2 transition"
+                  dir="ltr"
+                  className="px-4 py-3 rounded-full text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-300 font-mono text-xs font-semibold inline-flex items-center gap-2 transition group"
                 >
-                  <Terminal className="w-4 h-4 text-emerald-400" /> kronvex&gt; CLI
+                  <Terminal className="w-4 h-4 text-emerald-500" />
+                  <span>kronvex&gt; CLI</span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-80 group-hover:translate-x-0.5 transition" />
                 </button>
               </div>
 
-              {/* Live Hardware & Org Telemetry Strip */}
-              <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {/* Open Minimalist Inline Telemetry Strip */}
+              <div className="pt-6 border-t border-slate-300/70 dark:border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-6">
                 {[
-                  { label: 'CLIENT OS', value: hardware.os, accent: 'text-sky-500' },
-                  { label: 'AI ENGINE', value: hardware.webgpuSupported ? 'WebGPU' : 'WASM CPU', accent: 'text-emerald-500' },
-                  { label: 'AI SKILLS', value: `${KRONVEX_SKILLS.length} Ready`, accent: 'text-indigo-400' },
-                  { label: 'ORG REPOS', value: `${liveGithub.stats.publicRepos} Public`, accent: 'text-amber-500' },
+                  { label: t.home.statOs, value: hardware.os, accent: 'text-sky-600 dark:text-sky-400' },
+                  {
+                    label: t.home.statEngine,
+                    value: hardware.webgpuSupported ? 'WebGPU' : 'WASM CPU',
+                    accent: 'text-emerald-600 dark:text-emerald-400',
+                  },
+                  {
+                    label: t.home.statSkills,
+                    value: `${KRONVEX_SKILLS.length} ${t.home.statSkillsReady}`,
+                    accent: 'text-indigo-600 dark:text-indigo-400',
+                  },
+                  {
+                    label: t.home.statRepos,
+                    value: `${liveGithub.stats.publicRepos} ${t.home.statReposPublic}`,
+                    accent: 'text-amber-600 dark:text-amber-400',
+                  },
                 ].map((stat) => (
-                  <div key={stat.label} className="glass-panel rounded-xl px-3.5 py-2.5">
-                    <div className="font-mono text-[10px] text-slate-800 dark:text-slate-200">{stat.label}</div>
-                    <div className={`font-mono font-bold text-sm mt-0.5 ${stat.accent}`}>{stat.value}</div>
+                  <div key={stat.label} className="space-y-0.5">
+                    <div className="font-mono text-[11px] font-semibold tracking-wider text-slate-800 dark:text-slate-100">
+                      {stat.label}
+                    </div>
+                    <div className={`font-mono font-bold text-sm ${stat.accent}`}>{stat.value}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right Hero Crest Command Card */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-3xl p-6 sm:p-8 glass-panel glow-cyan overflow-hidden">
-                <div className="flex items-center justify-between text-[11px] font-mono text-slate-800 dark:text-slate-200 mb-6">
-                  <span>KRONVEX // CORE EMBLEM</span>
-                  <span className="text-emerald-400">● 7-NODE MATRIX</span>
+            {/* Right Hero: Free-Floating Living Owl Sentinel Emblem */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center">
+              <div className="flex items-center gap-3 text-[11px] font-mono font-semibold text-slate-900 dark:text-white mb-3">
+                <span>{t.home.emblemLabel}</span>
+                <span className="opacity-40">/</span>
+                <span style={{ color: activeSentinel.hex }} className="font-bold transition-colors duration-300">
+                  {t.home.emblemMatrix} · {activeSentinel.code}
+                </span>
+              </div>
+
+              <KronvexLivingEmblem activePillar={sentinelPillar} onSelectPillar={setSentinelPillar} />
+
+              <div className="mt-6 flex items-center justify-center gap-6 text-xs font-mono font-semibold text-slate-900 dark:text-white">
+                <span>
+                  <strong className="text-sky-600 dark:text-sky-400">{KRONVEX_APPS.length}</strong> {t.home.emblemApps}
+                </span>
+                <span className="opacity-40">|</span>
+                <span>
+                  <strong className="text-indigo-600 dark:text-indigo-400">{KRONVEX_MODELS.length}</strong>{' '}
+                  {t.home.emblemModels}
+                </span>
+                <span className="opacity-40">|</span>
+                <span>
+                  <strong className="text-emerald-600 dark:text-emerald-400">$0</strong> {t.home.emblemCloud}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Three Core Engineering Pillars — Full-Width Balanced Split Header + 3 Columns */}
+      <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
+          <div className="lg:col-span-6 space-y-2.5">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 font-bold">
+              {t.home.archLabel}
+            </span>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white tracking-tight">
+              {t.home.archTitle}
+            </h2>
+          </div>
+          <div className="lg:col-span-6">
+            <p className="text-base text-slate-900 dark:text-white leading-relaxed">{t.home.archSubtitle}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
+          {KRONVEX_PILLARS.map((pillar, idx) => {
+            const loc = pillarCopy[idx] || {
+              title: pillar.title,
+              subtitle: pillar.subtitle,
+              desc: pillar.description,
+            };
+            const Icon = pillarIcons[idx] || Layers;
+            const accentText =
+              pillar.accent === 'cyan'
+                ? 'text-sky-600 dark:text-sky-400'
+                : pillar.accent === 'emerald'
+                ? 'text-emerald-600 dark:text-emerald-400'
+                : 'text-indigo-600 dark:text-indigo-400';
+            const topRule =
+              pillar.accent === 'cyan'
+                ? 'group-hover:border-sky-500'
+                : pillar.accent === 'emerald'
+                ? 'group-hover:border-emerald-500'
+                : 'group-hover:border-indigo-500';
+
+            return (
+              <Link
+                key={pillar.id}
+                to={pillar.route}
+                className={`group pt-6 border-t border-slate-300/80 dark:border-slate-700/80 ${topRule} transition-colors flex flex-col justify-between gap-6`}
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className={`inline-flex items-center gap-2 font-mono text-xs font-bold ${accentText}`}>
+                      <Icon className="w-4 h-4 shrink-0" />
+                      {t.home.pillarLabel} {pillar.code}
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-slate-800 dark:text-white group-hover:translate-x-1.5 group-hover:text-sky-500 transition rtl:rotate-180 rtl:group-hover:-translate-x-1.5" />
+                  </div>
+
+                  <div>
+                    <h3 className="font-display font-bold text-2xl text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
+                      {loc.title}
+                    </h3>
+                    <div className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100 mt-1">
+                      {loc.subtitle}
+                    </div>
+                  </div>
+
+                  <p className="text-sm sm:text-[15px] text-slate-900 dark:text-white leading-relaxed">{loc.desc}</p>
                 </div>
-                <div className="flex justify-center my-4">
-                  <img
-                    src={`${import.meta.env.BASE_URL}kronvex-logo-512.webp`}
-                    alt="KRONVEX Official Owl Crest"
-                    width={256}
-                    height={256}
-                    fetchPriority="high"
-                    decoding="async"
-                    className="w-56 h-56 sm:w-64 sm:h-64 rounded-2xl shadow-2xl ring-1 ring-sky-400/30 animate-float"
-                  />
+
+                <div className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100 tracking-wide">
+                  {pillar.stack.join(' · ')}
                 </div>
-                <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 grid grid-cols-3 gap-2 text-center font-mono text-[11px]">
-                  <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/80">
-                    <div className="text-sky-500 font-bold">{KRONVEX_APPS.length}</div>
-                    <div className="text-slate-800 dark:text-slate-200 text-[10px]">APPS</div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Antigravity-Style Split Interactive Studio Showcase (Utilizing Full Horizontal Width) */}
+      <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-12 border-t border-slate-300/80 dark:border-slate-800">
+          {/* Left Editorial Pitch */}
+          <div className="lg:col-span-5 space-y-6">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400 font-bold">
+              KRONVEX STUDIO · LOCAL-FIRST
+            </span>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-[2.65rem] text-black dark:text-white tracking-tight leading-[1.12]">
+              {t.home.platformCards.chat.title}
+            </h2>
+            <p className="text-base text-slate-900 dark:text-white leading-relaxed">
+              {t.home.platformCards.chat.desc}
+            </p>
+            <div className="flex flex-wrap items-center gap-6 pt-2">
+              <Link
+                to="/models?tab=chat"
+                className="group text-sm font-bold text-sky-600 dark:text-sky-400 hover:text-sky-500 inline-flex items-center gap-2 transition"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>{t.home.platformCards.chat.cta}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+              </Link>
+              <button
+                type="button"
+                onClick={onOpenTerminal}
+                dir="ltr"
+                className="group text-sm font-mono font-bold text-black dark:text-white hover:text-emerald-500 inline-flex items-center gap-2 transition"
+              >
+                <Terminal className="w-4 h-4 text-emerald-500" />
+                <span>kronvex&gt; CLI</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+              </button>
+            </div>
+          </div>
+
+          {/* Right Open Borderless Interactive Studio (Zero Box / Frame Walls!) */}
+          <div className="lg:col-span-7">
+            <div className="relative py-2 sm:py-4">
+              {/* Soft open ambient aura behind the controls (no hard box outline) */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-4 bg-[radial-gradient(ellipse_at_25%_35%,rgba(56,189,248,0.16),transparent_55%),radial-gradient(ellipse_at_80%_75%,rgba(16,185,129,0.13),transparent_55%),radial-gradient(ellipse_at_75%_20%,rgba(129,140,248,0.13),transparent_50%)] blur-2xl"
+              />
+
+              <div dir="ltr" className="relative space-y-6 text-left">
+                {/* Workspace header row — open directly on canvas */}
+                <div className="flex items-center justify-between gap-3 text-xs font-mono text-black dark:text-white pb-3 border-b border-slate-300/70 dark:border-slate-800">
+                  <span className="inline-flex items-center gap-2 font-semibold">
+                    <FolderGit2 className="w-4 h-4 text-sky-500" />
+                    kronvex-local-studio
+                    <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    $0 SERVER · PRIVATE
+                  </span>
+                </div>
+
+                {/* Open Interactive Prompt Row (No Boxed Card Frame) */}
+                <div className="space-y-5">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/models?tab=chat')}
+                    className="w-full text-left text-base sm:text-lg font-medium text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-300 transition"
+                  >
+                    Ask KRONVEX Local AI anything, inspect SKILL.md, or press Ctrl+K for actions...
+                  </button>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-300/70 dark:border-slate-800">
+                    <div className="flex flex-wrap items-center gap-4">
+                      {(
+                        [
+                          { id: 'webgpu', label: 'WebGPU · SmolLM2 / Qwen2.5' },
+                          { id: 'wasm', label: 'WASM CPU Local' },
+                          { id: 'cli', label: 'kronvex> CLI' },
+                        ] as const
+                      ).map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => {
+                            setStudioRuntime(opt.id);
+                            if (opt.id === 'cli') onOpenTerminal();
+                          }}
+                          className={`pb-1 text-xs font-mono font-bold border-b-2 transition ${
+                            studioRuntime === opt.id
+                              ? 'border-sky-500 text-sky-700 dark:text-sky-300'
+                              : 'border-transparent text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-300'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => navigate('/models?tab=chat')}
+                      className="px-5 py-2 rounded-full bg-black dark:bg-white text-white dark:text-black text-xs font-bold inline-flex items-center gap-1.5 hover:opacity-90 transition"
+                    >
+                      Launch <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/80">
-                    <div className="text-indigo-400 font-bold">{KRONVEX_MODELS.length}</div>
-                    <div className="text-slate-800 dark:text-slate-200 text-[10px]">AI MODELS</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/80">
-                    <div className="text-emerald-400 font-bold">$0</div>
-                    <div className="text-slate-800 dark:text-slate-200 text-[10px]">CLOUD LOCK-IN</div>
-                  </div>
+                </div>
+
+                {/* Quick Direct Action Links — open on canvas */}
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono pt-1">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/skills')}
+                    className="text-slate-900 dark:text-white hover:text-sky-500 inline-flex items-center gap-1.5 transition"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Bundle AI Skills (.ZIP) →
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/arcade')}
+                    className="text-slate-900 dark:text-white hover:text-sky-500 inline-flex items-center gap-1.5 transition"
+                  >
+                    <Gamepad2 className="w-3.5 h-3.5 text-emerald-500" /> Tech &amp; AI Quiz + Neural Chess →
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/top-21')}
+                    className="text-slate-900 dark:text-white hover:text-sky-500 inline-flex items-center gap-1.5 transition"
+                  >
+                    <Flame className="w-3.5 h-3.5 text-amber-500" /> Global Top 21 Radar →
+                  </button>
                 </div>
               </div>
             </div>
@@ -132,140 +428,54 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
         </div>
       </section>
 
-      {/* Three Core Engineering Pillars */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="max-w-2xl">
-          <span className="font-mono text-xs uppercase tracking-widest text-sky-500">Architecture</span>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white mt-2">
-            Three Pillars. One Unified Execution Stack.
-          </h2>
-          <p className="text-slate-900 dark:text-slate-100 mt-3">
-            Every system built under KRONVEX connects client-grade software delivery, quantitative decision
-            intelligence, and verifiable AI models.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {KRONVEX_PILLARS.map((pillar) => {
-            const borderTone =
-              pillar.accent === 'cyan'
-                ? 'hover:border-sky-500/50'
-                : pillar.accent === 'emerald'
-                ? 'hover:border-emerald-500/50'
-                : 'hover:border-indigo-500/50';
-            const badgeTone =
-              pillar.accent === 'cyan'
-                ? 'bg-sky-500/15 text-sky-500'
-                : pillar.accent === 'emerald'
-                ? 'bg-emerald-500/15 text-emerald-500'
-                : 'bg-indigo-500/15 text-indigo-400';
-
-            return (
-              <Link
-                key={pillar.id}
-                to={pillar.route}
-                className={`group rounded-2xl p-6 glass-panel transition-all ${borderTone} flex flex-col justify-between`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className={`px-2.5 py-1 rounded-md font-mono text-xs font-bold ${badgeTone}`}>
-                      PILLAR {pillar.code}
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-slate-700 dark:text-slate-200 group-hover:translate-x-1 group-hover:text-sky-400 transition" />
-                  </div>
-                  <h3 className="font-display font-bold text-xl text-black dark:text-white">{pillar.title}</h3>
-                  <div className="font-mono text-xs text-slate-800 dark:text-slate-200 mt-1 mb-3">{pillar.subtitle}</div>
-                  <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">{pillar.description}</p>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-1.5">
-                  {pillar.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Signature Platform Capabilities (The 4 Interactive Modules) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* Interactive Platform — Full-Width Open Editorial Directory */}
+      <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 space-y-10">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-indigo-400">Interactive Platform</span>
-            <h2 className="font-display font-bold text-3xl text-black dark:text-white mt-2">
-              Built for Direct Distribution &amp; Local Execution
+          <div className="space-y-2">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 font-bold">
+              {t.home.platformLabel}
+            </span>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white tracking-tight">
+              {t.home.platformTitle}
             </h2>
           </div>
-          <Link to="/constellation" className="text-sm font-semibold text-sky-500 hover:text-sky-400 inline-flex items-center gap-1.5">
-            Explore Constellation Map <ArrowRight className="w-4 h-4" />
+          <Link
+            to="/constellation"
+            className="text-sm font-bold text-sky-600 dark:text-sky-400 hover:text-sky-500 inline-flex items-center gap-1.5 group"
+          >
+            {t.home.exploreConstellation}{' '}
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition rtl:rotate-180 rtl:group-hover:-translate-x-1" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              title: 'Local In-Browser AI Chat Studio',
-              desc: 'Download compact ONNX/WebGPU models directly into your browser cache and chat locally on your own GPU or CPU — 100% private, $0 server cost.',
-              icon: Cpu,
-              route: '/models?tab=chat',
-              cta: 'Open Neural Chat',
-              badge: 'WebGPU / WASM',
-            },
-            {
-              title: 'Android & Windows App Storefront',
-              desc: 'Auto-detects your operating system, verifies SHA-256 integrity hashes, and delivers direct .APK, .EXE, and .MSI downloads via GitHub Releases.',
-              icon: Layers,
-              route: '/apps',
-              cta: 'Browse Apps',
-              badge: 'Direct Releases',
-            },
-            {
-              title: 'AI Skills Marketplace & .ZIP Bundler',
-              desc: 'Inspect production SKILL.md agent workflows and export multi-skill .zip packages or 1-line CLI installers for Antigravity, Claude Code, Cursor & Gemini CLI.',
-              icon: Sparkles,
-              route: '/skills',
-              cta: 'Compose Skills',
-              badge: '1-Click Bundle',
-            },
-            {
-              title: 'KRONVEX Ecosystem Constellation',
-              desc: 'Interactive orbital neural map connecting every application, AI model, agent skill, and engineering pillar into one navigable command view.',
-              icon: Network,
-              route: '/constellation',
-              cta: 'Launch Constellation',
-              badge: 'Interactive Graph',
-            },
-          ].map((card) => {
-            const Icon = card.icon;
+        <div className="border-t border-b border-slate-300/80 dark:border-slate-700/80 divide-y divide-slate-300/70 dark:divide-slate-800/80">
+          {platformModules.map((mod) => {
+            const Icon = mod.icon;
             return (
               <Link
-                key={card.title}
-                to={card.route}
-                className="group rounded-2xl p-6 glass-panel hover:border-sky-500/40 transition-all flex flex-col justify-between gap-5"
+                key={mod.route}
+                to={mod.route}
+                className="group py-6 sm:py-7 px-2 sm:px-4 -mx-2 sm:-mx-4 rounded-xl hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.04] transition grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-500 border border-sky-500/20">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="px-2.5 py-1 rounded-full text-[11px] font-mono bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800">
-                      {card.badge}
-                    </span>
+                <div className="lg:col-span-4 flex items-center gap-3.5 min-w-0">
+                  <Icon className={`w-5 h-5 shrink-0 ${mod.accent}`} />
+                  <div className="min-w-0">
+                    <h3 className="font-display font-bold text-lg sm:text-xl text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
+                      {mod.title}
+                    </h3>
+                    <span className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100">{mod.meta}</span>
                   </div>
-                  <h3 className="font-display font-bold text-xl text-black dark:text-white group-hover:text-sky-400 transition">
-                    {card.title}
-                  </h3>
-                  <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">{card.desc}</p>
                 </div>
-                <div className="text-sm font-semibold text-sky-500 inline-flex items-center gap-1.5">
-                  {card.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+
+                <p className="lg:col-span-6 text-sm sm:text-[15px] text-slate-900 dark:text-white leading-relaxed">
+                  {mod.desc}
+                </p>
+
+                <div className="lg:col-span-2 flex lg:justify-end">
+                  <span className="text-sm font-bold text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 inline-flex items-center gap-1.5 whitespace-nowrap transition">
+                    {mod.cta}
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition rtl:rotate-180 rtl:group-hover:-translate-x-1.5" />
+                  </span>
                 </div>
               </Link>
             );
@@ -273,35 +483,43 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
         </div>
       </section>
 
-      {/* Zero-Server Trust Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl p-8 sm:p-10 bg-gradient-to-br from-slate-900 via-[#0B142B] to-slate-950 border border-slate-800 text-white flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-          <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400">
-              <ShieldCheck className="w-4 h-4" /> OPEN ARCHITECTURE · VERIFIED RELEASES · ZERO SERVER BLOAT
+      {/* Open Architectural Trust & Enterprise Closing Band */}
+      <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
+        <div className="pt-12 border-t border-slate-300/80 dark:border-slate-700/80 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
+          <div className="space-y-4 max-w-3xl">
+            <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+              <ShieldCheck className="w-4 h-4 shrink-0" /> {t.home.trustBadge}
             </div>
-            <h2 className="font-display font-bold text-2xl sm:text-3xl">
-              Built to endure on static edge infrastructure &amp; local hardware.
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white leading-tight">
+              {t.home.trustTitle}
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
-              This platform runs 100% statically on GitHub Pages, pulls live metadata from GitHub Releases and Hugging
-              Face Hub, and executes AI workloads directly on your PC.
-            </p>
+            <p className="text-base text-slate-900 dark:text-white leading-relaxed">{t.home.trustDesc}</p>
           </div>
-          <div className="flex flex-wrap gap-3 shrink-0">
+
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-4 shrink-0">
+            <Link
+              to="/enterprise"
+              className="px-6 py-3 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm inline-flex items-center gap-2 transition"
+            >
+              <Sparkles className="w-4 h-4" /> {t.home.ctaEnterprise}
+            </Link>
             <a
               href={ORG_META.githubUrl}
               target="_blank"
               rel="noreferrer"
-              className="px-5 py-3 rounded-xl bg-white text-slate-950 hover:bg-slate-200 font-semibold text-sm inline-flex items-center gap-2 transition"
+              className="group text-sm font-bold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 inline-flex items-center gap-2 transition"
             >
-              <Github className="w-4 h-4" /> View GitHub Org
+              <Github className="w-4 h-4" />
+              <span>{t.home.ctaGithub}</span>
+              <ArrowUpRight className="w-4 h-4 opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
             </a>
             <Link
               to="/vision"
-              className="px-5 py-3 rounded-xl bg-sky-500/20 text-sky-300 hover:bg-sky-500/30 border border-sky-400/30 font-semibold text-sm inline-flex items-center gap-2 transition"
+              className="group text-sm font-bold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 inline-flex items-center gap-2 transition"
             >
-              <Zap className="w-4 h-4" /> Read Roadmap
+              <Zap className="w-4 h-4 text-sky-500" />
+              <span>{t.home.ctaRoadmap}</span>
+              <ArrowRight className="w-4 h-4 opacity-80 group-hover:translate-x-1 transition rtl:rotate-180 rtl:group-hover:-translate-x-1" />
             </Link>
           </div>
         </div>

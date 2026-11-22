@@ -1,88 +1,113 @@
-import { CheckCircle2, Clock, Compass, ExternalLink, Github, ShieldCheck, Target, Zap } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Clock, Compass, Github, ShieldCheck, Target, Zap } from 'lucide-react';
 import { KRONVEX_PILLARS, KRONVEX_ROADMAP, ORG_META } from '../data/catalog';
+import { useI18n } from '../i18n/I18nContext';
 
 export function VisionPage() {
+  const { t } = useI18n();
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-      {/* Manifesto Header */}
-      <section className="space-y-5 max-w-4xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-sky-500/10 text-sky-800 dark:text-sky-300 border border-sky-500/25">
-          <Compass className="w-3.5 h-3.5" /> ORGANIZATION MANIFESTO &amp; STRATEGIC PLAN
+    <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-14 space-y-24">
+      {/* Manifesto Header — Full-Width 12-Column Balanced Composition */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+        <div className="lg:col-span-8 space-y-5">
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-sky-700 dark:text-sky-300">
+            <Compass className="w-4 h-4" /> {t.vision.badge}
+          </div>
+          <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white leading-[1.1] tracking-tight">
+            {t.vision.title}
+          </h1>
+          <p className="text-base sm:text-lg text-slate-900 dark:text-white leading-relaxed max-w-3xl">
+            <strong>KRONVEX</strong> is an independent engineering and applied intelligence organization founded by{' '}
+            <strong>{ORG_META.founderName}</strong>. Our mission is straightforward: <em>{ORG_META.tagline}</em>
+          </p>
         </div>
-        <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white leading-tight">
-          Built to Turn Real-World Complexity Into Enduring Systems.
-        </h1>
-        <p className="text-base sm:text-lg text-slate-900 dark:text-slate-100 leading-relaxed">
-          <strong>KRONVEX</strong> is an independent engineering and applied intelligence organization founded
-          by <strong>{ORG_META.founderName}</strong>. Our mission is straightforward: <em>{ORG_META.tagline}</em>
-        </p>
+
+        <div className="lg:col-span-4 lg:border-s border-slate-300/80 dark:border-slate-700/80 lg:ps-8 space-y-4 font-mono text-xs">
+          <div>
+            <div className="text-sky-600 dark:text-sky-400 font-bold">ARCHITECTURE</div>
+            <div className="text-slate-900 dark:text-white mt-0.5">3 Core Pillars · 7-Node Matrix</div>
+          </div>
+          <div>
+            <div className="text-emerald-600 dark:text-emerald-400 font-bold">SECURITY GOVERNANCE</div>
+            <div className="text-slate-900 dark:text-white mt-0.5">48h Responsible Disclosure SLA</div>
+          </div>
+          <div>
+            <div className="text-indigo-600 dark:text-indigo-400 font-bold">LEADERSHIP</div>
+            <div className="text-slate-900 dark:text-white mt-0.5">{ORG_META.founderName} (@khalid-naami)</div>
+          </div>
+        </div>
       </section>
 
-      {/* Strategic Goals */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Strategic Goals — Open 3-Column Editorial Band */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {[
           {
             icon: Target,
+            accent: 'text-sky-600 dark:text-sky-400',
             title: 'Local-First Sovereignty',
             text: 'Software and AI models should empower users on their own hardware — fast, verifiable, private, and free from unnecessary cloud dependency.',
           },
           {
             icon: Zap,
+            accent: 'text-emerald-600 dark:text-emerald-400',
             title: 'Signal Over Narrative',
             text: 'Across market intelligence and operational telemetry, we build deterministic pipelines that strip away noise and surface measurable reality.',
           },
           {
             icon: ShieldCheck,
+            accent: 'text-indigo-600 dark:text-indigo-400',
             title: 'Production Discipline',
             text: 'Every release ships with explicit failure handling, SHA-256 verification, open governance, and rigorous automated evaluation.',
           },
         ].map((g) => {
           const Icon = g.icon;
           return (
-            <div key={g.title} className="rounded-2xl glass-panel p-6 space-y-3">
-              <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-500 w-fit border border-sky-500/20">
-                <Icon className="w-5 h-5" />
-              </div>
+            <div key={g.title} className="pt-6 border-t border-slate-300/80 dark:border-slate-800 space-y-3">
+              <Icon className={`w-5 h-5 ${g.accent}`} />
               <h2 className="font-display font-bold text-xl text-black dark:text-white">{g.title}</h2>
-              <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">{g.text}</p>
+              <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{g.text}</p>
             </div>
           );
         })}
       </section>
 
-      {/* Strategic Roadmap */}
-      <section className="space-y-8">
+      {/* Strategic Roadmap — Open Hairline Sequence */}
+      <section id="roadmap" className="scroll-mt-24 space-y-10">
         <div>
-          <span className="font-mono text-xs uppercase tracking-widest text-indigo-400">Multi-Phase Execution</span>
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 font-semibold">
+            {t.vision.roadmapLabel}
+          </span>
           <h2 className="font-display font-bold text-3xl text-black dark:text-white mt-2">
-            Strategic Roadmap
+            {t.vision.roadmapTitle}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
           {KRONVEX_ROADMAP.map((phase) => {
-            const statusStyle =
+            const statusText =
               phase.status === 'completed'
-                ? 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
+                ? 'text-emerald-600 dark:text-emerald-400'
                 : phase.status === 'active'
-                ? 'bg-sky-500/15 text-sky-500 border-sky-500/30'
-                : 'bg-slate-200/80 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-700';
+                ? 'text-sky-600 dark:text-sky-400'
+                : 'text-slate-800 dark:text-slate-100';
 
             return (
-              <div key={phase.phase} className="rounded-2xl glass-panel p-6 sm:p-7 space-y-4">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-xs font-bold text-sky-500">
+              <div
+                key={phase.phase}
+                className="pt-6 border-t border-slate-300/80 dark:border-slate-800 space-y-4"
+              >
+                <div className="flex items-center justify-between gap-2 font-mono text-xs">
+                  <span className="font-bold text-sky-600 dark:text-sky-400">
                     {phase.phase} · {phase.window}
                   </span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-mono border uppercase ${statusStyle}`}>
-                    {phase.status}
-                  </span>
+                  <span className={`uppercase font-bold ${statusText}`}>● {phase.status}</span>
                 </div>
-                <h3 className="font-display font-bold text-xl text-black dark:text-white">{phase.title}</h3>
-                <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">{phase.summary}</p>
-                <ul className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <h3 className="font-display font-bold text-xl sm:text-2xl text-black dark:text-white">
+                  {phase.title}
+                </h3>
+                <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{phase.summary}</p>
+                <ul className="space-y-2 pt-2">
                   {phase.milestones.map((m) => (
-                    <li key={m} className="flex items-start gap-2 text-xs text-slate-950 dark:text-slate-100">
+                    <li key={m} className="flex items-start gap-2.5 text-xs text-slate-800 dark:text-white">
                       {phase.status === 'completed' ? (
                         <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                       ) : (
@@ -98,47 +123,60 @@ export function VisionPage() {
         </div>
       </section>
 
-      {/* Pillars Summary + Leadership */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-7 rounded-2xl glass-panel p-6 sm:p-8 space-y-4">
-          <h2 className="font-display font-bold text-2xl text-black dark:text-white">Core Engineering Divisions</h2>
-          <div className="space-y-4">
+      {/* Core Divisions + Leadership — Open Split Layout */}
+      <section
+        id="leadership"
+        className="scroll-mt-24 pt-12 border-t border-slate-300/80 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-12"
+      >
+        <div className="lg:col-span-7 space-y-6">
+          <h2 className="font-display font-bold text-2xl text-black dark:text-white">{t.vision.divisionsTitle}</h2>
+          <div className="divide-y divide-slate-300/70 dark:divide-slate-800/80">
             {KRONVEX_PILLARS.map((p) => (
-              <div key={p.id} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-                <div className="font-mono text-xs text-sky-500 font-semibold">
+              <div key={p.id} className="py-4 first:pt-0 space-y-1">
+                <div className="font-mono text-xs text-sky-600 dark:text-sky-400 font-semibold">
                   {p.code} // {p.title}
                 </div>
-                <p className="text-xs text-slate-900 dark:text-slate-100 mt-1">{p.description}</p>
+                <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{p.description}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="lg:col-span-5 rounded-2xl glass-panel p-6 sm:p-8 flex flex-col justify-between gap-6">
+        <div className="lg:col-span-5 lg:border-s border-slate-300/80 dark:border-slate-800 lg:ps-10 flex flex-col justify-between gap-8">
           <div className="space-y-3">
-            <span className="font-mono text-xs text-emerald-500 uppercase">Founder &amp; Lead Architect</span>
-            <h2 className="font-display font-bold text-2xl text-black dark:text-white">{ORG_META.founderName}</h2>
-            <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">
+            <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400 uppercase font-semibold">
+              {t.vision.founderRole}
+            </span>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white">
+              {ORG_META.founderName}
+            </h2>
+            <p className="text-sm text-slate-800 dark:text-white leading-relaxed">
               Software engineer, quantitative finance researcher, and systems architect leading KRONVEX across
               cross-platform applications, market intelligence, and mission-critical AI.
             </p>
           </div>
-          <div className="space-y-2.5">
+          <div className="space-y-3 pt-4 border-t border-slate-300/70 dark:border-slate-800/80">
             <a
               href={ORG_META.founderGithub}
               target="_blank"
               rel="noreferrer"
-              className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-semibold text-xs inline-flex items-center justify-center gap-2 transition hover:opacity-90"
+              className="group py-2 flex items-center justify-between text-sm font-semibold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition"
             >
-              <Github className="w-4 h-4" /> @khalid-naami on GitHub <ExternalLink className="w-3.5 h-3.5" />
+              <span className="inline-flex items-center gap-2.5">
+                <Github className="w-4 h-4 text-sky-500" /> @khalid-naami on GitHub
+              </span>
+              <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
             </a>
             <a
               href={ORG_META.founderSite}
               target="_blank"
               rel="noreferrer"
-              className="w-full py-2.5 px-4 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-950 dark:text-white font-semibold text-xs inline-flex items-center justify-center gap-2 transition hover:border-sky-500/50"
+              className="group py-2 flex items-center justify-between text-sm font-semibold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition"
             >
-              Research &amp; Personal Site (khalidnaami.com) <ExternalLink className="w-3.5 h-3.5" />
+              <span className="inline-flex items-center gap-2.5">
+                <Compass className="w-4 h-4 text-emerald-500" /> Research &amp; Personal Site (khalidnaami.com)
+              </span>
+              <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
             </a>
           </div>
         </div>

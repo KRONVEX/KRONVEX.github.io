@@ -294,23 +294,21 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
   const isSelectedLoaded = engineState === 'ready' && loadedModelId === selectedModel?.id;
 
   return (
-    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#080E1C] overflow-hidden shadow-xl">
-      {/* Studio Control Header */}
-      <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/90 dark:bg-[#050914] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="p-2 rounded-xl bg-sky-500/15 text-sky-500 border border-sky-500/30">
-            <Bot className="w-5 h-5" />
-          </div>
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="font-display font-bold text-base text-black dark:text-white">
+    <div className="space-y-6">
+      {/* Open Studio Control Header (Zero Outer Box Frame) */}
+      <div className="pb-5 border-b border-slate-300/80 dark:border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <Bot className="w-5 h-5 text-sky-500 shrink-0 mt-0.5" />
+          <div className="min-w-0 space-y-1">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <h3 className="font-display font-bold text-lg text-black dark:text-white">
                 KRONVEX Local Neural Chat
               </h3>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono whitespace-nowrap shrink-0 bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30">
-                100% ON YOUR PC
+              <span className="font-mono text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                ● 100% ON YOUR PC
               </span>
             </div>
-            <p className="text-xs text-slate-800 dark:text-slate-200">
+            <p className="text-xs sm:text-sm text-slate-900 dark:text-white">
               Downloads ONNX weights directly into your browser cache — zero backend cost, zero data sent to servers.
             </p>
           </div>
@@ -321,7 +319,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
             value={selectedId}
             onChange={(e) => setSelectedId(e.target.value)}
             disabled={engineState === 'loading'}
-            className="max-w-full min-w-0 px-3 py-2 rounded-lg text-xs font-mono bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-black dark:text-white focus:outline-none focus:border-sky-500"
+            className="max-w-full min-w-0 px-3.5 py-2 rounded-full text-xs font-mono bg-white/80 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 text-black dark:text-white focus:outline-none focus:border-sky-500"
           >
             {browserModels.map((m) => (
               <option key={m.id} value={m.id}>
@@ -334,7 +332,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
             type="button"
             onClick={handleLoadModel}
             disabled={engineState === 'loading' || isSelectedLoaded}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
+            className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition ${
               isSelectedLoaded
                 ? 'bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 cursor-default'
                 : 'bg-sky-500 hover:bg-sky-400 text-slate-950 shadow-sm disabled:opacity-60'
@@ -358,24 +356,27 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
           <button
             type="button"
             onClick={() => setShowSettings((v) => !v)}
-            className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 hover:border-sky-500"
+            className="p-2 rounded-full text-slate-900 dark:text-white hover:text-sky-500 hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition"
             title="Inference parameters"
+            aria-label="Inference parameters"
           >
             <Sliders className="w-4 h-4" />
           </button>
           <button
             type="button"
             onClick={exportTranscript}
-            className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 hover:border-sky-500"
+            className="p-2 rounded-full text-slate-900 dark:text-white hover:text-sky-500 hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition"
             title="Export chat as Markdown"
+            aria-label="Export chat as Markdown"
           >
             <FileDown className="w-4 h-4" />
           </button>
           <button
             type="button"
             onClick={() => setMessages(messages.slice(0, 1))}
-            className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 hover:border-rose-500 hover:text-rose-400"
+            className="p-2 rounded-full text-slate-900 dark:text-white hover:text-rose-500 hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition"
             title="Clear chat"
+            aria-label="Clear chat"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -384,7 +385,7 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
 
       {/* Progress / Error Banner */}
       {engineState === 'loading' && (
-        <div className="px-5 py-3 bg-sky-500/10 border-b border-sky-500/20">
+        <div className="pb-4 border-b border-sky-500/30">
           <div className="flex items-center justify-between text-xs font-mono text-sky-700 dark:text-sky-300 mb-1.5">
             <span className="truncate">{progressStatus}</span>
             <span>{progressPct}%</span>
@@ -399,16 +400,18 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
       )}
 
       {errorMsg && (
-        <div className="px-5 py-2.5 bg-rose-500/10 border-b border-rose-500/20 text-xs font-mono text-rose-600 dark:text-rose-300">
+        <div className="pb-3 border-b border-rose-500/30 text-xs font-mono text-rose-600 dark:text-rose-300">
           Runtime notice: {errorMsg} — Check browser WebGPU/WASM permissions or network access to Hugging Face Hub.
         </div>
       )}
 
-      {/* Collapsible Inference Settings */}
+      {/* Collapsible Inference Settings — Open Row */}
       {showSettings && (
-        <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <div className="md:col-span-1 space-y-1">
-            <label className="font-mono text-slate-800 dark:text-slate-200 block">Temperature: {temperature.toFixed(2)}</label>
+        <div className="pb-5 border-b border-slate-300/80 dark:border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+          <div className="md:col-span-1 space-y-2">
+            <label className="font-mono font-semibold text-black dark:text-white block">
+              Temperature: {temperature.toFixed(2)}
+            </label>
             <input
               type="range"
               min="0.1"
@@ -418,7 +421,9 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
               onChange={(e) => setTemperature(parseFloat(e.target.value))}
               className="w-full accent-sky-500"
             />
-            <label className="font-mono text-slate-800 dark:text-slate-200 block pt-1">Max New Tokens: {maxTokens}</label>
+            <label className="font-mono font-semibold text-black dark:text-white block pt-1">
+              Max New Tokens: {maxTokens}
+            </label>
             <input
               type="range"
               min="64"
@@ -429,68 +434,59 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
               className="w-full accent-sky-500"
             />
           </div>
-          <div className="md:col-span-2 space-y-1">
-            <label className="font-mono text-slate-800 dark:text-slate-200 block">System Prompt</label>
+          <div className="md:col-span-2 space-y-1.5">
+            <label className="font-mono font-semibold text-black dark:text-white block">System Prompt</label>
             <textarea
               rows={3}
               value={systemPrompt}
               onChange={(e) => setSystemPrompt(e.target.value)}
-              className="w-full p-2.5 rounded-lg bg-white dark:bg-[#050914] border border-slate-300 dark:border-slate-700 text-black dark:text-white font-mono text-xs focus:outline-none focus:border-sky-500"
+              className="w-full p-3 rounded-xl bg-white/80 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 text-black dark:text-white font-mono text-xs focus:outline-none focus:border-sky-500"
             />
           </div>
         </div>
       )}
 
-      {/* Message Stream */}
-      <div className="h-[420px] overflow-y-auto p-4 sm:p-6 space-y-4">
+      {/* Open Borderless Conversation Stream (Claude / Antigravity Editorial Chat Style) */}
+      <div className="min-h-[340px] max-h-[500px] overflow-y-auto space-y-7 py-2 pe-1">
         {messages.map((m) => (
-          <div key={m.id} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            {m.role === 'assistant' && (
-              <div className="w-8 h-8 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center shrink-0 mt-0.5 text-sky-500">
-                <Sparkles className="w-4 h-4" />
-              </div>
-            )}
+          <div key={m.id} className={`flex items-start gap-3.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            {m.role === 'assistant' && <Sparkles className="w-4 h-4 text-sky-500 shrink-0 mt-1" />}
             <div
-              className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+              className={`max-w-3xl text-sm sm:text-[15px] leading-relaxed ${
                 m.role === 'user'
-                  ? 'bg-sky-500 text-slate-950 font-medium'
-                  : 'bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-black dark:text-white'
+                  ? 'rounded-3xl px-5 py-3 bg-sky-500 text-slate-950 font-semibold'
+                  : 'text-black dark:text-white'
               }`}
             >
               <div className="whitespace-pre-wrap break-words">{renderFormattedText(m.content)}</div>
               {m.meta && (
-                <div className="mt-2 pt-1.5 border-t border-slate-200/70 dark:border-slate-800 text-[10px] font-mono text-slate-800 dark:text-slate-200">
-                  {m.meta}
-                </div>
+                <div className="mt-2.5 text-[11px] font-mono text-slate-800 dark:text-slate-100">{m.meta}</div>
               )}
             </div>
-            {m.role === 'user' && (
-              <div className="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center shrink-0 mt-0.5 text-indigo-400">
-                <User className="w-4 h-4" />
-              </div>
-            )}
+            {m.role === 'user' && <User className="w-4 h-4 text-indigo-500 shrink-0 mt-3" />}
           </div>
         ))}
 
         {generating && (
-          <div className="flex items-center gap-2 text-xs font-mono text-sky-500 pl-11">
+          <div className="flex items-center gap-2 text-xs font-mono text-sky-500 ps-7">
             <Loader2 className="w-3.5 h-3.5 animate-spin" /> Generating locally on your device...
           </div>
         )}
         <div ref={endRef} />
       </div>
 
-      {/* Starter Prompts & Input Bar */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-[#050914] space-y-3">
-        <div className="flex flex-wrap gap-2">
+      {/* Open Starter Prompts & Floating Pill Composer Bar */}
+      <div className="pt-5 border-t border-slate-300/80 dark:border-slate-800 space-y-4">
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
           {STARTER_PROMPTS.map((sp) => (
             <button
               key={sp}
               type="button"
               onClick={() => handleSend(sp)}
-              className="px-2.5 py-1 rounded-md text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:border-sky-500/50 hover:text-sky-500 transition text-left"
+              className="text-xs text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition text-start inline-flex items-center gap-1.5"
             >
-              {sp}
+              <span className="text-sky-500 font-bold">→</span>
+              <span>{sp}</span>
             </button>
           ))}
         </div>
@@ -510,19 +506,19 @@ export function LocalAiChat({ hardware, initialModelId }: LocalAiChatProps) {
                 ? `Message ${selectedModel?.name} (running locally on your PC)...`
                 : 'Type a message or click "Download & Load Model on My PC" to run real local AI...'
             }
-            className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm text-black dark:text-white placeholder-slate-400 dark:placeholder-slate-300 focus:outline-none focus:border-sky-500"
+            className="flex-1 px-5 py-3 rounded-full bg-white/85 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700 text-sm text-black dark:text-white placeholder-slate-600 dark:placeholder-slate-200 focus:outline-none focus:border-sky-500"
           />
           <button
             type="submit"
             disabled={generating || !draft.trim()}
-            className="px-4 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 disabled:opacity-50 text-slate-950 font-semibold text-sm flex items-center gap-1.5 transition"
+            className="px-5 py-3 rounded-full bg-sky-500 hover:bg-sky-400 disabled:opacity-50 text-slate-950 font-bold text-sm flex items-center gap-1.5 transition"
           >
             <Send className="w-4 h-4" />
             <span className="hidden sm:inline">Send</span>
           </button>
         </form>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-800 dark:text-slate-200">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-900 dark:text-white">
           <span className="inline-flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
             Zero API Keys · Zero Cloud Logging · Runs on Client Hardware

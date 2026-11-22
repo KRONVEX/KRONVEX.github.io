@@ -1,23 +1,32 @@
 import { Network } from 'lucide-react';
 import { ConstellationCanvas } from '../components/ConstellationCanvas';
+import { useI18n } from '../i18n/I18nContext';
 
 export function ConstellationPage() {
+  const { t } = useI18n();
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-      <div className="space-y-3 max-w-3xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-sky-500/10 text-sky-800 dark:text-sky-300 border border-sky-500/25">
-          <Network className="w-3.5 h-3.5" /> INTERACTIVE ECOSYSTEM GRAPH · 7-NODE CORE
+    <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-12 space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div className="lg:col-span-8 space-y-3">
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-sky-700 dark:text-sky-300">
+            <Network className="w-4 h-4" /> {t.constellation.badge}
+          </div>
+          <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white tracking-tight">
+            {t.constellation.title}
+          </h1>
+          <p className="text-base text-slate-900 dark:text-white leading-relaxed max-w-3xl">
+            {t.constellation.subtitle}
+          </p>
         </div>
-        <h1 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white">
-          KRONVEX Ecosystem Constellation
-        </h1>
-        <p className="text-slate-900 dark:text-slate-100">
-          Navigate how our Cross-Platform Apps, Market Intelligence engines, AI Models, and Agent Skills orbit around
-          the 7-Node KRONVEX Core. Filter by layer or click any node to inspect its Mission Dossier.
-        </p>
+        <div className="lg:col-span-4 lg:border-s border-slate-300/80 dark:border-slate-700/80 lg:ps-8 font-mono text-xs space-y-1">
+          <div className="text-sky-600 dark:text-sky-400 font-bold">● 60FPS ORBITAL TELEMETRY</div>
+          <div className="text-slate-900 dark:text-white">Apps · Market Intel · Local AI Models · Agent Skills</div>
+        </div>
       </div>
 
-      <ConstellationCanvas />
+      <div dir="ltr">
+        <ConstellationCanvas />
+      </div>
     </div>
   );
 }

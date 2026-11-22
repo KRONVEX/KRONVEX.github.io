@@ -8,8 +8,11 @@
 - [Android & Windows Apps](https://kronvex.github.io/apps): Direct GitHub Releases downloads (.apk, .exe, .msi, .zip) with SHA-256 verification.
 - [AI Models & Local Browser Chat Studio](https://kronvex.github.io/models): Download GGUF/ONNX/Safetensors weights or run quantized ONNX models locally in the browser via WebGPU/WASM.
 - [AI Skills Marketplace & .ZIP Bundler](https://kronvex.github.io/skills): Production-ready SKILL.md modules for Antigravity, Claude Code, Cursor, and Gemini CLI.
-- [Top 21 Weekly Leaderboard](https://kronvex.github.io/top-21): Live weekly Top 21 GitHub breakout repositories and Hugging Face trending/most-downloaded AI models.
+- [Top 21 Weekly & All-Time Leaderboard](https://kronvex.github.io/top-21): Live weekly GitHub breakouts, All-Time Most Starred repos, All-Time Most Downloaded GitHub Releases & Hugging Face AI models, and Top 21 Research Papers.
+- [Top 21 AI & Programming Research Papers](https://kronvex.github.io/research): Verified landmark arXiv papers from Google/DeepMind, OpenAI, Anthropic, DeepSeek, NVIDIA, Microsoft, Samsung AI, MIT, Meta AI, Stanford, Apple & Alibaba Qwen, plus live Hugging Face Daily Papers with direct PDF, arXiv & 1-click BibTeX.
+- [KRONVEX Arcade, AI Chess & Tech Quiz Arena](https://kronvex.github.io/arcade): 60fps Orbital Defender, local Alpha-Beta Neural Chess engine (3 AI tiers + 2P), and Trilingual (EN/FR/AR) Python, JS/TS & AI/LLM/RAG/DeepMind Mastery Arena.
 - [Ecosystem Constellation](https://kronvex.github.io/constellation): Interactive orbital map of KRONVEX pillars, apps, AI models, and skills.
+- [Enterprise & Custom Engineering](https://kronvex.github.io/enterprise): Tailored web/Windows/Android applications, private LLM & RAG systems, market intelligence pipelines, performance audits, and interactive project scope builder.
 - [Vision & Roadmap](https://kronvex.github.io/vision): Organization manifesto, engineering principles, and multi-phase strategic roadmap.
 - [Contact & Governance](https://kronvex.github.io/contact): Direct GitHub channels, zero-tracking inquiry composer, and security disclosure policy.
 

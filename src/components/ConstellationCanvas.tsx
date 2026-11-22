@@ -151,12 +151,18 @@ export function ConstellationCanvas() {
 
     let animId = 0;
     let t = 0;
+    let isDark = document.documentElement.classList.contains('dark');
+
+    const themeObs = new MutationObserver(() => {
+      isDark = document.documentElement.classList.contains('dark');
+    });
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     const nodeMap = new Map(nodes.map((n) => [n.id, n]));
 
     const draw = () => {
       t += 0.012;
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const width = 1000;
       const height = 620;
       if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
@@ -164,17 +170,23 @@ export function ConstellationCanvas() {
         canvas.height = height * dpr;
       }
       ctx.save();
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Deep space background
-      const bg = ctx.createRadialGradient(500, 310, 20, 500, 310, 520);
-      bg.addColorStop(0, '#0E1B36');
-      bg.addColorStop(1, '#050811');
+      // 100% Transparent Canvas — Constellation floats freely over the open page & signal field
+      ctx.clearRect(0, 0, width, height);
+
+      // Soft central ambient nebula glow (no rectangular edge!)
+      const bg = ctx.createRadialGradient(500, 310, 18, 500, 310, 420);
+      bg.addColorStop(0, isDark ? 'rgba(56, 189, 248, 0.10)' : 'rgba(2, 132, 199, 0.07)');
+      bg.addColorStop(0.65, isDark ? 'rgba(129, 140, 248, 0.04)' : 'rgba(79, 70, 229, 0.03)');
+      bg.addColorStop(1, 'transparent');
       ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, width, height);
+      ctx.beginPath();
+      ctx.arc(500, 310, 420, 0, Math.PI * 2);
+      ctx.fill();
 
       // Subtle concentric radar rings
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.09)';
+      ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.14)' : 'rgba(2, 132, 199, 0.18)';
       ctx.lineWidth = 1;
       [135, 245, 345].forEach((radius) => {
         ctx.beginPath();
@@ -190,8 +202,12 @@ export function ConstellationCanvas() {
         const b = nodeMap.get(edge.to);
         if (!a || !b) return;
         const active = isVisible(a) && isVisible(b);
-        ctx.strokeStyle = active ? `${edge.color}55` : 'rgba(148,163,184,0.08)';
-        ctx.lineWidth = active ? 1.5 : 0.8;
+        ctx.strokeStyle = active
+          ? `${edge.color}${isDark ? '66' : '88'}`
+          : isDark
+          ? 'rgba(148,163,184,0.10)'
+          : 'rgba(100,116,139,0.16)';
+        ctx.lineWidth = active ? 1.6 : 0.8;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
@@ -203,7 +219,7 @@ export function ConstellationCanvas() {
           const py = a.y + (b.y - a.y) * prog;
           ctx.fillStyle = edge.color;
           ctx.beginPath();
-          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.arc(px, py, 2.7, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -216,7 +232,7 @@ export function ConstellationCanvas() {
         const ny = node.y + bobY;
         const isHot = hoveredId === node.id || selected?.id === node.id;
 
-        ctx.globalAlpha = visible ? 1 : 0.16;
+        ctx.globalAlpha = visible ? 1 : 0.18;
 
         // Glow halo
         if (isHot || node.kind === 'core') {
@@ -230,9 +246,9 @@ export function ConstellationCanvas() {
         }
 
         // Outer ring
-        ctx.fillStyle = '#090E1B';
-        ctx.strokeStyle = isHot ? '#FFFFFF' : node.color;
-        ctx.lineWidth = isHot ? 2.6 : 1.8;
+        ctx.fillStyle = isDark ? '#070D1D' : '#FFFFFF';
+        ctx.strokeStyle = isHot ? (isDark ? '#FFFFFF' : '#020617') : node.color;
+        ctx.lineWidth = isHot ? 2.6 : 2;
         ctx.beginPath();
         ctx.arc(nx, ny, node.r, 0, Math.PI * 2);
         ctx.fill();
@@ -244,7 +260,7 @@ export function ConstellationCanvas() {
           ctx.beginPath();
           ctx.arc(nx, ny, 7, 0, Math.PI * 2);
           ctx.fill();
-          ctx.fillStyle = '#38BDF8';
+          ctx.fillStyle = '#0EA5E9';
           for (let k = 0; k < 6; k++) {
             const a = ((-90 + k * 60) * Math.PI) / 180 + t * 0.2;
             ctx.beginPath();
@@ -258,11 +274,14 @@ export function ConstellationCanvas() {
           ctx.fill();
         }
 
-        // Label
-        ctx.font = node.kind === 'core' || node.kind === 'pillar' ? '700 11.5px "JetBrains Mono", monospace' : '600 11px Inter, sans-serif';
+        // Crisp high-contrast label in both Dark & Light modes
+        ctx.font =
+          node.kind === 'core' || node.kind === 'pillar'
+            ? '700 12px "JetBrains Mono", monospace'
+            : '600 11.5px Inter, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillStyle = isHot ? '#FFFFFF' : '#F8FAFC';
-        ctx.fillText(node.label, nx, ny + node.r + 15);
+        ctx.fillStyle = isDark ? '#FFFFFF' : '#020617';
+        ctx.fillText(node.label, nx, ny + node.r + 16);
         ctx.globalAlpha = 1;
       });
 
@@ -271,7 +290,10 @@ export function ConstellationCanvas() {
     };
 
     animId = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      cancelAnimationFrame(animId);
+      themeObs.disconnect();
+    };
   }, [nodes, edges, filter, hoveredId, selected]);
 
   const getHitNode = (e: React.MouseEvent<HTMLCanvasElement>): GraphNode | null => {
@@ -289,33 +311,33 @@ export function ConstellationCanvas() {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Filter Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="space-y-6">
+      {/* Open Underline Filter Controls (Zero Boxed Chips) */}
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-300/80 dark:border-slate-800 pb-3">
+        <div className="flex flex-wrap items-center gap-6">
           {KIND_FILTERS.map((f) => (
             <button
               key={f.id}
               type="button"
               onClick={() => setFilter(f.id)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold transition ${
+              className={`pb-2 -mb-3.5 text-xs font-mono font-bold border-b-2 transition ${
                 filter === f.id
-                  ? 'bg-sky-500 text-slate-950 shadow-sm'
-                  : 'bg-slate-200/80 dark:bg-slate-900 text-slate-950 dark:text-slate-100 border border-slate-300 dark:border-slate-800 hover:border-sky-500/50'
+                  ? 'border-sky-500 text-black dark:text-white'
+                  : 'border-transparent text-slate-800 dark:text-slate-100 hover:text-sky-600 dark:hover:text-sky-300'
               }`}
             >
               {f.label}
             </button>
           ))}
         </div>
-        <div className="text-xs font-mono text-slate-800 dark:text-slate-200">
+        <div className="text-xs font-mono font-medium text-slate-900 dark:text-white">
           Click any orbital node to inspect its Mission Dossier
         </div>
       </div>
 
-      {/* Canvas Container + Responsive Mission Dossier */}
+      {/* Borderless Open Floating Orbital Graph + Responsive Mission Dossier */}
       <div className="relative space-y-4 sm:space-y-0">
-        <div className="rounded-2xl overflow-x-auto overflow-y-hidden border border-slate-800 bg-[#050811] shadow-2xl">
+        <div className="overflow-x-auto overflow-y-hidden">
           <canvas
             ref={canvasRef}
             onMouseMove={(e) => {
@@ -331,36 +353,38 @@ export function ConstellationCanvas() {
           />
         </div>
 
-        {/* Slide-Over Mission Dossier (overlay on sm+, unclipped card below canvas on mobile) */}
+        {/* Slide-Over Mission Dossier */}
         {selected && (
-          <div className="sm:absolute sm:top-4 sm:right-4 sm:w-80 rounded-xl bg-[#0B1120]/95 backdrop-blur-xl border border-sky-500/30 p-5 text-slate-100 shadow-2xl">
+          <div className="sm:absolute sm:top-4 sm:right-4 sm:w-80 rounded-2xl bg-white/95 dark:bg-[#0B1120]/95 backdrop-blur-xl border border-slate-300/80 dark:border-sky-500/35 p-5 text-black dark:text-white shadow-2xl">
             <div className="flex items-start justify-between gap-3 mb-2">
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono bg-sky-500/15 text-sky-300 border border-sky-500/30">
+              <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold text-sky-600 dark:text-sky-300">
                 {selected.kind === 'app' ? (
-                  <Layers className="w-3 h-3" />
+                  <Layers className="w-3.5 h-3.5" />
                 ) : selected.kind === 'model' ? (
-                  <Cpu className="w-3 h-3" />
+                  <Cpu className="w-3.5 h-3.5" />
                 ) : (
-                  <Sparkles className="w-3 h-3" />
+                  <Sparkles className="w-3.5 h-3.5" />
                 )}
                 {selected.kind.toUpperCase()}
               </div>
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="p-1 rounded text-slate-200 hover:text-white hover:bg-slate-800"
+                className="p-1 rounded-full text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-800"
                 aria-label="Close dossier"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <h3 className="font-display font-bold text-lg text-white">{selected.label}</h3>
-            <div className="font-mono text-[11px] text-sky-300 mt-0.5 mb-3">{selected.meta}</div>
-            <p className="text-xs text-slate-100 leading-relaxed mb-4">{selected.description}</p>
+            <h3 className="font-display font-bold text-lg text-black dark:text-white">{selected.label}</h3>
+            <div className="font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300 mt-0.5 mb-3">
+              {selected.meta}
+            </div>
+            <p className="text-xs text-slate-900 dark:text-white leading-relaxed mb-4">{selected.description}</p>
             <button
               type="button"
               onClick={() => navigate(selected.route)}
-              className="w-full py-2 px-3 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs flex items-center justify-center gap-1.5 transition"
+              className="w-full py-2.5 px-4 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition"
             >
               Open Module <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
@@ -369,8 +393,8 @@ export function ConstellationCanvas() {
       </div>
 
       {/* Mobile Touch-Friendly Node Directory */}
-      <div className="sm:hidden space-y-2.5">
-        <div className="flex items-center justify-between text-[11px] font-mono text-slate-800 dark:text-slate-200">
+      <div className="sm:hidden space-y-2.5 pt-2 border-t border-slate-300/70 dark:border-slate-800">
+        <div className="flex items-center justify-between text-[11px] font-mono text-slate-900 dark:text-white">
           <span>TOUCH NODE DIRECTORY</span>
           <span>Swipe map above or tap below</span>
         </div>
@@ -384,10 +408,10 @@ export function ConstellationCanvas() {
                   key={node.id}
                   type="button"
                   onClick={() => setSelected(node)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 border transition ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium inline-flex items-center gap-1.5 border transition ${
                     active
-                      ? 'bg-sky-500 text-slate-950 border-sky-400 font-semibold'
-                      : 'glass-panel text-black dark:text-white hover:border-sky-500/50'
+                      ? 'bg-sky-500 text-slate-950 border-sky-400 font-bold'
+                      : 'border-slate-300 dark:border-slate-700 text-black dark:text-white hover:border-sky-500/60'
                   }`}
                 >
                   <span

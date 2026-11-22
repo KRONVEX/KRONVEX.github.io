@@ -6,12 +6,13 @@
       "displayName": "KRONVEX Official Web Platform",
       "type": "text/markdown; profile=\"urn:air:agent-skills\"",
       "url": "https://kronvex.github.io/llms.txt",
-      "description": "Official KRONVEX platform for cross-platform Windows and Android apps, local-first WebGPU/ONNX/GGUF AI models, reusable SKILL.md agent workflows, and Top 21 GitHub & Hugging Face leaderboards.",
+      "description": "Official KRONVEX platform for cross-platform Windows and Android apps, local-first WebGPU/ONNX/GGUF AI models, reusable SKILL.md agent workflows, and Top 21 GitHub, Hugging Face & AI Research Papers leaderboards.",
       "representativeQueries": [
         "Download KRONVEX Windows and Android applications",
         "Run local WebGPU ONNX AI models in the browser with KRONVEX",
         "Browse and bundle KRONVEX AI agent SKILL.md modules",
-        "View weekly Top 21 GitHub repositories and Hugging Face AI models"
+        "Play KRONVEX Orbital Defender, Local AI Neural Chess, and Trilingual EN/FR/AR Python/JS/AI Tech Quiz Arena",
+        "View weekly and all-time Top 21 GitHub repositories, Hugging Face AI models, and Tech Giants AI Research Papers"
       ],
       "tags": [
         "kronvex",

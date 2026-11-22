@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
+  ArrowUpRight,
   Check,
   Copy,
   Cpu,
   Download,
-  ExternalLink,
   MessageSquare,
   Terminal,
   Zap,
@@ -13,6 +13,7 @@ import {
 import { KRONVEX_MODELS } from '../data/catalog';
 import { evaluateHardwareFit } from '../utils/hardware';
 import { LocalAiChat } from '../components/LocalAiChat';
+import { useI18n } from '../i18n/I18nContext';
 import type { DetectedHardware } from '../types/kronvex';
 
 interface ModelsPageProps {
@@ -20,6 +21,7 @@ interface ModelsPageProps {
 }
 
 export function ModelsPage({ hardware }: ModelsPageProps) {
+  const { t } = useI18n();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get('tab') === 'chat' ? 'chat' : 'catalog';
   const [activeTab, setActiveTab] = useState<'catalog' | 'chat'>(initialTab);
@@ -41,42 +43,45 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-      {/* Header & Local Hardware Fit Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+    <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-14 space-y-12">
+      {/* Header & Open Inline Hardware Telemetry */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
         <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-indigo-500/10 text-indigo-800 dark:text-indigo-300 border border-indigo-500/25">
-            <Cpu className="w-3.5 h-3.5" /> LOCAL-FIRST NEURAL MODELS · ZERO SERVER COST
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold tracking-wider text-indigo-700 dark:text-indigo-300">
+            <Cpu className="w-4 h-4" /> {t.models.badge}
           </div>
-          <h1 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white">
-            AI Models &amp; Local Browser Chat Studio
+          <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white tracking-tight">
+            {t.models.title}
           </h1>
-          <p className="text-slate-900 dark:text-slate-100">
-            Download KRONVEX model weights directly to your PC (GGUF / ONNX / Safetensors) or load a compact
-            ONNX model directly inside your browser to chat locally via WebGPU &amp; WebAssembly.
-          </p>
+          <p className="text-base text-slate-800 dark:text-white leading-relaxed">{t.models.subtitle}</p>
         </div>
 
-        {/* Live Client Hardware Detector Card */}
-        <div className="glass-panel rounded-2xl p-4 space-y-1.5 min-w-[280px]">
-          <div className="flex items-center justify-between font-mono text-[10px] text-slate-800 dark:text-slate-200">
-            <span>AUTO HARDWARE FIT DETECTOR</span>
-            <span className="text-emerald-500 font-semibold">● ACTIVE</span>
+        {/* Open Inline Hardware Detector Strip (Zero Box Wall) */}
+        <div className="space-y-2 ps-4 border-s-2 border-emerald-500 min-w-[260px]">
+          <div className="flex items-center justify-between gap-4 font-mono text-[10px] tracking-wider text-slate-800 dark:text-slate-100">
+            <span>{t.models.detectorTitle}</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-bold">{t.models.active}</span>
           </div>
-          <div className="grid grid-cols-3 gap-2 pt-1 font-mono text-xs">
-            <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900">
-              <div className="text-[10px] text-slate-800 dark:text-slate-200">THREADS</div>
+          <div className="flex items-center gap-5 font-mono text-xs">
+            <div>
+              <div className="text-[10px] text-slate-800 dark:text-slate-100">THREADS</div>
               <div className="font-bold text-black dark:text-white">{hardware.cpuCores} CPU</div>
             </div>
-            <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900">
-              <div className="text-[10px] text-slate-800 dark:text-slate-200">RAM EST</div>
+            <span className="opacity-25">|</span>
+            <div>
+              <div className="text-[10px] text-slate-800 dark:text-slate-100">RAM EST</div>
               <div className="font-bold text-black dark:text-white">
                 {hardware.ramGb ? `${hardware.ramGb} GB+` : '8 GB+'}
               </div>
             </div>
-            <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900">
-              <div className="text-[10px] text-slate-800 dark:text-slate-200">ACCEL</div>
-              <div className={`font-bold ${hardware.webgpuSupported ? 'text-emerald-500' : 'text-sky-500'}`}>
+            <span className="opacity-25">|</span>
+            <div>
+              <div className="text-[10px] text-slate-800 dark:text-slate-100">ACCEL</div>
+              <div
+                className={`font-bold ${
+                  hardware.webgpuSupported ? 'text-emerald-600 dark:text-emerald-400' : 'text-sky-600 dark:text-sky-400'
+                }`}
+              >
                 {hardware.webgpuSupported ? 'WebGPU' : 'WASM'}
               </div>
             </div>
@@ -84,30 +89,30 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
         </div>
       </div>
 
-      {/* Primary View Switcher: Model Catalog vs Dedicated Local Chat */}
-      <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+      {/* Primary View Switcher */}
+      <div className="flex flex-wrap items-center gap-3 border-b border-slate-300/80 dark:border-slate-800 pb-4">
         <button
           type="button"
           onClick={() => switchTab('catalog')}
-          className={`px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 transition ${
+          className={`px-5 py-2.5 rounded-full text-sm font-semibold inline-flex items-center gap-2 transition ${
             activeTab === 'catalog'
-              ? 'bg-sky-500 text-slate-950 shadow-sm'
-              : 'glass-panel text-slate-950 dark:text-slate-100 hover:border-sky-500/50'
+              ? 'bg-sky-500 text-slate-950 font-bold shadow-sm'
+              : 'border border-slate-300 dark:border-slate-700 text-black dark:text-white hover:border-sky-500'
           }`}
         >
-          <Download className="w-4 h-4" /> Model Weights &amp; Downloads ({KRONVEX_MODELS.length})
+          <Download className="w-4 h-4" /> {t.models.tabCatalog} ({KRONVEX_MODELS.length})
         </button>
         <button
           type="button"
           onClick={() => switchTab('chat')}
-          className={`px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 transition ${
+          className={`px-5 py-2.5 rounded-full text-sm font-semibold inline-flex items-center gap-2 transition ${
             activeTab === 'chat'
-              ? 'bg-emerald-500 text-slate-950 shadow-sm'
-              : 'glass-panel text-slate-950 dark:text-slate-100 hover:border-emerald-500/50'
+              ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
+              : 'border border-slate-300 dark:border-slate-700 text-black dark:text-white hover:border-emerald-500'
           }`}
         >
-          <MessageSquare className="w-4 h-4" /> Local In-Browser AI Chat Studio
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-black/15">LIVE</span>
+          <MessageSquare className="w-4 h-4" /> {t.models.tabChat}
+          <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-black/15">LIVE</span>
         </button>
       </div>
 
@@ -115,7 +120,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
       {activeTab === 'chat' ? (
         <LocalAiChat hardware={hardware} initialModelId={chatModelId} />
       ) : (
-        <div className="grid grid-cols-1 gap-6">
+        <div className="divide-y divide-slate-300/80 dark:divide-slate-800">
           {KRONVEX_MODELS.map((model) => {
             const activeVarId = selectedVariantMap[model.id] || model.variants[0].id;
             const activeVar = model.variants.find((v) => v.id === activeVarId) || model.variants[0];
@@ -123,61 +128,60 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
             const activeCmdTab = cmdTabMap[model.id] || 'ollama';
             const cmdText = model.runCommands[activeCmdTab];
 
-            const fitTone =
+            const fitText =
               fit.tone === 'emerald'
-                ? 'bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30'
+                ? 'text-emerald-600 dark:text-emerald-400'
                 : fit.tone === 'cyan'
-                ? 'bg-sky-500/15 text-sky-800 dark:text-sky-300 border-sky-500/30'
-                : 'bg-amber-500/15 text-amber-600 dark:text-amber-300 border-amber-500/30';
+                ? 'text-sky-600 dark:text-sky-400'
+                : 'text-amber-600 dark:text-amber-400';
 
             return (
-              <div key={model.id} className="rounded-2xl glass-panel p-6 sm:p-8 space-y-6">
+              <section key={model.id} className="py-10 first:pt-2 space-y-7">
                 <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
-                  <div className="space-y-2 max-w-3xl">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-indigo-500/15 text-indigo-800 dark:text-indigo-300 border border-indigo-500/30">
-                        {model.parameters} PARAMS
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800">
+                  <div className="space-y-2.5 max-w-3xl">
+                    <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{model.parameters} PARAMS</span>
+                      <span className="text-slate-800 dark:text-slate-100">
                         {model.contextLength} CTX · {model.license}
                       </span>
-                      <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-mono border ${fitTone}`}>
-                        {fit.label}
-                      </span>
+                      <span className={`font-bold ${fitText}`}>● {fit.label}</span>
                     </div>
-                    <h2 className="font-display font-bold text-2xl text-black dark:text-white">{model.name}</h2>
-                    <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">{model.description}</p>
+                    <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white">
+                      {model.name}
+                    </h2>
+                    <p className="text-sm sm:text-base text-slate-800 dark:text-white leading-relaxed">
+                      {model.description}
+                    </p>
                   </div>
 
                   {model.browserRunnable && (
                     <button
                       type="button"
                       onClick={() => switchTab('chat', model.id)}
-                      className="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs inline-flex items-center gap-1.5 shadow-sm shrink-0 transition"
+                      className="px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs inline-flex items-center gap-1.5 shadow-sm shrink-0 transition"
                     >
-                      <Zap className="w-4 h-4" /> Load &amp; Chat on My PC
+                      <Zap className="w-4 h-4" /> {t.models.loadChatBtn}
                     </button>
                   )}
                 </div>
 
-                {/* Benchmarks */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {/* Inline Open Benchmark Strip (No Boxes!) */}
+                <div className="flex flex-wrap items-center gap-x-8 gap-y-3 py-3 border-y border-slate-300/60 dark:border-slate-800/80">
                   {model.benchmarks.map((b) => (
-                    <div
-                      key={b.metric}
-                      className="px-4 py-3 rounded-xl bg-slate-100/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800"
-                    >
-                      <div className="font-mono text-[10px] text-slate-800 dark:text-slate-200 uppercase">{b.metric}</div>
-                      <div className="font-mono font-bold text-sm text-black dark:text-white mt-0.5">{b.score}</div>
+                    <div key={b.metric} className="flex items-baseline gap-2.5 font-mono">
+                      <span className="text-[10px] uppercase tracking-wider text-slate-800 dark:text-slate-100">
+                        {b.metric}
+                      </span>
+                      <span className="font-bold text-sm text-black dark:text-white">{b.score}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2 border-t border-slate-200 dark:border-slate-800/80">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                   {/* Quantization Selector & Direct Download */}
-                  <div className="lg:col-span-6 space-y-3">
-                    <div className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                      Select Quantization / Format
+                  <div className="lg:col-span-6 space-y-4">
+                    <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100">
+                      {t.models.selectQuant}
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {model.variants.map((v) => (
@@ -185,10 +189,10 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
                           key={v.id}
                           type="button"
                           onClick={() => setSelectedVariantMap((prev) => ({ ...prev, [model.id]: v.id }))}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-mono transition border ${
+                          className={`px-3 py-1.5 rounded-full text-xs font-mono transition border ${
                             activeVar.id === v.id
-                              ? 'bg-sky-500/15 text-sky-800 dark:text-sky-300 border-sky-500/50 font-semibold'
-                              : 'bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-800'
+                              ? 'bg-sky-500/15 text-sky-800 dark:text-sky-300 border-sky-500 font-bold'
+                              : 'border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white hover:border-sky-500/50'
                           }`}
                         >
                           {v.format} · {v.quantization} ({v.sizeLabel})
@@ -196,48 +200,53 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
                       ))}
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
-                      <div className="text-slate-900 dark:text-slate-100">{fit.detail}</div>
-                      <div className="font-mono text-[11px] text-slate-800 dark:text-slate-200">
-                        Min RAM: {activeVar.minRamGb} GB · Rec VRAM: {activeVar.recommendedVramGb} GB · {activeVar.sha256}
+                    <div className="space-y-2.5 text-xs pt-1">
+                      <div className="text-slate-800 dark:text-white">{fit.detail}</div>
+                      <div className="font-mono text-[11px] text-slate-800 dark:text-slate-100">
+                        Min RAM: {activeVar.minRamGb} GB · Rec VRAM: {activeVar.recommendedVramGb} GB ·{' '}
+                        {activeVar.sha256}
                       </div>
                       <a
                         href={activeVar.downloadUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-2 w-full py-2.5 px-4 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs inline-flex items-center justify-center gap-1.5 transition"
+                        className="mt-1 px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs inline-flex items-center gap-2 transition"
                       >
-                        <Download className="w-3.5 h-3.5" /> Direct Download ({activeVar.format} · {activeVar.sizeLabel})
-                        <ExternalLink className="w-3 h-3" />
+                        <Download className="w-3.5 h-3.5" /> {t.models.directDownload} ({activeVar.format} ·{' '}
+                        {activeVar.sizeLabel})
+                        <ArrowUpRight className="w-3.5 h-3.5" />
                       </a>
                     </div>
                   </div>
 
-                  {/* Quick Local Run Snippets */}
+                  {/* Quick Local Run Snippets (Structured Code Terminal Kept Crisp) */}
                   <div className="lg:col-span-6 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-slate-200 inline-flex items-center gap-1.5">
-                        <Terminal className="w-3.5 h-3.5 text-sky-500" /> Run Locally on Your PC
+                      <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 inline-flex items-center gap-1.5">
+                        <Terminal className="w-3.5 h-3.5 text-sky-500" /> {t.models.runLocally}
                       </span>
-                      <div className="flex items-center gap-1">
-                        {(['ollama', 'llamacpp', 'python'] as const).map((t) => (
+                      <div className="flex items-center gap-2">
+                        {(['ollama', 'llamacpp', 'python'] as const).map((tabKey) => (
                           <button
-                            key={t}
+                            key={tabKey}
                             type="button"
-                            onClick={() => setCmdTabMap((prev) => ({ ...prev, [model.id]: t }))}
-                            className={`px-2 py-0.5 rounded text-[11px] font-mono ${
-                              activeCmdTab === t
-                                ? 'bg-slate-900 dark:bg-sky-500/20 text-white dark:text-sky-300'
-                                : 'text-slate-800 dark:text-slate-200 hover:text-slate-800 dark:hover:text-slate-200'
+                            onClick={() => setCmdTabMap((prev) => ({ ...prev, [model.id]: tabKey }))}
+                            className={`px-2 py-0.5 text-[11px] font-mono border-b-2 transition ${
+                              activeCmdTab === tabKey
+                                ? 'border-sky-500 text-black dark:text-white font-bold'
+                                : 'border-transparent text-slate-800 dark:text-slate-100 hover:text-black dark:hover:text-white'
                             }`}
                           >
-                            {t}
+                            {tabKey}
                           </button>
                         ))}
                       </div>
                     </div>
 
-                    <div className="relative rounded-xl bg-[#050914] border border-slate-800 p-4 font-mono text-xs text-sky-300 overflow-x-auto">
+                    <div
+                      dir="ltr"
+                      className="relative rounded-xl bg-[#050914] border border-slate-800 p-4 font-mono text-xs text-sky-300 overflow-x-auto text-left"
+                    >
                       <pre className="whitespace-pre-wrap pr-8">{cmdText}</pre>
                       <button
                         type="button"
@@ -254,7 +263,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
             );
           })}
         </div>

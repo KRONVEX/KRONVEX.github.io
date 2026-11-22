@@ -1,9 +1,9 @@
 {
   "org": "KRONVEX",
-  "syncedAt": "2026-11-20T19:24:19.967Z",
+  "syncedAt": "2026-11-22T11:25:18.609Z",
   "live": true,
   "stats": {
-    "publicRepos": 1,
+    "publicRepos": 2,
     "totalStars": 0,
     "totalForks": 0,
     "totalDownloads": 0
@@ -11,7 +11,7 @@
   "repos": [
     {
       "name": ".github",
-      "description": "Building cross-platform apps, market intelligence, and mission-critical AI to solve complex real-world problems.",
+      "description": "Official KRONVEX organization control plane — cross-platform apps, market intelligence, mission-critical AI, automated SVG telemetry & org-wide governance.",
       "url": "https://github.com/KRONVEX/.github",
       "language": "Multi-Stack",
       "stars": 0,
@@ -26,7 +26,30 @@
         "mission-critical",
         "svg-telemetry"
       ],
-      "pushedAt": "2026-11-20T13:21:07Z"
+      "pushedAt": "2026-11-22T04:22:38Z"
+    },
+    {
+      "name": "KRONVEX.github.io",
+      "description": "Official KRONVEX web platform (kronvex.github.io) — Cross-Platform Apps Storefront, Local In-Browser WebGPU AI Studio, AI Skills Bundler, Top 21 Radar & Ecosystem Constellation.",
+      "url": "https://github.com/KRONVEX/KRONVEX.github.io",
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "topics": [
+        "ai-skills",
+        "cross-platform",
+        "github-pages",
+        "kronvex",
+        "local-ai",
+        "market-intelligence",
+        "onnx",
+        "react",
+        "tailwindcss",
+        "typescript",
+        "vite",
+        "webgpu"
+      ],
+      "pushedAt": "2026-11-21T15:24:26Z"
     }
   ],
   "releases": [
@@ -35,7 +58,23 @@
       "tag": "v1.0.0",
       "title": "v1.0.0 — KRONVEX Genesis Architecture & Telemetry Engine",
       "url": "https://github.com/KRONVEX/.github/releases/tag/v1.0.0",
-      "publishedAt": "2026-11-20T12:43:04Z",
+      "publishedAt": "2026-11-21T00:13:03Z",
+      "assets": []
+    },
+    {
+      "repo": "KRONVEX.github.io",
+      "tag": "v2.0.0",
+      "title": "v2.0.0 — Lighthouse 100/100 Performance, Mobile UX Overhaul & Agentic Discovery",
+      "url": "https://github.com/KRONVEX/KRONVEX.github.io/releases/tag/v2.0.0",
+      "publishedAt": "2026-11-21T15:24:27Z",
+      "assets": []
+    },
+    {
+      "repo": "KRONVEX.github.io",
+      "tag": "v1.0.0",
+      "title": "v1.0.0 — KRONVEX Official Web Platform",
+      "url": "https://github.com/KRONVEX/KRONVEX.github.io/releases/tag/v1.0.0",
+      "publishedAt": "2026-11-21T13:06:26Z",
       "assets": []
     }
   ]
