@@ -1,4 +1,4 @@
-import { ArrowUpRight, CheckCircle2, Clock, Compass, Github, ShieldCheck, Target, Zap } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Clock, Compass, Github, Mail, ShieldCheck, Target, Zap } from 'lucide-react';
 import { KRONVEX_PILLARS, KRONVEX_ROADMAP, ORG_META } from '../data/catalog';
 import { useI18n } from '../i18n/I18nContext';
 
@@ -175,6 +175,26 @@ export function VisionPage() {
             >
               <span className="inline-flex items-center gap-2.5">
                 <Compass className="w-4 h-4 text-emerald-500" /> Research &amp; Personal Site (khalidnaami.com)
+              </span>
+              <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+            </a>
+            <a
+              href={`mailto:${ORG_META.founderEmail}`}
+              className="group py-2 flex items-center justify-between text-sm font-semibold text-black dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+            >
+              <span className="inline-flex items-center gap-2.5">
+                <Mail className="w-4 h-4 text-indigo-500" />
+                <span dir="ltr">{ORG_META.founderEmail}</span>
+              </span>
+              <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+            </a>
+            <a
+              href={`mailto:${ORG_META.contactEmail}`}
+              className="group py-2 flex items-center justify-between text-sm font-semibold text-black dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition"
+            >
+              <span className="inline-flex items-center gap-2.5">
+                <Mail className="w-4 h-4 text-emerald-500" />
+                <span dir="ltr">{ORG_META.contactEmail}</span> (Official Org)
               </span>
               <ArrowUpRight className="w-4 h-4 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
             </a>

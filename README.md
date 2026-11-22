@@ -243,7 +243,8 @@ This repository inherits all organization-wide engineering and community health 
 - **Security Policy:** [SECURITY.md](https://github.com/KRONVEX/.github/blob/main/SECURITY.md) — Private vulnerability disclosure with a 48-hour acknowledgment SLA.
 - **Contributing Guide:** [CONTRIBUTING.md](https://github.com/KRONVEX/.github/blob/main/CONTRIBUTING.md) — Branching, conventional commits, and verification standards.
 - **Code of Conduct:** [CODE_OF_CONDUCT.md](https://github.com/KRONVEX/.github/blob/main/CODE_OF_CONDUCT.md) — Respectful, high-rigor engineering standards.
-- **Founder & Lead Architect:** **[@khalid-naami](https://github.com/khalid-naami)** · [khalidnaami.com](https://khalidnaami.com) · [khalidnaami66@gmail.com](mailto:khalidnaami66@gmail.com)
+- **Official Organization Email:** [kronvex1@gmail.com](mailto:kronvex1@gmail.com)
+- **Founder & Lead Architect:** **[@khalid-naami](https://github.com/khalid-naami)** · [khalidnaami.com](https://khalidnaami.com) · [research@khalidnaami.com](mailto:research@khalidnaami.com)
 
 ---
 

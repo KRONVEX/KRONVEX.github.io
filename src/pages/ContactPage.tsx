@@ -34,6 +34,13 @@ export function ContactPage() {
     message || 'Hello KRONVEX team,'
   }`;
 
+  const recipientEmail =
+    topic === 'Custom AI Models & Research' ? ORG_META.founderEmail : ORG_META.contactEmail;
+
+  const mailtoHref = `mailto:${recipientEmail}?subject=${encodeURIComponent(
+    `[KRONVEX] ${topic}`
+  )}&body=${encodeURIComponent(formattedBody)}`;
+
   const githubIssueHref = `${ORG_META.orgProfileRepoUrl}/issues/new?title=${encodeURIComponent(
     `[Inquiry] ${topic}`
   )}&body=${encodeURIComponent(formattedBody)}`;
@@ -90,23 +97,57 @@ export function ContactPage() {
             </p>
           </a>
 
-          <div className="py-6 space-y-2">
-            <div className="flex items-center gap-3">
-              <Mail className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
-              <div>
-                <div className="font-mono text-[10px] font-semibold tracking-wider text-slate-800 dark:text-slate-100">
-                  DEDICATED ORG EMAIL
-                </div>
-                <div className="font-display font-bold text-lg text-black dark:text-white">
-                  {ORG_META.contactEmail || 'Coming Soon (Custom Domain)'}
+          <a
+            href={`mailto:${ORG_META.contactEmail}`}
+            className="group block py-6 space-y-2 transition"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <Mail className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-mono text-[10px] font-semibold tracking-wider text-slate-800 dark:text-slate-100">
+                    OFFICIAL ORGANIZATION EMAIL
+                  </div>
+                  <div
+                    dir="ltr"
+                    className="font-display font-bold text-lg text-black dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition truncate"
+                  >
+                    {ORG_META.contactEmail}
+                  </div>
                 </div>
               </div>
+              <ArrowUpRight className="w-4 h-4 text-slate-800 dark:text-slate-100 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-emerald-500 transition" />
             </div>
             <p className="text-sm text-slate-800 dark:text-white leading-relaxed ps-8">
-              An official domain-backed organization email address will be published here once the KRONVEX custom
-              domain is attached. Until then, connect via GitHub Organization channels.
+              Official KRONVEX inbox for enterprise partnerships, software inquiries, sponsorships, and organization operations.
             </p>
-          </div>
+          </a>
+
+          <a
+            href={`mailto:${ORG_META.founderEmail}`}
+            className="group block py-6 space-y-2 transition"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <Mail className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-mono text-[10px] font-semibold tracking-wider text-slate-800 dark:text-slate-100">
+                    FOUNDER &amp; RESEARCH EMAIL ({ORG_META.founderName.toUpperCase()})
+                  </div>
+                  <div
+                    dir="ltr"
+                    className="font-display font-bold text-lg text-black dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition truncate"
+                  >
+                    {ORG_META.founderEmail}
+                  </div>
+                </div>
+              </div>
+              <ArrowUpRight className="w-4 h-4 text-slate-800 dark:text-slate-100 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-indigo-500 transition" />
+            </div>
+            <p className="text-sm text-slate-800 dark:text-white leading-relaxed ps-8">
+              Direct research and leadership channel for AI papers, quantitative finance research, and academic collaborations.
+            </p>
+          </a>
 
           <a
             href={`${ORG_META.orgProfileRepoUrl}/blob/main/SECURITY.md`}
@@ -185,7 +226,13 @@ export function ContactPage() {
             />
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 pt-1">
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <a
+              href={mailtoHref}
+              className="px-6 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-sm inline-flex items-center gap-2 transition"
+            >
+              <Mail className="w-4 h-4" /> Email <span dir="ltr" className="font-mono text-xs">({recipientEmail})</span>
+            </a>
             <a
               href={githubIssueHref}
               target="_blank"

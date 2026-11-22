@@ -9,7 +9,8 @@ export const ORG_META = {
   founderName: 'Khalid Naami',
   founderGithub: 'https://github.com/khalid-naami',
   founderSite: 'https://khalidnaami.com',
-  contactEmail: '', // Add dedicated organization email here once configured
+  contactEmail: 'kronvex1@gmail.com',
+  founderEmail: 'research@khalidnaami.com',
   twitterUrl: 'https://twitter.com/khalidnaami0',
 };
 

@@ -14,7 +14,7 @@
 - [Ecosystem Constellation](https://kronvex.github.io/constellation): Interactive orbital map of KRONVEX pillars, apps, AI models, and skills.
 - [Enterprise & Custom Engineering](https://kronvex.github.io/enterprise): Tailored web/Windows/Android applications, private LLM & RAG systems, market intelligence pipelines, performance audits, and interactive project scope builder.
 - [Vision & Roadmap](https://kronvex.github.io/vision): Organization manifesto, engineering principles, and multi-phase strategic roadmap.
-- [Contact & Governance](https://kronvex.github.io/contact): Direct GitHub channels, zero-tracking inquiry composer, and security disclosure policy.
+- [Contact & Governance](https://kronvex.github.io/contact): Official organization email (`kronvex1@gmail.com`), Founder & Research email (`research@khalidnaami.com`), direct GitHub channels, zero-tracking inquiry composer, and security disclosure policy.
 
 ## GitHub Organization & Governance
 
