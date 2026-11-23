@@ -7,20 +7,41 @@
       KRONVEX::SIGNAL_0 // 3x7=21
       4641545250352435565950544750513B355C5B4645505641355A4259355647504641354E717461743863746079613866707071483B355150565A51502F355D504D35382B354D5A473D223C35382B3557544650232135382B35475043504746503B
     -->
-    <title>KRONVEX — Cross-Platform Apps, Market Intelligence & Mission-Critical AI</title>
+    <title>KRONVEX — Cross-Platform Apps, Market Intel &amp; AI</title>
     <meta
       name="description"
-      content="Building cross-platform apps, market intelligence, and mission-critical AI to solve complex real-world problems. Download Android & Windows apps, AI skills, and local-first AI models."
+      content="KRONVEX builds Android &amp; Windows apps, market intelligence, AI agent skills, and local WebGPU models with zero tracking."
     />
+    <meta name="author" content="Khalid Naami" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="canonical" href="https://kronvex.github.io/" />
     <link rel="ard" href="/.well-known/ard.json" type="application/json" />
-    <meta property="og:title" content="KRONVEX — Engineering & Applied Intelligence" />
+    <link rel="llms" href="/llms.txt" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="KRONVEX LLMs Context" />
+
+    <!-- OpenGraph -->
+    <meta property="og:site_name" content="KRONVEX" />
+    <meta property="og:url" content="https://kronvex.github.io/" />
+    <meta property="og:title" content="KRONVEX — Cross-Platform Apps, Market Intel &amp; AI" />
     <meta
       property="og:description"
-      content="Cross-platform apps, market intelligence platforms, AI agent skills, and local-first mission-critical AI models."
+      content="KRONVEX builds Android &amp; Windows apps, market intelligence, AI agent skills, and local WebGPU models with zero tracking."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://kronvex.github.io/kronvex-logo.png" />
+    <meta property="og:image" content="https://kronvex.github.io/kronvex-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="KRONVEX — Cross-Platform Apps, Market Intelligence and Local-First AI" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="KRONVEX — Cross-Platform Apps, Market Intel &amp; AI" />
+    <meta
+      name="twitter:description"
+      content="Android &amp; Windows apps, market intelligence, AI agent skills, Top 21 research papers, and local WebGPU AI models."
+    />
+    <meta name="twitter:image" content="https://kronvex.github.io/kronvex-og.png" />
+
     <link rel="icon" type="image/png" href="/kronvex-logo-96.png" />
     <link rel="preload" as="image" href="/kronvex-logo-96.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,6 +58,81 @@
         rel="stylesheet"
       />
     </noscript>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://kronvex.github.io/#organization",
+            "name": "KRONVEX",
+            "url": "https://kronvex.github.io/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://kronvex.github.io/kronvex-logo.png",
+              "width": 512,
+              "height": 512
+            },
+            "image": "https://kronvex.github.io/kronvex-og.png",
+            "description": "Building cross-platform apps, market intelligence, AI agent skills, and local-first mission-critical AI models.",
+            "email": "kronvex1@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Global Remote",
+              "addressCountry": "MA"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "technical support",
+              "email": "kronvex1@gmail.com",
+              "url": "https://kronvex.github.io/contact"
+            },
+            "founder": {
+              "@id": "https://kronvex.github.io/#founder"
+            },
+            "sameAs": [
+              "https://github.com/KRONVEX",
+              "https://github.com/khalid-naami"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://kronvex.github.io/#founder",
+            "name": "Khalid Naami",
+            "url": "https://github.com/khalid-naami",
+            "image": "https://kronvex.github.io/kronvex-logo.png",
+            "email": "research@khalidnaami.com",
+            "jobTitle": "Founder, Software Engineer & Applied AI Architect",
+            "worksFor": {
+              "@id": "https://kronvex.github.io/#organization"
+            },
+            "sameAs": [
+              "https://github.com/khalid-naami",
+              "https://github.com/KRONVEX"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://kronvex.github.io/#website",
+            "url": "https://kronvex.github.io/",
+            "name": "KRONVEX",
+            "description": "Official KRONVEX engineering platform for cross-platform apps, market intelligence, AI skills, Top 21 research papers, and local-first WebGPU AI models.",
+            "publisher": {
+              "@id": "https://kronvex.github.io/#organization"
+            },
+            "inLanguage": ["en", "ar", "fr", "es", "de", "zh-CN"],
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://kronvex.github.io/models?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
+
     <script>
       // Restore SPA route redirected by GitHub Pages 404.html
       (function (l) {
@@ -54,7 +150,91 @@
     </script>
   </head>
   <body class="bg-white text-black dark:bg-[#050811] dark:text-white antialiased selection:bg-sky-600 selection:text-white dark:selection:bg-sky-500/40 dark:selection:text-white">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Semantic Static Shell (Replaced Immediately Upon React Mount — Zero Visual Shift, Full Crawler & AI Readiness) -->
+      <div style="max-width:1200px;margin:0 auto;padding:24px;color:#f8fafc;background:#050811;font-family:system-ui,-apple-system,sans-serif;">
+        <a href="#main-content" class="sr-only focus:not-sr-only">Skip to main content</a>
+        <header>
+          <nav aria-label="Primary Navigation">
+            <a href="/">KRONVEX</a> |
+            <a href="/apps">Apps</a> |
+            <a href="/models">AI Models</a> |
+            <a href="/skills">AI Skills</a> |
+            <a href="/top-21">Top 21</a> |
+            <a href="/research">Research Papers</a> |
+            <a href="/arcade">Arcade</a> |
+            <a href="/constellation">Constellation</a> |
+            <a href="/enterprise">Enterprise</a> |
+            <a href="/vision">About &amp; Vision</a> |
+            <a href="/contact">Contact</a>
+          </nav>
+        </header>
+
+        <main id="main-content">
+          <article>
+            <h1>Cross-Platform Apps, Market Intelligence &amp; Mission-Critical AI</h1>
+            <p>
+              By <a href="https://github.com/khalid-naami" rel="author">Khalid Naami</a>, Founder &amp; Lead Software
+              Engineer · <time datetime="2026-11-23">Updated November 23, 2026</time>
+            </p>
+            <p>
+              KRONVEX is an open engineering and AI lab. We build fast Android and Windows apps, clear market
+              intelligence tools, modular AI agent skills, and local AI models that run right on your own device.
+              Everything works with zero tracking, zero ads, and zero cloud lock-in.
+            </p>
+
+            <h2>Three Pillars. One Unified Execution Engine.</h2>
+            <ul>
+              <li>
+                <strong>Cross-Platform Apps:</strong> Download signed Windows (.EXE and .MSI) and Android (.APK)
+                builds with full SHA-256 checksum checks on <a href="/apps">KRONVEX Apps</a>.
+              </li>
+              <li>
+                <strong>Market Intelligence &amp; Research Radar:</strong> Follow weekly GitHub breakouts, top
+                Hugging Face open models, and verified landmark arXiv papers from Google DeepMind, OpenAI,
+                Anthropic, NVIDIA, DeepSeek, Microsoft, Samsung AI, and MIT via <a href="/top-21">Top 21 Radar</a>
+                and <a href="/research">Top 21 Research Papers</a> (citing official
+                <a href="https://arxiv.org/" rel="noopener noreferrer">arXiv</a> and
+                <a href="https://huggingface.co/papers" rel="noopener noreferrer">Hugging Face Papers</a>).
+              </li>
+              <li>
+                <strong>Local-First AI &amp; Agent Skills:</strong> Check your CPU, RAM, and WebGPU support, run
+                local browser AI chat on <a href="/models">AI Models Studio</a>, and export ready-to-use
+                <code>SKILL.md</code> bundles on <a href="/skills">AI Skills Marketplace</a>.
+              </li>
+            </ul>
+
+            <h2>Enterprise Engineering, Arcade Labs &amp; Zero-Tracking Privacy</h2>
+            <p>
+              Teams can partner with <a href="/enterprise">KRONVEX Enterprise</a> for custom web, desktop, and
+              mobile apps, private RAG systems, and real-time market pipelines. You can also test your engineering
+              skills in the <a href="/arcade">KRONVEX Arcade</a> (Quiz Arena, Neural Chess, and Orbital Defender),
+              explore our system map in <a href="/constellation">Constellation</a>, or review our engineering
+              standards and editorial transparency on <a href="/vision">About &amp; Vision</a>.
+            </p>
+            <p>
+              Every release published on KRONVEX follows strict open-source governance, transparent release notes,
+              and direct security reporting. Our platform collects zero cookies and zero analytics data, keeping
+              your research and local AI workflows completely private on your machine.
+            </p>
+          </article>
+        </main>
+
+        <footer>
+          <p>&copy; 2026 KRONVEX Organization — Founded by Khalid Naami.</p>
+          <nav aria-label="Footer Links">
+            <a href="/vision">About Us</a> |
+            <a href="/contact">Contact</a> |
+            <a href="/vision#privacy">Privacy Policy</a> |
+            <a href="https://github.com/KRONVEX/.github/blob/main/SECURITY.md" rel="noopener noreferrer">Security Policy</a> |
+            <a href="https://github.com/KRONVEX" rel="me noopener noreferrer">GitHub</a> |
+            <a href="https://github.com/khalid-naami" rel="me noopener noreferrer">Khalid Naami</a> |
+            <a href="/llms.txt">LLMs.txt</a> |
+            <a href="/sitemap.xml">Sitemap</a>
+          </nav>
+        </footer>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
