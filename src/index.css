@@ -8,7 +8,11 @@
   }
 
   body {
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-optical-sizing: auto;
+  }
+
+  html[dir='rtl'] .font-editorial {
+    font-style: normal;
   }
 
   ::selection {

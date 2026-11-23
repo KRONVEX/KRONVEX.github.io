@@ -1,7 +1,7 @@
 {
   "name": "kronvex-platform",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.1.0",
   "type": "module",
   "description": "Official web platform for KRONVEX — Cross-Platform Apps, Market Intelligence, AI Skills & Local-First AI Models",
   "scripts": {

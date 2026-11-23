@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { OWL_VAULT_SEED, verifyOwlRitual } from '../utils/architectVaultCrypto';
 
 export type SentinelPillarIndex = 0 | 1 | 2;
 
@@ -72,12 +73,15 @@ const SATELLITE_ANGLES_DEG = [-90, -30, 30, 90, 150, 210];
 
 export function KronvexLivingEmblem({ activePillar, onSelectPillar }: KronvexLivingEmblemProps) {
   const wrapRef = useRef<HTMLButtonElement>(null);
+  const ritualRef = useRef<number[]>([]);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
   const [eyeOffset, setEyeOffset] = useState({ x: 0, y: 0 });
   const [blinking, setBlinking] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [pulseTick, setPulseTick] = useState(0);
+  const [ritualFlash, setRitualFlash] = useState(false);
   const [activeSatellite, setActiveSatellite] = useState(0);
+  const [midnightAngle, setMidnightAngle] = useState(-8.8);
 
   const reducedMotion = useMemo(
     () => (typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false),
@@ -105,6 +109,18 @@ export function KronvexLivingEmblem({ activePillar, onSelectPillar }: KronvexLiv
     const id = window.setInterval(() => {
       setActiveSatellite((s) => (s + 1) % 6);
     }, 650);
+    return () => window.clearInterval(id);
+  }, [reducedMotion]);
+
+  // Doomsday / Nuclear War Midnight Clock tension micro-drift hovering just before 12:00 (no fixed time)
+  useEffect(() => {
+    if (reducedMotion) return;
+    const sequence = [-10.4, -9.2, -7.8, -6.4, -7.2, -8.8, -9.8, -8.2];
+    let step = 0;
+    const id = window.setInterval(() => {
+      step = (step + 1) % sequence.length;
+      setMidnightAngle(sequence[step]);
+    }, 1350);
     return () => window.clearInterval(id);
   }, [reducedMotion]);
 
@@ -261,7 +277,11 @@ export function KronvexLivingEmblem({ activePillar, onSelectPillar }: KronvexLiv
             key={pulseTick}
             aria-hidden="true"
             className="pointer-events-none absolute inset-4 rounded-full border-2 animate-ping"
-            style={{ borderColor: pillarMeta.hex, animationIterationCount: 1, animationDuration: '700ms' }}
+            style={{
+              borderColor: ritualFlash ? '#F59E0B' : pillarMeta.hex,
+              animationIterationCount: 1,
+              animationDuration: ritualFlash ? '900ms' : '700ms',
+            }}
           />
         )}
 
@@ -271,6 +291,7 @@ export function KronvexLivingEmblem({ activePillar, onSelectPillar }: KronvexLiv
           className="relative z-10 w-full h-full block overflow-visible"
           role="img"
           aria-label="KRONVEX Living Owl Crest"
+          data-vault-seed={OWL_VAULT_SEED}
         >
           <defs>
             {/* Midnight backdrop */}
@@ -404,6 +425,48 @@ export function KronvexLivingEmblem({ activePillar, onSelectPillar }: KronvexLiv
             strokeWidth="5"
             strokeLinejoin="round"
           />
+
+          {/* Outer Orbital Nuclear War Midnight Clock Arrow Hands (No Numbers — Slicing Across r=238 Ring) */}
+          <g aria-hidden="true">
+            {/* Silent Midnight (12:00) Zenith Marker on the Outer Dashed Ring */}
+            <polygon
+              points="256,11 260.2,18 256,25 251.8,18"
+              fill="#FF355E"
+              stroke="#FEF08A"
+              strokeWidth="1.3"
+            />
+
+            {/* Outer Hour Arrow Hand (Hovering Just Before Midnight) */}
+            <g transform="rotate(-3.6 256 256)">
+              <path
+                d="M 256 64 L 251.2 40 L 256 20 L 260.8 40 Z"
+                fill="#081429"
+                stroke="#FEF08A"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+              />
+              <line x1="256" y1="54" x2="256" y2="26" stroke="#FEF08A" strokeWidth="1" opacity="0.85" />
+            </g>
+
+            {/* Outer Minute Arrow Hand (Subtle Tension Drift Across Outer Dashed Ring Seconds Before Midnight) */}
+            <g
+              style={{
+                transformBox: 'view-box',
+                transformOrigin: '256px 256px',
+                transform: `rotate(${(midnightAngle * 1.45).toFixed(2)}deg)`,
+                transition: 'transform 620ms cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+            >
+              <path
+                d="M 256 62 L 251.8 33 L 256 4 L 260.2 33 Z"
+                fill="#FF355E"
+                stroke="#081429"
+                strokeWidth="1.9"
+                strokeLinejoin="round"
+              />
+              <line x1="256" y1="52" x2="256" y2="11" stroke="#FEF08A" strokeWidth="1.15" opacity="0.92" />
+            </g>
+          </g>
 
           {/* Subtle Glowing Active Pillar Rim Around Inner Medallion */}
           <circle
@@ -669,6 +732,42 @@ export function KronvexLivingEmblem({ activePillar, onSelectPillar }: KronvexLiv
                 stroke="#081429"
                 strokeWidth="4.2"
               />
+
+              {/* Nuclear War Midnight Clock Arrow Hands (No Numbers — Hovering Just Before Midnight) */}
+              <g aria-hidden="true">
+                {/* Hour Arrow Hand (near Midnight 12:00) */}
+                <g transform="rotate(-2.4 256 360)">
+                  <path
+                    d="M 256 362 L 253.2 351.5 L 256 344.2 L 258.8 351.5 Z"
+                    fill="#081429"
+                    stroke="#FEF08A"
+                    strokeWidth="0.75"
+                    strokeLinejoin="round"
+                  />
+                </g>
+
+                {/* Minute Arrow Hand (subtle tension drift seconds before Midnight) */}
+                <g
+                  style={{
+                    transformBox: 'view-box',
+                    transformOrigin: '256px 360px',
+                    transform: `rotate(${midnightAngle}deg)`,
+                    transition: 'transform 620ms cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
+                >
+                  <path
+                    d="M 256 363.5 L 253.9 346.5 L 256 336.8 L 258.1 346.5 Z"
+                    fill="#081429"
+                    stroke="#FFF7D6"
+                    strokeWidth="0.85"
+                    strokeLinejoin="round"
+                  />
+                </g>
+
+                {/* Central Clock Pivot Axle */}
+                <circle cx="256" cy="360" r="3.6" fill="#081429" stroke="#FEF08A" strokeWidth="0.9" />
+                <circle cx="256" cy="360" r="1.4" fill="#FEF08A" />
+              </g>
             </g>
           </g>
         </svg>
@@ -686,6 +785,19 @@ export function KronvexLivingEmblem({ activePillar, onSelectPillar }: KronvexLiv
                 onSelectPillar(p.index);
                 setPulseTick((t) => t + 1);
                 emitCorePulse(p.index);
+                ritualRef.current = [...ritualRef.current, p.index].slice(-7);
+                void verifyOwlRitual(ritualRef.current).then((armed) => {
+                  if (armed) {
+                    setRitualFlash(true);
+                    setPulseTick((t) => t + 1);
+                    emitCorePulse(1);
+                    window.setTimeout(() => emitCorePulse(2), 180);
+                    window.setTimeout(() => setRitualFlash(false), 1400);
+                    window.setTimeout(() => {
+                      window.dispatchEvent(new CustomEvent('kronvex-matrix-gateway', { detail: { view: 'choose' } }));
+                    }, 420);
+                  }
+                });
               }}
               className={`pb-1 border-b-2 transition inline-flex items-center gap-1.5 ${
                 selected

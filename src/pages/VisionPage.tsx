@@ -1,5 +1,6 @@
 import { ArrowUpRight, CheckCircle2, Clock, Compass, Github, Mail, ShieldCheck, Target, Zap } from 'lucide-react';
 import { KRONVEX_PILLARS, KRONVEX_ROADMAP, ORG_META } from '../data/catalog';
+import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
 import { useI18n } from '../i18n/I18nContext';
 
 export function VisionPage() {
@@ -16,8 +17,11 @@ export function VisionPage() {
             {t.vision.title}
           </h1>
           <p className="text-base sm:text-lg text-slate-900 dark:text-white leading-relaxed max-w-3xl">
-            <strong>KRONVEX</strong> is an independent engineering and applied intelligence organization founded by{' '}
-            <strong>{ORG_META.founderName}</strong>. Our mission is straightforward: <em>{ORG_META.tagline}</em>
+            <strong className="font-brand tracking-wider">KRONVEX</strong> is an independent engineering and applied intelligence organization founded by{' '}
+            <strong>{ORG_META.founderName}</strong>. Our mission is straightforward:{' '}
+            <em className="font-editorial italic rtl:not-italic text-xl sm:text-2xl text-emerald-700 dark:text-emerald-300">
+              {ORG_META.tagline}
+            </em>
           </p>
         </div>
 
@@ -58,14 +62,16 @@ export function VisionPage() {
             title: 'Production Discipline',
             text: 'Every release ships with explicit failure handling, SHA-256 verification, open governance, and rigorous automated evaluation.',
           },
-        ].map((g) => {
+        ].map((g, idx) => {
           const Icon = g.icon;
           return (
-            <div key={g.title} className="pt-6 border-t border-slate-300/80 dark:border-slate-800 space-y-3">
-              <Icon className={`w-5 h-5 ${g.accent}`} />
-              <h2 className="font-display font-bold text-xl text-black dark:text-white">{g.title}</h2>
-              <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{g.text}</p>
-            </div>
+            <ScrollReveal key={g.title} delayMs={idx * 80}>
+              <div className="pt-6 border-t border-slate-300/80 dark:border-slate-800 space-y-3">
+                <Icon className={`w-5 h-5 ${g.accent}`} />
+                <h2 className="font-display font-bold text-xl text-black dark:text-white">{g.title}</h2>
+                <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{g.text}</p>
+              </div>
+            </ScrollReveal>
           );
         })}
       </section>
@@ -76,13 +82,15 @@ export function VisionPage() {
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 font-semibold">
             {t.vision.roadmapLabel}
           </span>
-          <h2 className="font-display font-bold text-3xl text-black dark:text-white mt-2">
-            {t.vision.roadmapTitle}
-          </h2>
+          <ScrollScrubText
+            as="h2"
+            text={t.vision.roadmapTitle}
+            className="font-display font-bold text-3xl text-black dark:text-white mt-2"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
-          {KRONVEX_ROADMAP.map((phase) => {
+          {KRONVEX_ROADMAP.map((phase, idx) => {
             const statusText =
               phase.status === 'completed'
                 ? 'text-emerald-600 dark:text-emerald-400'
@@ -91,33 +99,32 @@ export function VisionPage() {
                 : 'text-slate-800 dark:text-slate-100';
 
             return (
-              <div
-                key={phase.phase}
-                className="pt-6 border-t border-slate-300/80 dark:border-slate-800 space-y-4"
-              >
-                <div className="flex items-center justify-between gap-2 font-mono text-xs">
-                  <span className="font-bold text-sky-600 dark:text-sky-400">
-                    {phase.phase} · {phase.window}
-                  </span>
-                  <span className={`uppercase font-bold ${statusText}`}>● {phase.status}</span>
+              <ScrollReveal key={phase.phase} delayMs={idx * 70}>
+                <div className="pt-6 border-t border-slate-300/80 dark:border-slate-800 space-y-4">
+                  <div className="flex items-center justify-between gap-2 font-mono text-xs">
+                    <span className="font-brand font-bold text-sky-600 dark:text-sky-400">
+                      {phase.phase} · {phase.window}
+                    </span>
+                    <span className={`uppercase font-bold ${statusText}`}>● {phase.status}</span>
+                  </div>
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-black dark:text-white">
+                    {phase.title}
+                  </h3>
+                  <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{phase.summary}</p>
+                  <ul className="space-y-2 pt-2">
+                    {phase.milestones.map((m) => (
+                      <li key={m} className="flex items-start gap-2.5 text-xs text-slate-800 dark:text-white">
+                        {phase.status === 'completed' ? (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                        ) : (
+                          <Clock className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
+                        )}
+                        <span>{m}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="font-display font-bold text-xl sm:text-2xl text-black dark:text-white">
-                  {phase.title}
-                </h3>
-                <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{phase.summary}</p>
-                <ul className="space-y-2 pt-2">
-                  {phase.milestones.map((m) => (
-                    <li key={m} className="flex items-start gap-2.5 text-xs text-slate-800 dark:text-white">
-                      {phase.status === 'completed' ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      ) : (
-                        <Clock className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
-                      )}
-                      <span>{m}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -129,7 +136,11 @@ export function VisionPage() {
         className="scroll-mt-24 pt-12 border-t border-slate-300/80 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-12"
       >
         <div className="lg:col-span-7 space-y-6">
-          <h2 className="font-display font-bold text-2xl text-black dark:text-white">{t.vision.divisionsTitle}</h2>
+          <ScrollScrubText
+            as="h2"
+            text={t.vision.divisionsTitle}
+            className="font-display font-bold text-2xl text-black dark:text-white"
+          />
           <div className="divide-y divide-slate-300/70 dark:divide-slate-800/80">
             {KRONVEX_PILLARS.map((p) => (
               <div key={p.id} className="py-4 first:pt-0 space-y-1">

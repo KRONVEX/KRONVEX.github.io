@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ExternalLink, Terminal } from 'lucide-react';
 import { ORG_META } from '../data/catalog';
 import liveGithub from '../data/live-github.json';
+import { ScrollReveal } from './KineticScrollText';
 import { useI18n } from '../i18n/I18nContext';
 
 interface FooterProps {
@@ -123,10 +124,10 @@ export function Footer({ onOpenTerminal }: FooterProps) {
   ];
 
   return (
-    <footer className="border-t border-slate-300 dark:border-slate-800/90 bg-slate-50/90 dark:bg-[#050811]/90 backdrop-blur-md mt-24">
+    <footer className="relative border-t border-slate-300/70 dark:border-emerald-500/20 bg-transparent mt-24">
       <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 pt-14 pb-10">
         {/* Top Brand + Enterprise Callout Strip */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-10 mb-10 border-b border-slate-300/80 dark:border-slate-800/80">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-10 mb-10 border-b border-slate-300/70 dark:border-white/15">
           <div className="flex items-center gap-3.5">
             <img
               src={`${import.meta.env.BASE_URL}kronvex-logo-96.webp`}
@@ -138,7 +139,7 @@ export function Footer({ onOpenTerminal }: FooterProps) {
               className="w-10 h-10 rounded-xl ring-1 ring-sky-400/40 shrink-0"
             />
             <div>
-              <div className="font-display font-bold tracking-[0.2em] text-base text-black dark:text-white">
+              <div className="font-brand font-bold tracking-[0.2em] text-base text-black dark:text-white">
                 KRONVEX
               </div>
               <div className="font-mono text-[11px] font-medium text-slate-900 dark:text-slate-100">
@@ -162,7 +163,8 @@ export function Footer({ onOpenTerminal }: FooterProps) {
         </div>
 
         {/* 4-Column Executive Mega-Footer Directory */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 sm:gap-x-10 gap-y-10">
+        <ScrollReveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 sm:gap-x-10 gap-y-10">
           {footerColumns.map((column, colIdx) => (
             <div key={colIdx} className="space-y-8">
               {column.map((group) => (
@@ -177,7 +179,7 @@ export function Footer({ onOpenTerminal }: FooterProps) {
                           <button
                             type="button"
                             onClick={onOpenTerminal}
-                            className="inline-flex items-center gap-1.5 text-slate-900 dark:text-white/90 hover:text-sky-600 dark:hover:text-sky-300 transition text-start"
+                            className="inline-flex items-center gap-1.5 text-slate-900 dark:text-white hover:text-emerald-700 dark:hover:text-emerald-300 transition text-start"
                           >
                             <Terminal className="w-3.5 h-3.5 opacity-80 shrink-0" />
                             <span>{item.label}</span>
@@ -185,7 +187,7 @@ export function Footer({ onOpenTerminal }: FooterProps) {
                         ) : item.to ? (
                           <Link
                             to={item.to}
-                            className="text-slate-900 dark:text-white/90 hover:text-sky-600 dark:hover:text-sky-300 transition"
+                            className="text-slate-900 dark:text-white hover:text-emerald-700 dark:hover:text-emerald-300 transition"
                           >
                             {item.label}
                           </Link>
@@ -194,7 +196,7 @@ export function Footer({ onOpenTerminal }: FooterProps) {
                             href={item.href}
                             target={item.href?.startsWith('http') ? '_blank' : undefined}
                             rel={item.href?.startsWith('http') ? 'noreferrer' : undefined}
-                            className="inline-flex items-center gap-1 text-slate-900 dark:text-white/90 hover:text-sky-600 dark:hover:text-sky-300 transition"
+                            className="inline-flex items-center gap-1 text-slate-900 dark:text-white hover:text-emerald-700 dark:hover:text-emerald-300 transition"
                           >
                             <span>{item.label}</span>
                             {item.href?.startsWith('http') && (
@@ -209,10 +211,11 @@ export function Footer({ onOpenTerminal }: FooterProps) {
               ))}
             </div>
           ))}
-        </div>
+          </div>
+        </ScrollReveal>
 
         {/* Bottom Copyright & Shortcut Bar */}
-        <div className="mt-12 pt-6 border-t border-slate-300/80 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-900 dark:text-slate-100 font-mono">
+        <div className="mt-12 pt-6 border-t border-slate-300/70 dark:border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-900 dark:text-white font-mono">
           <span>
             © {year} {t.footer.copyright} {ORG_META.founderName}.
           </span>

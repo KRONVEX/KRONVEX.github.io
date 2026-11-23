@@ -31,6 +31,7 @@ import {
   RESEARCH_LAB_FILTERS,
   formatPaperBibtex,
 } from '../data/researchPapers';
+import { ScrollReveal } from '../components/KineticScrollText';
 import { useI18n } from '../i18n/I18nContext';
 
 interface RankedGithubRepo {
@@ -940,13 +941,13 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
             const pct = Math.max(4, Math.round((metricVal / maxGhMetric) * 100));
             const cloneCmd = `git clone ${repo.url}.git`;
             return (
-              <div
+              <ScrollReveal
                 key={`${ghMode}-${repo.fullName}`}
-                className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] flex flex-col lg:flex-row lg:items-center justify-between gap-4"
               >
                 <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                   <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-xs shrink-0 ${rankStyle(
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center font-brand text-xs tracking-wider shrink-0 ${rankStyle(
                       repo.rank
                     )}`}
                   >
@@ -1045,7 +1046,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                     </a>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -1061,13 +1062,13 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
             const pct = Math.max(4, Math.round((metricVal / maxHfMetric) * 100));
             const pullCmd = `huggingface-cli download ${model.id}`;
             return (
-              <div
+              <ScrollReveal
                 key={`${hfMode}-${model.id}`}
-                className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] flex flex-col lg:flex-row lg:items-center justify-between gap-4"
               >
                 <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                   <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-xs shrink-0 ${rankStyle(
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center font-brand text-xs tracking-wider shrink-0 ${rankStyle(
                       model.rank
                     )}`}
                   >
@@ -1155,7 +1156,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                     </a>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -1170,13 +1171,13 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
               const bibtex = formatPaperBibtex(paper.arxivId, paper.title, paper.authors, paper.year);
               const bibKey = `bib-giant-${paper.arxivId}`;
               return (
-                <div
+                <ScrollReveal
                   key={paper.arxivId}
-                  className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                  className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] flex flex-col lg:flex-row lg:items-center justify-between gap-4"
                 >
                   <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-xs shrink-0 ${rankStyle(
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-brand text-xs tracking-wider shrink-0 ${rankStyle(
                         paper.rank
                       )}`}
                     >
@@ -1220,8 +1221,10 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <div className="inline-flex items-start gap-1.5 text-xs sm:text-[13px] font-semibold text-emerald-800 dark:text-emerald-300">
                         <Zap className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                         <span>
-                          <strong className="font-mono uppercase text-[11px] tracking-wider">{t.top21.discoveryLabel}:</strong>{' '}
-                          {paper.breakthrough}
+                          <strong className="font-brand uppercase text-[11px] tracking-wider">{t.top21.discoveryLabel}:</strong>{' '}
+                          <span className="font-editorial italic font-normal text-[17px] sm:text-[18px] leading-snug text-emerald-900 dark:text-emerald-200">
+                            {paper.breakthrough}
+                          </span>
                         </span>
                       </div>
 
@@ -1282,7 +1285,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       </a>
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })
           )}
@@ -1299,13 +1302,13 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
               const bibtex = formatPaperBibtex(paper.arxivId, paper.title, paper.authors, yearNum);
               const bibKey = `bib-live-${paper.arxivId}`;
               return (
-                <div
+                <ScrollReveal
                   key={paper.arxivId}
-                  className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                  className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] flex flex-col lg:flex-row lg:items-center justify-between gap-4"
                 >
                   <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-xs shrink-0 ${rankStyle(
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-brand text-xs tracking-wider shrink-0 ${rankStyle(
                         paper.rank
                       )}`}
                     >
@@ -1396,7 +1399,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       </a>
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })
           )}
@@ -1414,13 +1417,13 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
               const bibKey = `bib-daily-${paper.arxivId}`;
               const pct = Math.max(6, Math.round(((paper.upvotes || 0) / maxDailyPaperUpvotes) * 100));
               return (
-                <div
+                <ScrollReveal
                   key={paper.arxivId || paper.rank}
-                  className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] transition flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                  className="py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-xl overflow-hidden hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.03] flex flex-col lg:flex-row lg:items-center justify-between gap-4"
                 >
                   <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono text-xs shrink-0 ${rankStyle(
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-brand text-xs tracking-wider shrink-0 ${rankStyle(
                         paper.rank
                       )}`}
                     >
@@ -1539,7 +1542,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       </a>
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })
           )}

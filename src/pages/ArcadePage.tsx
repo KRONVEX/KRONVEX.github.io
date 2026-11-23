@@ -39,7 +39,7 @@ export function ArcadePage() {
           <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold tracking-wider text-indigo-700 dark:text-indigo-300">
             <Gamepad2 className="w-4 h-4" /> {t.arcade.badge}
           </div>
-          <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white tracking-tight">
+          <h1 className="font-brand font-bold text-3xl sm:text-5xl text-black dark:text-white tracking-tight">
             {t.arcade.title}
           </h1>
           <p className="text-sm sm:text-base text-slate-800 dark:text-white leading-relaxed">

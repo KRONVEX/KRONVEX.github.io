@@ -3,6 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Command, Cpu, Layers, Network, Search, Sparkles, Terminal, X } from 'lucide-react';
 import { KRONVEX_APPS, KRONVEX_MODELS, KRONVEX_SKILLS, ORG_META } from '../data/catalog';
 import { useI18n } from '../i18n/I18nContext';
+import {
+  TOTAL_VAULT_TRIALS,
+  VAULT_EPIGRAPH,
+  getVaultProgress,
+  isRitualArmed,
+  reopenUnlockedVault,
+  resetVaultProgress,
+  submitVaultTrial,
+  unlockVaultWithChain,
+  type DecryptedArchitectVault,
+  type VaultTrialSpec,
+} from '../utils/architectVaultCrypto';
 import type { DetectedHardware } from '../types/kronvex';
 
 interface CommandTerminalProps {
@@ -196,6 +208,140 @@ export function CommandTerminal({ open, initialMode, onClose, hardware }: Comman
         return;
       }
       next.push({ type: 'output', text: `Unknown target "${arg}". Try: open apps | models | skills | top-21 | arcade | chess | quiz | constellation | vision | contact` });
+    } else if (head === 'vault') {
+      const rest = parts.slice(1).join(' ').trim();
+      const sub = parts[1]?.toLowerCase() || '';
+
+      const formatTrialLines = (trial: VaultTrialSpec, cleared: number): TermLine[] => {
+        const bar = '#'.repeat(cleared) + '-'.repeat(TOTAL_VAULT_TRIALS - cleared);
+        const num = String(trial.id).padStart(2, '0');
+        return [
+          { type: 'accent', text: `[MATRIX ${bar}] ${String(cleared).padStart(2, '0')}/${TOTAL_VAULT_TRIALS} · ${trial.pillar}` },
+          { type: 'output', text: `TRIAL ${num}/${TOTAL_VAULT_TRIALS} — ${trial.title}` },
+          { type: 'output', text: `> ${trial.prompt}` },
+          { type: 'output', text: 'Submit: vault <answer>   |   Commands: vault status · vault reset' },
+        ];
+      };
+
+      const triggerVaultOpen = (payload: DecryptedArchitectVault, proofCode: string) => {
+        setHistory((prev) => [
+          ...prev,
+          { type: 'accent', text: `[21/21 MATRIX BREACHED] All trials verified · Proof ${proofCode}` },
+        ]);
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        window.dispatchEvent(new CustomEvent('kronvex-core-pulse', { detail: { x: cx, y: cy, pillar: 1 } }));
+        window.setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('kronvex-core-pulse', { detail: { x: cx, y: cy, pillar: 2 } }));
+        }, 160);
+        window.dispatchEvent(
+          new CustomEvent('kronvex-architect-vault', {
+            detail: { payload, proofCode },
+          })
+        );
+        onClose();
+      };
+
+      if (!isRitualArmed()) {
+        next.push({
+          type: 'output',
+          text: '[VAULT LOCKED] 7-Node harmonic resonance inactive. Complete the Owl Crest pillar ritual first.',
+        });
+      } else if (!rest || sub === 'start' || sub === 'status') {
+        const { cleared, currentTrial } = getVaultProgress();
+        if (!currentTrial) {
+          setHistory((prev) => [...prev, ...next]);
+          setCmdInput('');
+          void reopenUnlockedVault().then((res) => {
+            if (res) {
+              triggerVaultOpen(res.payload, res.proofCode);
+            } else {
+              resetVaultProgress();
+              const fresh = getVaultProgress();
+              if (fresh.currentTrial) {
+                setHistory((prev) => [...prev, ...formatTrialLines(fresh.currentTrial!, 0)]);
+              }
+            }
+          });
+          return;
+        }
+        next.push(
+          { type: 'accent', text: `// ${VAULT_EPIGRAPH}` },
+          ...formatTrialLines(currentTrial, cleared)
+        );
+      } else if (sub === 'chamber' || sub === 'ui' || sub === 'gui' || sub === 'choose') {
+        window.dispatchEvent(
+          new CustomEvent('kronvex-matrix-gateway', {
+            detail: { view: sub === 'choose' ? 'choose' : 'chamber' },
+          })
+        );
+        onClose();
+        setCmdInput('');
+        return;
+      } else if (sub === 'download' || sub === 'cli') {
+        window.dispatchEvent(new CustomEvent('kronvex-matrix-gateway', { detail: { view: 'cli' } }));
+        onClose();
+        setCmdInput('');
+        return;
+      } else if (sub === 'reset') {
+        resetVaultProgress();
+        const fresh = getVaultProgress();
+        next.push(
+          { type: 'accent', text: '[MATRIX RESET] Trial progress cleared to 00/21.' },
+          ...(fresh.currentTrial ? formatTrialLines(fresh.currentTrial, 0) : [])
+        );
+      } else if (sub === 'chain') {
+        const chainArg = parts.slice(2).join(' ').trim();
+        setHistory((prev) => [...prev, ...next]);
+        setCmdInput('');
+        void unlockVaultWithChain(chainArg).then((res) => {
+          if (res.status === 'unlocked' && res.payload && res.proofCode) {
+            triggerVaultOpen(res.payload, res.proofCode);
+          } else {
+            const failTrial = res.nextTrial ? ` (mismatch at Trial ${String(res.nextTrial.id).padStart(2, '0')}/21)` : '';
+            setHistory((prev) => [
+              ...prev,
+              { type: 'output', text: `[ACCESS DENIED] 21-Trial chain verification failed${failTrial}.` },
+            ]);
+          }
+        });
+        return;
+      } else {
+        setHistory((prev) => [...prev, ...next]);
+        setCmdInput('');
+        void submitVaultTrial(rest).then((res) => {
+          if (res.status === 'ritual_required') {
+            setHistory((prev) => [
+              ...prev,
+              {
+                type: 'output',
+                text: '[VAULT LOCKED] 7-Node harmonic resonance inactive. Complete the Owl Crest pillar ritual first.',
+              },
+            ]);
+          } else if (res.status === 'unsupported') {
+            setHistory((prev) => [
+              ...prev,
+              { type: 'output', text: '[VAULT ERROR] Web Crypto API unavailable in this browser context.' },
+            ]);
+          } else if (res.status === 'wrong_answer') {
+            const n = String((res.clearedCount ?? 0) + 1).padStart(2, '0');
+            setHistory((prev) => [
+              ...prev,
+              { type: 'output', text: `[TRIAL ${n}/${TOTAL_VAULT_TRIALS} REJECTED] Signal mismatch. Re-evaluate and try again.` },
+            ]);
+          } else if (res.status === 'advanced' && res.nextTrial) {
+            const passed = res.clearedCount ?? 0;
+            setHistory((prev) => [
+              ...prev,
+              { type: 'accent', text: `[TRIAL ${String(passed).padStart(2, '0')}/${TOTAL_VAULT_TRIALS} CLEARED]` },
+              ...formatTrialLines(res.nextTrial!, passed),
+            ]);
+          } else if (res.status === 'unlocked' && res.payload && res.proofCode) {
+            triggerVaultOpen(res.payload, res.proofCode);
+          }
+        });
+        return;
+      }
     } else {
       next.push({ type: 'output', text: `Command not found: "${head}". Type "help" to see available commands.` });
     }

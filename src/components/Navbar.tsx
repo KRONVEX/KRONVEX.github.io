@@ -60,7 +60,7 @@ export function Navbar({ darkMode, onToggleTheme, onOpenCommand }: NavbarProps) 
             <span className="absolute -bottom-0.5 -end-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white dark:ring-[#050811]" />
           </div>
           <div className="leading-tight whitespace-nowrap">
-            <span className="font-display font-bold tracking-[0.18em] text-sm sm:text-base text-black dark:text-white block">
+            <span className="font-brand font-bold tracking-[0.18em] text-sm sm:text-base text-black dark:text-white block">
               KRONVEX
             </span>
             <span className="font-mono text-[10px] text-sky-700 dark:text-sky-300 hidden sm:block lg:hidden xl:block">

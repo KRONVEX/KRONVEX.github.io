@@ -11,7 +11,7 @@ export function ConstellationPage() {
           <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-sky-700 dark:text-sky-300">
             <Network className="w-4 h-4" /> {t.constellation.badge}
           </div>
-          <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white tracking-tight">
+          <h1 className="font-brand font-bold text-3xl sm:text-5xl text-black dark:text-white tracking-tight">
             {t.constellation.title}
           </h1>
           <p className="text-base text-slate-900 dark:text-white leading-relaxed max-w-3xl">

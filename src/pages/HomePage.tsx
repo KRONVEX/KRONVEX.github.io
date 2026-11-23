@@ -26,6 +26,7 @@ import {
   SENTINEL_PILLARS,
   type SentinelPillarIndex,
 } from '../components/KronvexLivingEmblem';
+import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
 import type { DetectedHardware } from '../types/kronvex';
 
 interface HomePageProps {
@@ -123,7 +124,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
 
               <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-[4.1rem] tracking-tight text-black dark:text-white leading-[1.06]">
                 {t.home.heroPrefix}{' '}
-                <span className="bg-gradient-to-r from-sky-500 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
+                <span className="font-editorial italic font-normal text-[1.14em] tracking-normal bg-gradient-to-r from-sky-500 via-indigo-400 to-emerald-400 bg-clip-text text-transparent pe-1">
                   {t.home.heroHighlight}
                 </span>
                 {t.home.heroSuffix}
@@ -182,7 +183,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
                     <div className="font-mono text-[11px] font-semibold tracking-wider text-slate-800 dark:text-slate-100">
                       {stat.label}
                     </div>
-                    <div className={`font-mono font-bold text-sm ${stat.accent}`}>{stat.value}</div>
+                    <div className={`font-brand font-bold text-sm tracking-wide ${stat.accent}`}>{stat.value}</div>
                   </div>
                 ))}
               </div>
@@ -226,13 +227,15 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 font-bold">
               {t.home.archLabel}
             </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white tracking-tight">
-              {t.home.archTitle}
-            </h2>
+            <ScrollScrubText
+              as="h2"
+              text={t.home.archTitle}
+              className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white tracking-tight"
+            />
           </div>
-          <div className="lg:col-span-6">
+          <ScrollReveal className="lg:col-span-6" delayMs={80}>
             <p className="text-base text-slate-900 dark:text-white leading-relaxed">{t.home.archSubtitle}</p>
-          </div>
+          </ScrollReveal>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
@@ -257,36 +260,37 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
                 : 'group-hover:border-indigo-500';
 
             return (
-              <Link
-                key={pillar.id}
-                to={pillar.route}
-                className={`group pt-6 border-t border-slate-300/80 dark:border-slate-700/80 ${topRule} transition-colors flex flex-col justify-between gap-6`}
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className={`inline-flex items-center gap-2 font-mono text-xs font-bold ${accentText}`}>
-                      <Icon className="w-4 h-4 shrink-0" />
-                      {t.home.pillarLabel} {pillar.code}
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-slate-800 dark:text-white group-hover:translate-x-1.5 group-hover:text-sky-500 transition rtl:rotate-180 rtl:group-hover:-translate-x-1.5" />
-                  </div>
-
-                  <div>
-                    <h3 className="font-display font-bold text-2xl text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
-                      {loc.title}
-                    </h3>
-                    <div className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100 mt-1">
-                      {loc.subtitle}
+              <ScrollReveal key={pillar.id} delayMs={idx * 85} className="h-full">
+                <Link
+                  to={pillar.route}
+                  className={`h-full group pt-6 border-t border-slate-300/80 dark:border-slate-700/80 ${topRule} transition-colors flex flex-col justify-between gap-6`}
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className={`inline-flex items-center gap-2 font-brand text-xs font-bold tracking-wider ${accentText}`}>
+                        <Icon className="w-4 h-4 shrink-0" />
+                        {t.home.pillarLabel} {pillar.code}
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-slate-800 dark:text-white group-hover:translate-x-1.5 group-hover:text-sky-500 transition rtl:rotate-180 rtl:group-hover:-translate-x-1.5" />
                     </div>
+
+                    <div>
+                      <h3 className="font-display font-bold text-2xl text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
+                        {loc.title}
+                      </h3>
+                      <div className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100 mt-1">
+                        {loc.subtitle}
+                      </div>
+                    </div>
+
+                    <p className="text-sm sm:text-[15px] text-slate-900 dark:text-white leading-relaxed">{loc.desc}</p>
                   </div>
 
-                  <p className="text-sm sm:text-[15px] text-slate-900 dark:text-white leading-relaxed">{loc.desc}</p>
-                </div>
-
-                <div className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100 tracking-wide">
-                  {pillar.stack.join(' · ')}
-                </div>
-              </Link>
+                  <div className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100 tracking-wide">
+                    {pillar.stack.join(' · ')}
+                  </div>
+                </Link>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -300,12 +304,16 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400 font-bold">
               KRONVEX STUDIO · LOCAL-FIRST
             </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-[2.65rem] text-black dark:text-white tracking-tight leading-[1.12]">
-              {t.home.platformCards.chat.title}
-            </h2>
-            <p className="text-base text-slate-900 dark:text-white leading-relaxed">
-              {t.home.platformCards.chat.desc}
-            </p>
+            <ScrollScrubText
+              as="h2"
+              text={t.home.platformCards.chat.title}
+              className="font-display font-bold text-3xl sm:text-4xl lg:text-[2.65rem] text-black dark:text-white tracking-tight leading-[1.12]"
+            />
+            <ScrollReveal delayMs={70}>
+              <p className="text-base text-slate-900 dark:text-white leading-relaxed">
+                {t.home.platformCards.chat.desc}
+              </p>
+            </ScrollReveal>
             <div className="flex flex-wrap items-center gap-6 pt-2">
               <Link
                 to="/models?tab=chat"
@@ -329,7 +337,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
           </div>
 
           {/* Right Open Borderless Interactive Studio (Zero Box / Frame Walls!) */}
-          <div className="lg:col-span-7">
+          <ScrollReveal className="lg:col-span-7" delayMs={100}>
             <div className="relative py-2 sm:py-4">
               {/* Soft open ambient aura behind the controls (no hard box outline) */}
               <div
@@ -424,7 +432,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -435,9 +443,11 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 font-bold">
               {t.home.platformLabel}
             </span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white tracking-tight">
-              {t.home.platformTitle}
-            </h2>
+            <ScrollScrubText
+              as="h2"
+              text={t.home.platformTitle}
+              className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white tracking-tight"
+            />
           </div>
           <Link
             to="/constellation"
@@ -449,35 +459,36 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
         </div>
 
         <div className="border-t border-b border-slate-300/80 dark:border-slate-700/80 divide-y divide-slate-300/70 dark:divide-slate-800/80">
-          {platformModules.map((mod) => {
+          {platformModules.map((mod, idx) => {
             const Icon = mod.icon;
             return (
-              <Link
-                key={mod.route}
-                to={mod.route}
-                className="group py-6 sm:py-7 px-2 sm:px-4 -mx-2 sm:-mx-4 rounded-xl hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.04] transition grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center"
-              >
-                <div className="lg:col-span-4 flex items-center gap-3.5 min-w-0">
-                  <Icon className={`w-5 h-5 shrink-0 ${mod.accent}`} />
-                  <div className="min-w-0">
-                    <h3 className="font-display font-bold text-lg sm:text-xl text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
-                      {mod.title}
-                    </h3>
-                    <span className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100">{mod.meta}</span>
+              <ScrollReveal key={mod.route} delayMs={Math.min(idx * 45, 220)}>
+                <Link
+                  to={mod.route}
+                  className="group py-6 sm:py-7 px-2 sm:px-4 -mx-2 sm:-mx-4 rounded-xl hover:bg-slate-900/[0.03] dark:hover:bg-white/[0.04] transition grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center"
+                >
+                  <div className="lg:col-span-4 flex items-center gap-3.5 min-w-0">
+                    <Icon className={`w-5 h-5 shrink-0 ${mod.accent}`} />
+                    <div className="min-w-0">
+                      <h3 className="font-display font-bold text-lg sm:text-xl text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
+                        {mod.title}
+                      </h3>
+                      <span className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100">{mod.meta}</span>
+                    </div>
                   </div>
-                </div>
 
-                <p className="lg:col-span-6 text-sm sm:text-[15px] text-slate-900 dark:text-white leading-relaxed">
-                  {mod.desc}
-                </p>
+                  <p className="lg:col-span-6 text-sm sm:text-[15px] text-slate-900 dark:text-white leading-relaxed">
+                    {mod.desc}
+                  </p>
 
-                <div className="lg:col-span-2 flex lg:justify-end">
-                  <span className="text-sm font-bold text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 inline-flex items-center gap-1.5 whitespace-nowrap transition">
-                    {mod.cta}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition rtl:rotate-180 rtl:group-hover:-translate-x-1.5" />
-                  </span>
-                </div>
-              </Link>
+                  <div className="lg:col-span-2 flex lg:justify-end">
+                    <span className="text-sm font-bold text-black dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 inline-flex items-center gap-1.5 whitespace-nowrap transition">
+                      {mod.cta}
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition rtl:rotate-180 rtl:group-hover:-translate-x-1.5" />
+                    </span>
+                  </div>
+                </Link>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -490,13 +501,17 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
             <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
               <ShieldCheck className="w-4 h-4 shrink-0" /> {t.home.trustBadge}
             </div>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white leading-tight">
-              {t.home.trustTitle}
-            </h2>
-            <p className="text-base text-slate-900 dark:text-white leading-relaxed">{t.home.trustDesc}</p>
+            <ScrollScrubText
+              as="h2"
+              text={t.home.trustTitle}
+              className="font-display font-bold text-3xl sm:text-4xl text-black dark:text-white leading-tight"
+            />
+            <ScrollReveal delayMs={70}>
+              <p className="text-base text-slate-900 dark:text-white leading-relaxed">{t.home.trustDesc}</p>
+            </ScrollReveal>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-7 gap-y-4 shrink-0">
+          <ScrollReveal delayMs={110} className="flex flex-wrap items-center gap-x-7 gap-y-4 shrink-0">
             <Link
               to="/enterprise"
               className="px-6 py-3 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-sm inline-flex items-center gap-2 transition"
@@ -521,7 +536,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
               <span>{t.home.ctaRoadmap}</span>
               <ArrowRight className="w-4 h-4 opacity-80 group-hover:translate-x-1 transition rtl:rotate-180 rtl:group-hover:-translate-x-1" />
             </Link>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

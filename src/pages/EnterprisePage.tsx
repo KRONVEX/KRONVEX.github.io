@@ -19,6 +19,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
+import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
 
 const SERVICE_OPTIONS = [
   {
@@ -143,9 +144,11 @@ export function EnterprisePage() {
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 font-semibold">
             {t.enterprise.capLabel}
           </span>
-          <h2 className="font-display font-bold text-3xl text-black dark:text-white mt-2">
-            {t.enterprise.capTitle}
-          </h2>
+          <ScrollScrubText
+            as="h2"
+            text={t.enterprise.capTitle}
+            className="font-display font-bold text-3xl text-black dark:text-white mt-2"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
@@ -232,9 +235,11 @@ export function EnterprisePage() {
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 font-semibold">
             {t.enterprise.indLabel}
           </span>
-          <h2 className="font-display font-bold text-3xl text-black dark:text-white mt-2">
-            {t.enterprise.indTitle}
-          </h2>
+          <ScrollScrubText
+            as="h2"
+            text={t.enterprise.indTitle}
+            className="font-display font-bold text-3xl text-black dark:text-white mt-2"
+          />
           <p className="text-sm text-slate-800 dark:text-white mt-2">{t.enterprise.indSub}</p>
         </div>
 
@@ -270,17 +275,16 @@ export function EnterprisePage() {
               title: 'Engineering & DevOps Teams',
               desc: 'Custom AI coding workflows (SKILL.md), internal developer portals, CLI tools, and GitHub Actions automation.',
             },
-          ].map((ind) => {
+          ].map((ind, idx) => {
             const Icon = ind.icon;
             return (
-              <div
-                key={ind.title}
-                className="pt-5 border-t border-slate-300/70 dark:border-slate-800/80 space-y-2.5"
-              >
-                <Icon className="w-5 h-5 text-sky-600 dark:text-sky-400" />
-                <h3 className="font-display font-bold text-lg text-black dark:text-white">{ind.title}</h3>
-                <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{ind.desc}</p>
-              </div>
+              <ScrollReveal key={ind.title} delayMs={idx * 55}>
+                <div className="pt-5 border-t border-slate-300/70 dark:border-slate-800/80 space-y-2.5">
+                  <Icon className="w-5 h-5 text-sky-600 dark:text-sky-400" />
+                  <h3 className="font-display font-bold text-lg text-black dark:text-white">{ind.title}</h3>
+                  <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{ind.desc}</p>
+                </div>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -292,9 +296,11 @@ export function EnterprisePage() {
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400 font-semibold">
             {t.enterprise.delivLabel}
           </span>
-          <h2 className="font-display font-bold text-3xl text-black dark:text-white mt-2">
-            {t.enterprise.delivTitle}
-          </h2>
+          <ScrollScrubText
+            as="h2"
+            text={t.enterprise.delivTitle}
+            className="font-display font-bold text-3xl text-black dark:text-white mt-2"
+          />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -319,12 +325,16 @@ export function EnterprisePage() {
               title: 'Handoff & Full Ownership',
               desc: 'Clean Git repositories, automated CI/CD deployment, thorough documentation, and optional long-term evolution support.',
             },
-          ].map((p) => (
-            <div key={p.step} className="pt-5 border-t border-slate-300/80 dark:border-slate-800 space-y-2.5">
-              <div className="font-mono text-xs font-extrabold text-sky-600 dark:text-sky-400">STEP {p.step}</div>
-              <h3 className="font-display font-bold text-lg text-black dark:text-white">{p.title}</h3>
-              <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{p.desc}</p>
-            </div>
+          ].map((p, idx) => (
+            <ScrollReveal key={p.step} delayMs={idx * 65}>
+              <div className="pt-5 border-t border-slate-300/80 dark:border-slate-800 space-y-2.5">
+                <div className="font-brand text-xs font-extrabold tracking-wider text-sky-600 dark:text-sky-400">
+                  STEP {p.step}
+                </div>
+                <h3 className="font-display font-bold text-lg text-black dark:text-white">{p.title}</h3>
+                <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{p.desc}</p>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -371,9 +381,11 @@ export function EnterprisePage() {
           <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-sky-600 dark:text-sky-400">
             <Database className="w-4 h-4" /> {t.enterprise.scopeBadge}
           </div>
-          <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white">
-            {t.enterprise.scopeTitle}
-          </h2>
+          <ScrollScrubText
+            as="h2"
+            text={t.enterprise.scopeTitle}
+            className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white"
+          />
           <p className="text-sm text-slate-800 dark:text-white leading-relaxed">{t.enterprise.scopeSub}</p>
         </div>
 

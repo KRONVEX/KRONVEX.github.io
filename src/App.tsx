@@ -6,6 +6,7 @@ import { KronvexSignalField, type SignalIntensityMode } from './components/Kronv
 import { HomePage } from './pages/HomePage';
 import { I18nProvider } from './i18n/I18nContext';
 import { detectHardwareProfile, detectUserOS } from './utils/hardware';
+import type { DecryptedArchitectVault } from './utils/architectVaultCrypto';
 import type { DetectedHardware } from './types/kronvex';
 
 const AppsPage = lazy(() => import('./pages/AppsPage').then((m) => ({ default: m.AppsPage })));
@@ -21,6 +22,12 @@ const ArcadePage = lazy(() => import('./pages/ArcadePage').then((m) => ({ defaul
 const EnterprisePage = lazy(() => import('./pages/EnterprisePage').then((m) => ({ default: m.EnterprisePage })));
 const CommandTerminal = lazy(() =>
   import('./components/CommandTerminal').then((m) => ({ default: m.CommandTerminal }))
+);
+const ArchitectVaultModal = lazy(() =>
+  import('./components/ArchitectVaultModal').then((m) => ({ default: m.ArchitectVaultModal }))
+);
+const MatrixChamberModal = lazy(() =>
+  import('./components/MatrixChamberModal').then((m) => ({ default: m.MatrixChamberModal }))
 );
 
 function ScrollToTop() {
@@ -71,6 +78,11 @@ export function App() {
 
   const [cmdOpen, setCmdOpen] = useState(false);
   const [cmdMode, setCmdMode] = useState<'palette' | 'terminal'>('palette');
+  const [vaultState, setVaultState] = useState<{
+    payload: DecryptedArchitectVault;
+    proofCode: string;
+  } | null>(null);
+  const [gatewayView, setGatewayView] = useState<'choose' | 'chamber' | 'cli' | null>(null);
 
   const [hardware, setHardware] = useState<DetectedHardware>(() => ({
     os: detectUserOS(),
@@ -104,6 +116,26 @@ export function App() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  useEffect(() => {
+    const onVaultUnlock = (e: Event) => {
+      const detail = (e as CustomEvent<{ payload: DecryptedArchitectVault; proofCode: string }>).detail;
+      if (detail?.payload && detail?.proofCode) {
+        setGatewayView(null);
+        setVaultState({ payload: detail.payload, proofCode: detail.proofCode });
+      }
+    };
+    const onMatrixGateway = (e: Event) => {
+      const detail = (e as CustomEvent<{ view?: 'choose' | 'chamber' | 'cli' }>).detail;
+      setGatewayView(detail?.view ?? 'choose');
+    };
+    window.addEventListener('kronvex-architect-vault', onVaultUnlock);
+    window.addEventListener('kronvex-matrix-gateway', onMatrixGateway);
+    return () => {
+      window.removeEventListener('kronvex-architect-vault', onVaultUnlock);
+      window.removeEventListener('kronvex-matrix-gateway', onMatrixGateway);
+    };
   }, []);
 
   const openCommand = (mode: 'palette' | 'terminal' = 'palette') => {
@@ -162,6 +194,33 @@ export function App() {
                 initialMode={cmdMode}
                 onClose={() => setCmdOpen(false)}
                 hardware={hardware}
+              />
+            </Suspense>
+          )}
+
+          {gatewayView && (
+            <Suspense fallback={null}>
+              <MatrixChamberModal
+                initialView={gatewayView}
+                onClose={() => setGatewayView(null)}
+                onOpenBuiltInCli={() => {
+                  setGatewayView(null);
+                  openCommand('terminal');
+                }}
+                onUnlocked={({ payload, proofCode }) => {
+                  setGatewayView(null);
+                  setVaultState({ payload, proofCode });
+                }}
+              />
+            </Suspense>
+          )}
+
+          {vaultState && (
+            <Suspense fallback={null}>
+              <ArchitectVaultModal
+                payload={vaultState.payload}
+                proofCode={vaultState.proofCode}
+                onClose={() => setVaultState(null)}
               />
             </Suspense>
           )}

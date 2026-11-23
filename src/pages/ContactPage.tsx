@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ArrowUpRight, Check, Copy, Github, Mail, MessageSquare, ShieldAlert } from 'lucide-react';
 import { ORG_META } from '../data/catalog';
+import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
 import { useI18n } from '../i18n/I18nContext';
 
 const VALID_TOPICS = [
@@ -71,7 +72,7 @@ export function ContactPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-8 border-t border-slate-300/80 dark:border-slate-800">
         {/* Direct Channels — Open Editorial Directory (Zero Card Boxes) */}
-        <div className="lg:col-span-5 divide-y divide-slate-300/70 dark:divide-slate-800/80">
+        <ScrollReveal className="lg:col-span-5 divide-y divide-slate-300/70 dark:divide-slate-800/80">
           <a
             href={ORG_META.githubUrl}
             target="_blank"
@@ -174,12 +175,16 @@ export function ContactPage() {
               Advisories.
             </p>
           </a>
-        </div>
+        </ScrollReveal>
 
         {/* Zero-Backend Inquiry Composer — Open Borderless Form Area */}
-        <div className="lg:col-span-7 lg:border-s border-slate-300/80 dark:border-slate-800 lg:ps-10 space-y-6">
+        <ScrollReveal delayMs={80} className="lg:col-span-7 lg:border-s border-slate-300/80 dark:border-slate-800 lg:ps-10 space-y-6">
           <div>
-            <h2 className="font-display font-bold text-2xl text-black dark:text-white">{t.contact.composerTitle}</h2>
+            <ScrollScrubText
+              as="h2"
+              text={t.contact.composerTitle}
+              className="font-display font-bold text-2xl text-black dark:text-white"
+            />
             <p className="text-sm text-slate-900 dark:text-white mt-1">{t.contact.composerSub}</p>
           </div>
 
@@ -250,7 +255,7 @@ export function ContactPage() {
               {copied ? t.contact.copied : t.contact.copyInquiry}
             </button>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </div>
   );

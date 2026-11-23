@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import { KRONVEX_SKILLS } from '../data/catalog';
+import { ScrollReveal } from '../components/KineticScrollText';
 import { useI18n } from '../i18n/I18nContext';
 import type { KronvexSkill } from '../types/kronvex';
 
@@ -135,17 +136,17 @@ export function SkillsPage() {
 
       {/* Open Editorial Skills Grid (Top Accent Hairline, Zero Box Walls) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-        {filtered.map((skill) => {
+        {filtered.map((skill, idx) => {
           const checked = selectedIds.includes(skill.id);
           return (
-            <div
-              key={skill.id}
-              className={`pt-6 border-t-2 flex flex-col justify-between gap-6 transition-colors ${
-                checked
-                  ? 'border-emerald-500'
-                  : 'border-slate-300/80 dark:border-slate-800 hover:border-sky-500/70'
-              }`}
-            >
+            <ScrollReveal key={skill.id} delayMs={(idx % 3) * 65} className="h-full">
+              <div
+                className={`h-full pt-6 border-t-2 flex flex-col justify-between gap-6 transition-colors ${
+                  checked
+                    ? 'border-emerald-500'
+                    : 'border-slate-300/80 dark:border-slate-800 hover:border-sky-500/70'
+                }`}
+              >
               <div className="space-y-3.5">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-mono text-[11px] font-semibold text-sky-700 dark:text-sky-300">
@@ -215,7 +216,8 @@ export function SkillsPage() {
                   </button>
                 </div>
               </div>
-            </div>
+              </div>
+            </ScrollReveal>
           );
         })}
       </div>

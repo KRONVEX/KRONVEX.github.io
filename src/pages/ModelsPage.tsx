@@ -13,6 +13,7 @@ import {
 import { KRONVEX_MODELS } from '../data/catalog';
 import { evaluateHardwareFit } from '../utils/hardware';
 import { LocalAiChat } from '../components/LocalAiChat';
+import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
 import { useI18n } from '../i18n/I18nContext';
 import type { DetectedHardware } from '../types/kronvex';
 
@@ -121,7 +122,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
         <LocalAiChat hardware={hardware} initialModelId={chatModelId} />
       ) : (
         <div className="divide-y divide-slate-300/80 dark:divide-slate-800">
-          {KRONVEX_MODELS.map((model) => {
+          {KRONVEX_MODELS.map((model, idx) => {
             const activeVarId = selectedVariantMap[model.id] || model.variants[0].id;
             const activeVar = model.variants.find((v) => v.id === activeVarId) || model.variants[0];
             const fit = evaluateHardwareFit(hardware, activeVar);
@@ -140,15 +141,23 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
                 <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                   <div className="space-y-2.5 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
-                      <span className="font-bold text-indigo-600 dark:text-indigo-400">{model.parameters} PARAMS</span>
+                      <span className="font-brand font-bold text-indigo-600 dark:text-indigo-400">{model.parameters} PARAMS</span>
                       <span className="text-slate-800 dark:text-slate-100">
                         {model.contextLength} CTX · {model.license}
                       </span>
                       <span className={`font-bold ${fitText}`}>● {fit.label}</span>
                     </div>
-                    <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white">
-                      {model.name}
-                    </h2>
+                    {idx === 0 ? (
+                      <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white">
+                        {model.name}
+                      </h2>
+                    ) : (
+                      <ScrollScrubText
+                        as="h2"
+                        text={model.name}
+                        className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white"
+                      />
+                    )}
                     <p className="text-sm sm:text-base text-slate-800 dark:text-white leading-relaxed">
                       {model.description}
                     </p>
@@ -165,7 +174,8 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
                   )}
                 </div>
 
-                {/* Inline Open Benchmark Strip (No Boxes!) */}
+                <ScrollReveal delayMs={idx === 0 ? 0 : 50} className="space-y-7">
+                  {/* Inline Open Benchmark Strip (No Boxes!) */}
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-3 py-3 border-y border-slate-300/60 dark:border-slate-800/80">
                   {model.benchmarks.map((b) => (
                     <div key={b.metric} className="flex items-baseline gap-2.5 font-mono">
@@ -263,6 +273,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
                     </div>
                   </div>
                 </div>
+                </ScrollReveal>
               </section>
             );
           })}

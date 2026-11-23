@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { KRONVEX_APPS } from '../data/catalog';
+import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
 import { useI18n } from '../i18n/I18nContext';
 import type { DetectedHardware, PlatformType } from '../types/kronvex';
 
@@ -97,18 +98,26 @@ export function AppsPage({ hardware }: AppsPageProps) {
 
       {/* Open Release Directory (Hairline-Divided Sections — Zero Heavy Boxes) */}
       <div className="divide-y divide-slate-300/80 dark:divide-slate-800">
-        {filteredApps.map((app) => (
+        {filteredApps.map((app, idx) => (
           <section key={app.id} className="py-10 first:pt-2 space-y-8">
             <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
               <div className="space-y-2.5 max-w-3xl">
                 <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
                   <span className={`font-bold uppercase ${statusTone(app.status)}`}>● {app.status}</span>
-                  <span className="text-black dark:text-white font-semibold">{app.version}</span>
+                  <span className="font-brand text-black dark:text-white font-semibold">{app.version}</span>
                   <span className="text-slate-800 dark:text-slate-100">
                     {app.pillar} · {app.license} · {app.releaseDate}
                   </span>
                 </div>
-                <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white">{app.name}</h2>
+                {idx === 0 ? (
+                  <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white">{app.name}</h2>
+                ) : (
+                  <ScrollScrubText
+                    as="h2"
+                    text={app.name}
+                    className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white"
+                  />
+                )}
                 <p className="text-sm sm:text-base text-slate-800 dark:text-white leading-relaxed">
                   {app.description}
                 </p>
@@ -124,7 +133,8 @@ export function AppsPage({ hardware }: AppsPageProps) {
               </a>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <ScrollReveal delayMs={idx === 0 ? 0 : 60}>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               {/* Capabilities & System Requirements */}
               <div className="lg:col-span-5 space-y-6">
                 <div>
@@ -222,7 +232,8 @@ export function AppsPage({ hardware }: AppsPageProps) {
                   {t.apps.shaNotice}
                 </div>
               </div>
-            </div>
+              </div>
+            </ScrollReveal>
           </section>
         ))}
       </div>
