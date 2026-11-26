@@ -3,6 +3,7 @@ import type { TranslationSchema } from '../types';
 export const zhCN: TranslationSchema = {
   nav: {
     home: '首页',
+    services: '服务',
     apps: '应用',
     models: 'AI 模型',
     skills: '技能',

@@ -19,6 +19,7 @@ export const LOCALE_OPTIONS: LocaleOption[] = [
 export interface TranslationSchema {
   nav: {
     home: string;
+    services: string;
     apps: string;
     models: string;
     skills: string;

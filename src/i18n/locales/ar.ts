@@ -3,6 +3,7 @@ import type { TranslationSchema } from '../types';
 export const ar: TranslationSchema = {
   nav: {
     home: 'الرئيسية',
+    services: 'الخدمات',
     apps: 'التطبيقات',
     models: 'النماذج',
     skills: 'المهارات',

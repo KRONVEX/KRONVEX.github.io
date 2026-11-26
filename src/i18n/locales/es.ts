@@ -3,6 +3,7 @@ import type { TranslationSchema } from '../types';
 export const es: TranslationSchema = {
   nav: {
     home: 'Inicio',
+    services: 'Servicios',
     apps: 'Apps',
     models: 'Modelos',
     skills: 'Skills',

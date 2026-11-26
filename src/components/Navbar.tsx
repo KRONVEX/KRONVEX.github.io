@@ -13,6 +13,7 @@ import {
   Sparkles,
   Sun,
   Terminal,
+  Wrench,
   X,
   Compass,
 } from 'lucide-react';
@@ -34,6 +35,7 @@ export function Navbar({ darkMode, onToggleTheme, onOpenCommand }: NavbarProps) 
 
   const navItems = [
     { to: '/', label: t.nav.home, icon: Globe },
+    { to: '/services', label: t.nav.services, icon: Wrench },
     { to: '/apps', label: t.nav.apps, icon: Layers },
     { to: '/models', label: t.nav.models, icon: Cpu },
     { to: '/skills', label: t.nav.skills, icon: Sparkles },
@@ -78,7 +80,7 @@ export function Navbar({ darkMode, onToggleTheme, onOpenCommand }: NavbarProps) 
               <Link
                 key={item.to}
                 to={item.to}
-                className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs xl:text-[13px] font-medium inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-all ${
+                className={`px-1.5 xl:px-2.5 py-1.5 rounded-lg text-xs xl:text-[13px] font-medium inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-all ${
                   active
                     ? 'bg-sky-500/15 text-sky-800 dark:text-sky-300 ring-1 ring-sky-500/30'
                     : 'text-slate-900 dark:text-slate-100 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60'
