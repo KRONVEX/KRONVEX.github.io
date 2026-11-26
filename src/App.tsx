@@ -20,6 +20,9 @@ const VisionPage = lazy(() => import('./pages/VisionPage').then((m) => ({ defaul
 const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
 const ArcadePage = lazy(() => import('./pages/ArcadePage').then((m) => ({ default: m.ArcadePage })));
 const EnterprisePage = lazy(() => import('./pages/EnterprisePage').then((m) => ({ default: m.EnterprisePage })));
+const ServicesPage = lazy(() => import('./pages/ServicesPage').then((m) => ({ default: m.ServicesPage })));
+const WorkPage = lazy(() => import('./pages/WorkPage').then((m) => ({ default: m.WorkPage })));
+const PlaybookPage = lazy(() => import('./pages/PlaybookPage').then((m) => ({ default: m.PlaybookPage })));
 const CommandTerminal = lazy(() =>
   import('./components/CommandTerminal').then((m) => ({ default: m.CommandTerminal }))
 );
@@ -175,6 +178,11 @@ export function App() {
                 <Route path="/constellation" element={<ConstellationPage />} />
                 <Route path="/enterprise" element={<EnterprisePage />} />
                 <Route path="/solutions" element={<EnterprisePage />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/work" element={<WorkPage />} />
+                <Route path="/case-studies" element={<WorkPage />} />
+                <Route path="/playbook" element={<PlaybookPage />} />
+                <Route path="/glossary" element={<PlaybookPage />} />
                 <Route path="/vision" element={<VisionPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route

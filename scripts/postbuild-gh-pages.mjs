@@ -79,6 +79,38 @@ const ROUTES = [
     canonicalSlug: 'enterprise',
   },
   {
+    slug: 'services',
+    title: 'Custom Software Development & AI Services | KRONVEX',
+    description: 'Custom web, Windows & Android software development, private AI & RAG systems, AI agent workflows, and real-time data pipelines.',
+    h1: 'Custom Software Development & AI-Native Engineering Services',
+  },
+  {
+    slug: 'work',
+    title: 'Engineering Case Studies & Verified Work | KRONVEX',
+    description: 'Inspect live KRONVEX software and AI case studies: zero-server 100/100 web architecture, local WebGPU AI studio, and Top 21 research radar.',
+    h1: 'Engineering Case Studies & Verified Proof of Work',
+  },
+  {
+    slug: 'case-studies',
+    title: 'Engineering Case Studies & Verified Work | KRONVEX',
+    description: 'Inspect live KRONVEX software and AI case studies: zero-server 100/100 web architecture, local WebGPU AI studio, and Top 21 research radar.',
+    h1: 'Engineering Case Studies & Verified Proof of Work',
+    canonicalSlug: 'work',
+  },
+  {
+    slug: 'playbook',
+    title: 'Engineering Playbook & AI Systems Glossary | KRONVEX',
+    description: 'Open KRONVEX engineering playbook and searchable technical glossary covering AI-native development, RAG, MCP, WebGPU, AEO & GEO.',
+    h1: 'KRONVEX Engineering Playbook & Technical Glossary',
+  },
+  {
+    slug: 'glossary',
+    title: 'Engineering Playbook & AI Systems Glossary | KRONVEX',
+    description: 'Open KRONVEX engineering playbook and searchable technical glossary covering AI-native development, RAG, MCP, WebGPU, AEO & GEO.',
+    h1: 'KRONVEX Engineering Playbook & Technical Glossary',
+    canonicalSlug: 'playbook',
+  },
+  {
     slug: 'vision',
     title: 'Vision, Privacy & Strategic Roadmap | KRONVEX',
     description: 'Read the KRONVEX engineering manifesto, zero-tracking privacy guarantees, open-source governance, and multi-phase roadmap.',

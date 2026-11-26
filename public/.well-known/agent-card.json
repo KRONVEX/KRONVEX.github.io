@@ -39,6 +39,13 @@
       "url": "https://kronvex.org/skills"
     },
     {
+      "id": "kronvex-services",
+      "name": "Custom Software & AI-Native Engineering Services",
+      "description": "Explore KRONVEX engineering capabilities, 4-stage delivery methodology, engagement models, and FAQs.",
+      "tags": ["services", "custom-software", "ai-agents", "rag"],
+      "url": "https://kronvex.org/services"
+    },
+    {
       "id": "kronvex-research-radar",
       "name": "Top 21 AI & Tech Research Papers",
       "description": "Verified arXiv landmark papers and live daily research radar with BibTeX export.",

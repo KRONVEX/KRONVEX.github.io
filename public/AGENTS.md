@@ -17,6 +17,9 @@ This file describes how autonomous AI agents, search crawlers, and developer too
 - `/research` — Top 21 verified AI & computing landmark papers with PDF, arXiv & BibTeX
 - `/arcade` — Interactive Tech & AI Quiz Arena (EN/FR/AR), Neural Chess & Orbital Defender
 - `/constellation` — Interactive ecosystem topology map
+- `/services` — Custom software & AI-native engineering services, delivery process, engagement models & FAQs
+- `/work` — Verified KRONVEX engineering case studies & measured outcomes
+- `/playbook` — Open KRONVEX engineering playbook & searchable AI/systems glossary
 - `/enterprise` — Custom software engineering, private AI/RAG & interactive scope builder
 - `/vision` — Engineering manifesto, privacy guarantees & multi-phase roadmap
 - `/contact` — Official channels (`kronvex1@gmail.com`, `research@khalidnaami.com`)

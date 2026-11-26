@@ -13,6 +13,9 @@
 - [KRONVEX Arcade, AI Chess & Tech Quiz Arena](https://kronvex.org/arcade): 60fps Orbital Defender, local Alpha-Beta Neural Chess engine (3 AI tiers + 2P), and Trilingual (EN/FR/AR) Python, JS/TS & AI/LLM/RAG/DeepMind Mastery Arena.
 - [Ecosystem Constellation](https://kronvex.org/constellation): Interactive orbital map of KRONVEX pillars, apps, AI models, and skills.
 - [Enterprise & Custom Engineering](https://kronvex.org/enterprise): Tailored web/Windows/Android applications, private LLM & RAG systems, market intelligence pipelines, performance audits, and interactive project scope builder.
+- [Custom Software & AI Services](https://kronvex.org/services): Full capabilities, 4-phase delivery methodology, engagement models (Prototype Sprint, Full Delivery, Dedicated Partner), and technical FAQs.
+- [Engineering Case Studies](https://kronvex.org/work): Live verifiable KRONVEX architectures with Challenge, Solution, and Measured Outcomes.
+- [Engineering Playbook & AI Glossary](https://kronvex.org/playbook): Six KRONVEX engineering laws and searchable 16-term AI-native, agentic, WebGPU & SEO/GEO technical glossary.
 - [Vision & Roadmap](https://kronvex.org/vision): Organization manifesto, engineering principles, and multi-phase strategic roadmap.
 - [Contact & Governance](https://kronvex.org/contact): Official organization email (`kronvex1@gmail.com`), Founder & Research email (`research@khalidnaami.com`), direct GitHub channels, zero-tracking inquiry composer, and security disclosure policy.
 
