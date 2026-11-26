@@ -448,7 +448,7 @@ function parseArxivAtomXml(xml) {
 }
 
 async function fetchTechGiantsLiveArxiv() {
-  const headers = { 'User-Agent': 'KRONVEX-Research-Radar/3.0 (https://kronvex.github.io)' };
+  const headers = { 'User-Agent': 'KRONVEX-Research-Radar/3.1 (https://kronvex.org)' };
   const queries = [
     '(abs:"Google DeepMind" OR abs:"Google Research" OR abs:"Google Quantum" OR abs:"Samsung" OR abs:"NVIDIA" OR abs:"Microsoft Research" OR abs:"OpenAI" OR abs:"Anthropic" OR abs:"DeepSeek" OR abs:"Meta AI") AND (cat:cs.AI OR cat:cs.LG OR cat:cs.AR OR cat:quant-ph)',
     '(cat:cs.PL OR (cat:cs.SE AND (abs:"compiler" OR abs:"programming language" OR abs:"LLVM" OR abs:"Triton" OR abs:"CUDA" OR abs:"Rust"))) AND (abs:"new" OR abs:"novel" OR abs:"discover" OR abs:"framework" OR abs:"language" OR abs:"compiler")',

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kronvex.github.io/sitemap.xml
+Sitemap: https://kronvex.org/sitemap.xml

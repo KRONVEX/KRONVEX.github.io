@@ -387,7 +387,7 @@ export function TechQuizArena() {
       `Track: ${ui.tracks[track]} | Mode: ${ui.modes[mode].name}`,
       `Score: ${score.toLocaleString()} | Accuracy: ${accuracyPct}% (${correctCount}/${answeredCount})`,
       `Max Combo: x${Math.min(5, 1 + Math.floor(maxCombo / 2))} | Rank: ${rankName} (${profile.xp} XP)`,
-      `Play free at https://kronvex.github.io/arcade?game=quiz`,
+      `Play free at https://kronvex.org/arcade?game=quiz`,
     ].join('\n');
     navigator.clipboard?.writeText(summary);
     setCopiedCard(true);

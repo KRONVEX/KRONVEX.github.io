@@ -2,10 +2,10 @@
   "entries": [
     {
       "@context": "https://agenticresourcediscovery.org/context/v1",
-      "identifier": "urn:air:kronvex.github.io:catalog:platform",
+      "identifier": "urn:air:kronvex.org:catalog:platform",
       "displayName": "KRONVEX Official Web Platform",
       "type": "text/markdown; profile=\"urn:air:agent-skills\"",
-      "url": "https://kronvex.github.io/llms.txt",
+      "url": "https://kronvex.org/llms.txt",
       "description": "Official KRONVEX platform for cross-platform Windows and Android apps, local-first WebGPU/ONNX/GGUF AI models, reusable SKILL.md agent workflows, and Top 21 GitHub, Hugging Face & AI Research Papers leaderboards.",
       "representativeQueries": [
         "Download KRONVEX Windows and Android applications",
@@ -23,7 +23,7 @@
         "webgpu"
       ],
       "trustManifest": {
-        "identity": "https://kronvex.github.io",
+        "identity": "https://kronvex.org",
         "identityType": "https",
         "trustSchema": "https"
       }

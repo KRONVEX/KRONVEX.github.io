@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kronvex.github.io/</loc>
+    <loc>https://kronvex.org/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/apps</loc>
+    <loc>https://kronvex.org/apps</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/models</loc>
+    <loc>https://kronvex.org/models</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/skills</loc>
+    <loc>https://kronvex.org/skills</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/top-21</loc>
+    <loc>https://kronvex.org/top-21</loc>
     <lastmod>2026-11-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/research</loc>
+    <loc>https://kronvex.org/research</loc>
     <lastmod>2026-11-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/arcade</loc>
+    <loc>https://kronvex.org/arcade</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/constellation</loc>
+    <loc>https://kronvex.org/constellation</loc>
     <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/enterprise</loc>
+    <loc>https://kronvex.org/enterprise</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/vision</loc>
+    <loc>https://kronvex.org/vision</loc>
     <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kronvex.github.io/contact</loc>
+    <loc>https://kronvex.org/contact</loc>
     <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

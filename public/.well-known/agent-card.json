@@ -1,14 +1,14 @@
 {
   "name": "KRONVEX Platform",
   "description": "Official web platform for KRONVEX — Cross-Platform Apps, Market Intelligence, AI Agent Skills, Top 21 Research Radar, and Local-First WebGPU AI Models.",
-  "url": "https://kronvex.github.io/",
+  "url": "https://kronvex.org/",
   "version": "3.1.0",
   "provider": {
     "organization": "KRONVEX",
     "url": "https://github.com/KRONVEX",
     "contact": "kronvex1@gmail.com"
   },
-  "documentationUrl": "https://kronvex.github.io/llms.txt",
+  "documentationUrl": "https://kronvex.org/llms.txt",
   "capabilities": {
     "streaming": false,
     "pushNotifications": false,
@@ -22,34 +22,34 @@
       "name": "Cross-Platform Apps Catalog",
       "description": "Discover signed Windows and Android releases with SHA-256 verification.",
       "tags": ["windows", "android", "releases", "sha256"],
-      "url": "https://kronvex.github.io/apps"
+      "url": "https://kronvex.org/apps"
     },
     {
       "id": "kronvex-local-models",
       "name": "Local-First AI Models & WebGPU Studio",
       "description": "Inspect downloadable GGUF/ONNX AI models and local browser inference compatibility.",
       "tags": ["ai", "webgpu", "wasm", "onnx", "gguf"],
-      "url": "https://kronvex.github.io/models"
+      "url": "https://kronvex.org/models"
     },
     {
       "id": "kronvex-agent-skills",
       "name": "AI Agent Skills Marketplace",
       "description": "Browse and bundle SKILL.md modules for AI coding agents.",
       "tags": ["skills", "agents", "skill-md"],
-      "url": "https://kronvex.github.io/skills"
+      "url": "https://kronvex.org/skills"
     },
     {
       "id": "kronvex-research-radar",
       "name": "Top 21 AI & Tech Research Papers",
       "description": "Verified arXiv landmark papers and live daily research radar with BibTeX export.",
       "tags": ["research", "arxiv", "papers", "bibtex"],
-      "url": "https://kronvex.github.io/research"
+      "url": "https://kronvex.org/research"
     }
   ],
   "links": {
-    "llms": "https://kronvex.github.io/llms.txt",
-    "agents": "https://kronvex.github.io/AGENTS.md",
-    "sitemap": "https://kronvex.github.io/sitemap.xml",
-    "ard": "https://kronvex.github.io/.well-known/ard.json"
+    "llms": "https://kronvex.org/llms.txt",
+    "agents": "https://kronvex.org/AGENTS.md",
+    "sitemap": "https://kronvex.org/sitemap.xml",
+    "ard": "https://kronvex.org/.well-known/ard.json"
   }
 }

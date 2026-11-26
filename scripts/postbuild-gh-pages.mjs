@@ -97,7 +97,7 @@ function escapeHtml(str) {
 }
 
 for (const r of ROUTES) {
-  const canonicalUrl = `https://kronvex.github.io/${r.canonicalSlug ?? r.slug}`;
+  const canonicalUrl = `https://kronvex.org/${r.canonicalSlug ?? r.slug}`;
   const safeTitle = escapeHtml(r.title);
   const safeDesc = escapeHtml(r.description);
   const safeH1 = escapeHtml(r.h1);

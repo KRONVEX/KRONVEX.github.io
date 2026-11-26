@@ -1,6 +1,6 @@
 # KRONVEX — AI Agent Guide (`AGENTS.md`)
 
-This file describes how autonomous AI agents, search crawlers, and developer tools should discover and interact with the KRONVEX platform (`https://kronvex.github.io`).
+This file describes how autonomous AI agents, search crawlers, and developer tools should discover and interact with the KRONVEX platform (`https://kronvex.org`).
 
 ## Organization Overview
 - **Name:** KRONVEX

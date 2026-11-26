@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://kronvex.github.io">
+  <a href="https://kronvex.org">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KRONVEX/.github/main/assets/hero_command_dark.svg">
       <img alt="KRONVEX Official Web Platform" src="https://raw.githubusercontent.com/KRONVEX/.github/main/assets/hero_command_light.svg" width="100%">
@@ -7,15 +7,15 @@
   </a>
 </p>
 
-<h1 align="center">KRONVEX — Official Web Platform (<code>kronvex.github.io</code>)</h1>
+<h1 align="center">KRONVEX — Official Web Platform (<code>kronvex.org</code>)</h1>
 
 <p align="center">
   <i>100% static, zero-server-cost, local-first deep-tech platform for <a href="https://github.com/KRONVEX"><b>KRONVEX</b></a> — distributing Cross-Platform Apps, Market Intelligence, AI Agent Skills, and In-Browser WebGPU AI Models.</i>
 </p>
 
 <p align="center">
-  <a href="https://kronvex.github.io">
-    <img src="https://img.shields.io/badge/Live%20Platform-kronvex.github.io-0EA5E9?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Live Platform" />
+  <a href="https://kronvex.org">
+    <img src="https://img.shields.io/badge/Live%20Platform-kronvex.org-0EA5E9?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Live Platform" />
   </a>
   <a href="https://github.com/KRONVEX">
     <img src="https://img.shields.io/badge/Organization-KRONVEX-090D16?style=for-the-badge&logo=github&logoColor=38BDF8" alt="KRONVEX Organization" />
@@ -46,7 +46,7 @@
 
 ## Overview
 
-**[kronvex.github.io](https://kronvex.github.io)** is the official web command center of the **[KRONVEX](https://github.com/KRONVEX)** organization:
+**[kronvex.org](https://kronvex.org)** is the official web command center of the **[KRONVEX](https://github.com/KRONVEX)** organization:
 
 > **Building cross-platform apps, market intelligence, and mission-critical AI to solve complex real-world problems.**
 
@@ -231,7 +231,7 @@ npm run preview
 Deployment is fully automated via [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml):
 
 1. Every push to **`main`**, every **6-hour cron schedule (`0 */6 * * *`)**, or any manual **`workflow_dispatch`** run executes `npm ci → npm run sync → npm run build`.
-2. The compiled static artifact (`./dist`) is published automatically to **GitHub Pages** (`https://kronvex.github.io`) via `actions/deploy-pages@v4`.
+2. The compiled static artifact (`./dist`) is published automatically to **GitHub Pages** (`https://kronvex.org`) via `actions/deploy-pages@v4`.
 3. **Custom Domain (`CNAME`):** Rename [`public/CNAME.example`](public/CNAME.example) to `public/CNAME`, replace the placeholder with your domain (e.g., `kronvex.ai`), configure your DNS `A`/`CNAME` records, and enable **Enforce HTTPS** in repository Pages settings.
 
 ---
