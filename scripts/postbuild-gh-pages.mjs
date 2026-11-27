@@ -124,6 +124,19 @@ const ROUTES = [
     canonicalSlug: 'mcp',
   },
   {
+    slug: 'cli',
+    title: 'KRONVEX Official CLI (kronvex / kvx) — Agent-Native Terminal',
+    description: 'Install the zero-dependency KRONVEX Terminal CLI with interactive ReplSkin, --json & stream-json agent output, live MCP client, BibTeX export & SKILL.md installer.',
+    h1: 'KRONVEX Official Terminal CLI (kronvex / kvx)',
+  },
+  {
+    slug: 'terminal',
+    title: 'KRONVEX Official CLI (kronvex / kvx) — Agent-Native Terminal',
+    description: 'Install the zero-dependency KRONVEX Terminal CLI with interactive ReplSkin, --json & stream-json agent output, live MCP client, BibTeX export & SKILL.md installer.',
+    h1: 'KRONVEX Official Terminal CLI (kronvex / kvx)',
+    canonicalSlug: 'cli',
+  },
+  {
     slug: 'vision',
     title: 'Vision, Privacy & Strategic Roadmap | KRONVEX',
     description: 'Read the KRONVEX engineering manifesto, zero-tracking privacy guarantees, open-source governance, and multi-phase roadmap.',

@@ -98,6 +98,7 @@ export interface TranslationSchema {
       workCaseStudies: string;
       engineeringPlaybook: string;
       mcpServer: string;
+      officialCli: string;
     };
   };
   home: {

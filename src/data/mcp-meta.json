@@ -1,14 +1,16 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-11-27T13:36:36.640Z",
+  "generatedAt": "2026-11-27T13:58:48.520Z",
   "stdioSha256": "687a3f272d0496485b65b6c6ec89779d2851ebc0e18e3037f7580ab4d19afa7c",
   "stdioBytes": 19581,
+  "cliSha256": "0ce13b230bdb0078965b16b95366908ae2f378b4899b5b83e97847771f52363d",
+  "cliBytes": 40294,
   "counts": {
     "apps": 3,
     "models": 7,
     "skills": 6,
     "papers": 21,
     "services": 4,
-    "caseStudies": 5
+    "caseStudies": 6
   }
 }

@@ -33,11 +33,11 @@ const CASE_STUDIES: CaseStudy[] = [
     challenge:
       'Build a multi-module technical showcase, software distribution hub, and research portal operating at $0 recurring server cost with zero third-party cookies, hardened edge security, and instant global load times.',
     architecture:
-      'React 19.3 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, 20 static HTTP-200 prerendered route entrypoints on GitHub Pages behind Cloudflare Full (Strict) TLS + HSTS Preload + CSP + Brotli, and 60fps canvas particle physics.',
+      'React 19.3 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, 22 static HTTP-200 prerendered route entrypoints on GitHub Pages behind Cloudflare Full (Strict) TLS + HSTS Preload + CSP + Brotli, and 60fps canvas particle physics.',
     metrics: [
       { label: 'RankPulse SEO · GEO Audit', value: '100 · 97 / 100' },
       { label: 'SEOmator & AEO Lint Score', value: '98 / 100 (A)' },
-      { label: 'Static HTTP-200 Routes', value: '20 Routes' },
+      { label: 'Static HTTP-200 Routes', value: '22 Routes' },
       { label: 'npm Audit & Monthly Server Cost', value: '0 Vulns · $0/mo' },
     ],
     stack: ['React 19', 'TypeScript', 'Vite 6', 'Cloudflare HSTS/CSP', 'GitHub Pages', '6-Lang RTL'],
@@ -119,6 +119,25 @@ const CASE_STUDIES: CaseStudy[] = [
     stack: ['MCP 2026-07-28', 'Code Mode', 'Cloudflare Workers', 'JSON-RPC 2.0', 'Node.js 0-Deps'],
     liveRoute: '/mcp',
     liveLabel: 'Open MCP Hub & Playground',
+  },
+  {
+    id: 'kronvex-official-cli',
+    code: 'CASE 06',
+    category: 'Systems',
+    title: 'KRONVEX Official Terminal CLI (kronvex / kvx)',
+    subtitle: 'Zero-Dependency Agent-Native CLI · Branded REPL, --json, stream-json & Live MCP Client',
+    challenge:
+      'Developers and autonomous AI coding agents need a fast, scriptable, cross-platform terminal interface to query catalogs, match local AI models to host RAM, install SKILL.md modules, and export BibTeX without browser friction.',
+    architecture:
+      'Pure Node.js >=18 single-file CLI with zero external dependencies, unified ANSI ReplSkin interactive shell, deterministic --json and NDJSON stream-json protocols, native https://mcp.kronvex.org/mcp client with local disk cache fallback, and 1-line Windows/macOS/Linux installers.',
+    metrics: [
+      { label: 'Runtime Dependencies & Boot', value: '0 Deps · ~55ms' },
+      { label: 'Output Protocols Supported', value: 'REPL · JSON · NDJSON' },
+      { label: 'Subprocess E2E Verification', value: '100% Passing' },
+    ],
+    stack: ['Node.js ESM', 'ReplSkin ANSI', 'NDJSON Stream', 'MCP Client', 'SKILL.md'],
+    liveRoute: '/cli',
+    liveLabel: 'Install KRONVEX CLI',
   },
 ];
 

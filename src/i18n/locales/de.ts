@@ -82,6 +82,7 @@ export const de: TranslationSchema = {
       workCaseStudies: 'Projekte & Fallstudien (Work)',
       engineeringPlaybook: 'Playbook & KI-Glossar',
       mcpServer: 'MCP-Server (Code Mode)',
+      officialCli: 'Offizielle Terminal-CLI (kronvex)',
     },
   },
   home: {

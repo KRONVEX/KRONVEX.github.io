@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-11-27T13:36:36.640Z",
+  "generatedAt": "2026-11-27T13:58:48.520Z",
   "syncedAt": "2026-11-22T11:25:18.609Z",
   "organization": {
     "name": "KRONVEX",
@@ -859,6 +859,17 @@
         "serverCost": "$0/mo"
       },
       "url": "https://kronvex.org/mcp"
+    },
+    {
+      "id": "kronvex-official-cli",
+      "title": "KRONVEX Official Terminal CLI (kronvex / kvx)",
+      "category": "Systems",
+      "metrics": {
+        "dependencies": "0 Deps (Node >=18)",
+        "protocols": "REPL + --json + stream-json",
+        "mcpClient": "Live mcp.kronvex.org/mcp"
+      },
+      "url": "https://kronvex.org/cli"
     }
   ],
   "githubStats": {

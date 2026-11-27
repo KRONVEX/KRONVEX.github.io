@@ -82,6 +82,7 @@ export const zhCN: TranslationSchema = {
       workCaseStudies: '案例研究与作品 (Work)',
       engineeringPlaybook: '工程手册与 AI 术语表',
       mcpServer: 'MCP 服务器 (Code Mode)',
+      officialCli: '官方终端 CLI (kronvex)',
     },
   },
   home: {

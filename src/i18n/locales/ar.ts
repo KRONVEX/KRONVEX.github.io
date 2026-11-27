@@ -82,6 +82,7 @@ export const ar: TranslationSchema = {
       workCaseStudies: 'أعمالنا ودراسات الحالة (Work)',
       engineeringPlaybook: 'دليل المنهجية ومعجم الـ AI',
       mcpServer: 'خادم MCP (وضع Code Mode)',
+      officialCli: 'طرفية CLI الرسمية (kronvex)',
     },
   },
   home: {

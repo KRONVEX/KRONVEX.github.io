@@ -117,6 +117,13 @@ const catalogPayload = {
       metrics: { tokenReduction: '98.4% (~650 tokens)', securityAudit: '100/100', transports: 'Streamable HTTP + stdio', serverCost: '$0/mo' },
       url: 'https://kronvex.org/mcp',
     },
+    {
+      id: 'kronvex-official-cli',
+      title: 'KRONVEX Official Terminal CLI (kronvex / kvx)',
+      category: 'Systems',
+      metrics: { dependencies: '0 Deps (Node >=18)', protocols: 'REPL + --json + stream-json', mcpClient: 'Live mcp.kronvex.org/mcp' },
+      url: 'https://kronvex.org/cli',
+    },
   ],
   githubStats: liveGithub.stats,
   repositories: liveGithub.repos,
@@ -142,7 +149,7 @@ const top21Payload = {
 };
 fs.writeFileSync(path.join(apiDir, 'top21.json'), JSON.stringify(top21Payload, null, 2), 'utf-8');
 
-// 4. Compute SHA-256 of public/mcp/kronvex-mcp.mjs if present
+// 4. Compute SHA-256 of public/mcp/kronvex-mcp.mjs and public/cli/kronvex.mjs if present
 const stdioServerPath = path.join(publicDir, 'mcp', 'kronvex-mcp.mjs');
 let stdioSha256 = null;
 let stdioBytes = 0;
@@ -150,6 +157,15 @@ if (fs.existsSync(stdioServerPath)) {
   const buf = fs.readFileSync(stdioServerPath);
   stdioSha256 = crypto.createHash('sha256').update(buf).digest('hex');
   stdioBytes = buf.length;
+}
+
+const cliPath = path.join(publicDir, 'cli', 'kronvex.mjs');
+let cliSha256 = null;
+let cliBytes = 0;
+if (fs.existsSync(cliPath)) {
+  const buf = fs.readFileSync(cliPath);
+  cliSha256 = crypto.createHash('sha256').update(buf).digest('hex');
+  cliBytes = buf.length;
 }
 
 // 5. /.well-known/mcp.json (Official MCP Discovery Manifest)
@@ -220,6 +236,8 @@ fs.writeFileSync(
       generatedAt,
       stdioSha256,
       stdioBytes,
+      cliSha256,
+      cliBytes,
       counts: {
         apps: catalogPayload.apps.length,
         models: catalogPayload.models.length,

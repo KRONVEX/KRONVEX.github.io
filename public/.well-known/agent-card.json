@@ -58,10 +58,19 @@
       "description": "Read-only Model Context Protocol gateway (Streamable HTTP + zero-dep local stdio) collapsing KRONVEX apps, models, skills, and Top 21 research into 2 tools (~650 tokens).",
       "tags": ["mcp", "code-mode", "json-rpc", "agents"],
       "url": "https://kronvex.org/mcp"
+    },
+    {
+      "id": "kronvex-official-cli",
+      "name": "KRONVEX Official Terminal CLI (kronvex / kvx)",
+      "description": "Zero-dependency Node.js CLI with branded REPL, --json & stream-json output, live MCP client, hardware-fit model recommender, BibTeX export & SKILL.md installer.",
+      "tags": ["cli", "terminal", "repl", "json", "mcp"],
+      "url": "https://kronvex.org/cli"
     }
   ],
   "links": {
     "mcp": "https://kronvex.org/.well-known/mcp.json",
+    "cli": "https://kronvex.org/cli",
+    "cliSkill": "https://kronvex.org/cli/SKILL.md",
     "llms": "https://kronvex.org/llms.txt",
     "agents": "https://kronvex.org/AGENTS.md",
     "sitemap": "https://kronvex.org/sitemap.xml",
