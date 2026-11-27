@@ -97,6 +97,7 @@ export interface TranslationSchema {
       servicesEngagement: string;
       workCaseStudies: string;
       engineeringPlaybook: string;
+      mcpServer: string;
     };
   };
   home: {

@@ -81,6 +81,7 @@ export const zhCN: TranslationSchema = {
       servicesEngagement: '服务与合作模式',
       workCaseStudies: '案例研究与作品 (Work)',
       engineeringPlaybook: '工程手册与 AI 术语表',
+      mcpServer: 'MCP 服务器 (Code Mode)',
     },
   },
   home: {

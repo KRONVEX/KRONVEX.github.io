@@ -1,0 +1,6 @@
+name = "kronvex-mcp"
+main = "worker.js"
+compatibility_date = "2026-07-28"
+
+# Bind custom domain in Cloudflare Dashboard -> Workers & Pages -> kronvex-mcp -> Settings -> Domains & Routes:
+# mcp.kronvex.org

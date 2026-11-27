@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "2026-07-28",
+  "name": "kronvex-mcp",
+  "displayName": "KRONVEX Official MCP Server",
+  "version": "1.0.0",
+  "architecture": "NexusMCP Code Mode (2-tool ~650-token surface + Classic escape hatch)",
+  "description": "Official read-only Model Context Protocol server for KRONVEX (kronvex.org) — query cross-platform apps, local WebGPU AI models, SKILL.md agent workflows, Top 21 GitHub/Hugging Face/arXiv research radar, engineering services, and case studies.",
+  "provider": {
+    "organization": "KRONVEX",
+    "url": "https://kronvex.org",
+    "documentationUrl": "https://kronvex.org/mcp",
+    "contact": "kronvex1@gmail.com"
+  },
+  "transports": {
+    "streamableHttp": {
+      "url": "https://mcp.kronvex.org/mcp",
+      "protocolVersions": [
+        "2026-07-28",
+        "2025-03-26"
+      ],
+      "stateless": true,
+      "authentication": "none (public read-only)"
+    },
+    "stdio": {
+      "downloadUrl": "https://kronvex.org/mcp/kronvex-mcp.mjs",
+      "runtime": "node >= 18 (0 dependencies)",
+      "sha256": "687a3f272d0496485b65b6c6ec89779d2851ebc0e18e3037f7580ab4d19afa7c",
+      "bytes": 19581,
+      "command": "node",
+      "args": [
+        "kronvex-mcp.mjs"
+      ],
+      "classicArgs": [
+        "kronvex-mcp.mjs",
+        "--mode",
+        "classic"
+      ]
+    }
+  },
+  "tools": {
+    "codeMode": [
+      "kronvex_search",
+      "kronvex_execute"
+    ],
+    "classicMode": [
+      "kronvex_list_apps",
+      "kronvex_list_models",
+      "kronvex_list_skills",
+      "kronvex_search_research",
+      "kronvex_get_top21",
+      "kronvex_get_services"
+    ]
+  },
+  "security": {
+    "readOnlyByDefault": true,
+    "sandbox": "isolated node:vm (no process/require/env/fetch)",
+    "untrustedDataBoundaries": "per-call random UUID instruction sandwich",
+    "stdoutFraming": "FilteredStdio (zero console.log corruption)",
+    "ssrfPolicy": "strictly restricted to https://kronvex.org/api/*"
+  },
+  "staticEndpoints": {
+    "catalog": "https://kronvex.org/api/catalog.json",
+    "research": "https://kronvex.org/api/research.json",
+    "top21": "https://kronvex.org/api/top21.json"
+  }
+}

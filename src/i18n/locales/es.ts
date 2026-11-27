@@ -81,6 +81,7 @@ export const es: TranslationSchema = {
       servicesEngagement: 'Servicios y Modelos',
       workCaseStudies: 'Proyectos y Casos (Work)',
       engineeringPlaybook: 'Playbook y Glosario IA',
+      mcpServer: 'Servidor MCP (Code Mode)',
     },
   },
   home: {

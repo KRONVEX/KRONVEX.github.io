@@ -23,6 +23,7 @@ const EnterprisePage = lazy(() => import('./pages/EnterprisePage').then((m) => (
 const ServicesPage = lazy(() => import('./pages/ServicesPage').then((m) => ({ default: m.ServicesPage })));
 const WorkPage = lazy(() => import('./pages/WorkPage').then((m) => ({ default: m.WorkPage })));
 const PlaybookPage = lazy(() => import('./pages/PlaybookPage').then((m) => ({ default: m.PlaybookPage })));
+const McpPage = lazy(() => import('./pages/McpPage').then((m) => ({ default: m.McpPage })));
 const CommandTerminal = lazy(() =>
   import('./components/CommandTerminal').then((m) => ({ default: m.CommandTerminal }))
 );
@@ -183,6 +184,8 @@ export function App() {
                 <Route path="/case-studies" element={<WorkPage />} />
                 <Route path="/playbook" element={<PlaybookPage />} />
                 <Route path="/glossary" element={<PlaybookPage />} />
+                <Route path="/mcp" element={<McpPage />} />
+                <Route path="/mcp-server" element={<McpPage />} />
                 <Route path="/vision" element={<VisionPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route

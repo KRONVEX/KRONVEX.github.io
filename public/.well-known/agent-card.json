@@ -51,9 +51,17 @@
       "description": "Verified arXiv landmark papers and live daily research radar with BibTeX export.",
       "tags": ["research", "arxiv", "papers", "bibtex"],
       "url": "https://kronvex.org/research"
+    },
+    {
+      "id": "kronvex-mcp-server",
+      "name": "KRONVEX Official MCP Server (Code Mode)",
+      "description": "Read-only Model Context Protocol gateway (Streamable HTTP + zero-dep local stdio) collapsing KRONVEX apps, models, skills, and Top 21 research into 2 tools (~650 tokens).",
+      "tags": ["mcp", "code-mode", "json-rpc", "agents"],
+      "url": "https://kronvex.org/mcp"
     }
   ],
   "links": {
+    "mcp": "https://kronvex.org/.well-known/mcp.json",
     "llms": "https://kronvex.org/llms.txt",
     "agents": "https://kronvex.org/AGENTS.md",
     "sitemap": "https://kronvex.org/sitemap.xml",

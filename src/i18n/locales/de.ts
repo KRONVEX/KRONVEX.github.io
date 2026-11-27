@@ -81,6 +81,7 @@ export const de: TranslationSchema = {
       servicesEngagement: 'Services & Modelle',
       workCaseStudies: 'Projekte & Fallstudien (Work)',
       engineeringPlaybook: 'Playbook & KI-Glossar',
+      mcpServer: 'MCP-Server (Code Mode)',
     },
   },
   home: {

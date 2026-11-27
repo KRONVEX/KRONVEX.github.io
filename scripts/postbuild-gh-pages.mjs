@@ -111,6 +111,19 @@ const ROUTES = [
     canonicalSlug: 'playbook',
   },
   {
+    slug: 'mcp',
+    title: 'KRONVEX MCP Server — Code-Mode AI Agent Gateway',
+    description: 'Connect Antigravity, Claude, Cursor & VS Code to kronvex.org via NexusMCP Code Mode (~650 tokens, 98.4% token reduction, Remote HTTP & local stdio).',
+    h1: 'KRONVEX Official MCP Server — NexusMCP Code Mode',
+  },
+  {
+    slug: 'mcp-server',
+    title: 'KRONVEX MCP Server — Code-Mode AI Agent Gateway',
+    description: 'Connect Antigravity, Claude, Cursor & VS Code to kronvex.org via NexusMCP Code Mode (~650 tokens, 98.4% token reduction, Remote HTTP & local stdio).',
+    h1: 'KRONVEX Official MCP Server — NexusMCP Code Mode',
+    canonicalSlug: 'mcp',
+  },
+  {
     slug: 'vision',
     title: 'Vision, Privacy & Strategic Roadmap | KRONVEX',
     description: 'Read the KRONVEX engineering manifesto, zero-tracking privacy guarantees, open-source governance, and multi-phase roadmap.',

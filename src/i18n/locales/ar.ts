@@ -81,6 +81,7 @@ export const ar: TranslationSchema = {
       servicesEngagement: 'الخدمات ونماذج التعاقد',
       workCaseStudies: 'أعمالنا ودراسات الحالة (Work)',
       engineeringPlaybook: 'دليل المنهجية ومعجم الـ AI',
+      mcpServer: 'خادم MCP (وضع Code Mode)',
     },
   },
   home: {
