@@ -51,25 +51,25 @@ const TERMINAL_DEMOS: Record<DemoTab, { label: string; command: string; output: 
   repl: {
     label: 'Interactive REPL',
     command: 'kronvex',
-    output: `██░░░██░ ██████░  ░█████░  ██░░░░██░ ██░░░░██░ ███████░ ██░░░██░
-██░░██░░ ██░░░██░ ██░░░██░ ███░░░██░ ██░░░░██░ ██░░░░░░ ░██░██░░
-█████░░░ ██████░░ ██░░░██░ ████░░██░ ██░░░░██░ █████░░░ ░░███░░░
-██░░██░░ ██░░██░░ ██░░░██░ ██░██░██░ ░██░░██░░ ██░░░░░░ ░░███░░░
-██░░░██░ ██░░░██░ ██░░░██░ ██░░████░ ░░████░░░ ██░░░░░░ ░██░██░░
-██░░░██░ ██░░░██░ ░█████░░ ██░░░███░ ░░░██░░░░ ███████░ ██░░░██░
-░░░░░░░░ ░░░░░░░░  ░░░░░░  ░░░░░░░░░ ░░░░░░░░░ ░░░░░░░░ ░░░░░░░░
+    output: ` ◥◣◢████████◣◢◤    ██░░░██░ ██████░  ░█████░  ██░░░░██░ ██░░░░██░ ███████░ ██░░░██░
+ ██▀        ▀██    ██░░██░░ ██░░░██░ ██░░░██░ ███░░░██░ ██░░░░██░ ██░░░░░░ ░██░██░░
+██  ◈█    █◈  ██   █████░░░ ██████░░ ██░░░██░ ████░░██░ ██░░░░██░ █████░░░ ░░███░░░
+██     ▼▼     ██   ██░░██░░ ██░░██░░ ██░░░██░ ██░██░██░ ░██░░██░░ ██░░░░░░ ░░███░░░
+██    ◢◆◆◣    ██   ██░░░██░ ██░░░██░ ██░░░██░ ██░░████░ ░░████░░░ ██░░░░░░ ░██░██░░
+ ◥██▄      ▄██◤    ██░░░██░ ██░░░██░ ░█████░░ ██░░░███░ ░░░██░░░░ ███████░ ██░░░██░
+   ◥████████◤      ░░░░░░░░ ░░░░░░░░  ░░░░░░  ░░░░░░░░░ ░░░░░░░░░ ░░░░░░░░ ░░░░░░░░
 
   ◈ KRONVEX · Cross-Platform Apps · Market Intelligence · Mission-Critical AI
 
   Tips for getting started:
   1. Run doctor, search "webgpu", or models recommend to inspect KRONVEX live.
   2. Pass --json or toggle /json for deterministic AI-agent output.
-  3. Type /help for all commands · /crest for full Owl emblem · /theme for palettes.
+  3. Type /help for all commands · /crest for full Cyber-Owl Hex emblem · /theme for palettes.
 
   ╭──────────────────────────────────────────────────────────────────────────╮
   │ ● Connected to kronvex.org & mcp.kronvex.org/mcp · Read-Only · 0 Deps    │
   ╰──────────────────────────────────────────────────────────────────────────╯
-  ~/projects (kronvex v1.2.0)  ·  mcp.kronvex.org/mcp (read-only)  ·  theme:kronvex
+  ~/projects (kronvex v1.3.0)  ·  mcp.kronvex.org/mcp (read-only)  ·  theme:kronvex
   ❯ `,
   },
   doctor: {
@@ -359,16 +359,7 @@ export function CliPage() {
               </div>
               <span className="font-mono text-[11px] text-emerald-400">UTF-8 · ANSI · Zero Deps</span>
             </div>
-            <div className="p-5 flex items-start gap-4 overflow-x-auto">
-              {demoTab === 'repl' && (
-                <img
-                  src={`${import.meta.env.BASE_URL}kronvex-logo-96.webp`}
-                  alt="KRONVEX Owl Medallion Logo"
-                  width={84}
-                  height={84}
-                  className="w-16 h-16 sm:w-[84px] sm:h-[84px] rounded-xl ring-1 ring-cyan-400/40 shrink-0 mt-7"
-                />
-              )}
+            <div className="p-5 overflow-x-auto">
               <pre
                 className="text-xs sm:text-[13px] font-mono leading-relaxed bg-clip-text text-transparent"
                 style={{

@@ -23,7 +23,7 @@ import crypto from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 
 export const CLI_NAME = 'kronvex';
-export const CLI_VERSION = '1.2.0';
+export const CLI_VERSION = '1.3.0';
 export const SITE_ORIGIN = 'https://kronvex.org';
 export const MCP_ENDPOINT = 'https://mcp.kronvex.org/mcp';
 
@@ -171,91 +171,56 @@ function interpolateStops(stops, t) {
   ];
 }
 
-// ── Authentic KRONVEX Owl Logo Pixel Maps (Half-Block ▀ TrueColor Renderer) ──
-// 16 cols x 14 rows = 7 terminal lines (exact match to 7-line 3D KRONVEX wordmark!)
-const OWL_MINI_16x14 = [
-  '.YY..CCCCCC..YY.',
-  'YYY.CCNNNNCC.YYY',
-  '.Y.CCGNNNNGCC.Y.',
-  '..CCGTNTTNTGCC..',
-  '.CCGNTTTTTTNGCC.',
-  '.BCGMGGTTGGMGCB.',
-  '.BCGMMTYYTMMGCB.',
-  '.BCAGTTTTTTGACB.',
-  '.BARTTTRRTTTRAB.',
-  '.BBRTRRPPRRTRBB.',
-  'A.BBRTRRRRTRBB.A',
-  'AAA.BBTTTTBB.AAA',
-  '.AA..BBBBBB..AA.',
-  '......BBBB......',
-];
+// ── Fused Geometric KRONVEX Cyber-Owl Hex-Core Emblem (Zero Blurry Pixels) ──
+// 16 visible cols x 7 rows — razor-sharp hex tech shield + owl ear-crests + visor eyes + gold beak + ruby core
+function renderCyberOwlHexMini(forceColor = false) {
+  const on = USE_COLOR || forceColor;
+  const col = (r, g, b, s) => (on ? `\x1b[38;2;${r};${g};${b}m${s}\x1b[0m` : s);
+  const cyan = (s) => col(0, 212, 255, s);
+  const azure = (s) => col(24, 138, 255, s);
+  const green = (s) => col(34, 229, 58, s);
+  const gold = (s) => col(255, 224, 36, s);
+  const ruby = (s) => col(255, 46, 76, s);
+  const rubyHi = (s) => col(255, 132, 152, s);
 
-// High-resolution 30x28 pixel-faithful KRONVEX Owl Medallion for `kronvex crest`
-const OWL_CREST_30x28 = [
-  '..............................',
-  '.....YY.................YY....',
-  '....YYYY...............YYYY...',
-  '...YYYYY....CCCCCCCC....YYYYY.',
-  '..YYYY...CCCCCCCCCCCCCC...YYYY',
-  '.YYYYT..CCCCBNNNNNNBCCCC..TYYY',
-  '.YY..Y.CCBNNGGNNNNGGNNBCC.Y..Y',
-  '......CCNGGGNNNNNNNNGGGNCC....',
-  '.....BCNGGNNNNNNNNNNNNGGNCB...',
-  '....CCNGGNDDNNNNNNNNDDNGGNCC..',
-  '....CNNGNNTTTTNNNNTTTTNNGNNC..',
-  '...BBNGGNNTTMMTTTTMMTTNNGGNBB.',
-  '...CNNGGNNTMGGTTTTGGMTNNGGNNC.',
-  '...BNBGGNNTMGGTTYYGGMTNNGGBNB.',
-  '...CNBGGNNTMMTTYYYYMMTNNGGBNC.',
-  '...BNAGGNNTTTTTYYYYTTTNNGGANB.',
-  '...BNAGGDTTTTTTTYYTTTTTDGGANB.',
-  '...CNAAADTTTTTTRRRRTTTTDAAANC.',
-  '...BBARADTTTTRTTTTTTRTTDARABB.',
-  '....BARRDTTTRTTPPPPTTRTTDRRAB.',
-  '..A..BBRRTTTTRPPPPPPTRTTTRRBB.',
-  '.AAA..BBRTTTRTTPPPPTTRTTTRBB.A',
-  'AAAA..BBNTTTTTTRRRRTTTTTNBB.AA',
-  '.AAAA..BBNNNTTTTTTTTNNNBB.AAA.',
-  '..AAA...BBBBBBNNNNBBBBBB..AA..',
-  '...AA.....BBBBBBBBBBBB....A...',
-  '.............BBBBBB...........',
-  '..............................',
-];
+  return [
+    ` ${gold('◥◣')}${cyan('◢████████◣')}${gold('◢◤')} `,
+    ` ${cyan('██▀')}        ${cyan('▀██')} `,
+    `${cyan('██')}  ${green('◈█')}    ${green('█◈')}  ${cyan('██')}`,
+    `${cyan('██')}     ${gold('▼▼')}     ${cyan('██')}`,
+    `${azure('██')}    ${ruby('◢')}${rubyHi('◆◆')}${ruby('◣')}    ${azure('██')}`,
+    ` ${azure('◥██▄')}      ${azure('▄██◤')} `,
+    `   ${azure('◥████████◤')}   `,
+  ];
+}
 
-function renderPixelGridHalfBlock(grid, forceColor = false) {
-  const colorEnabled = USE_COLOR || forceColor;
-  const rows = [];
-  for (let y = 0; y < grid.length; y += 2) {
-    const topRow = grid[y];
-    const botRow = grid[y + 1] || '.'.repeat(topRow.length);
-    let line = '';
-    for (let x = 0; x < topRow.length; x++) {
-      const tc = topRow[x];
-      const bc = botRow[x];
-      const topRgb = OWL_PALETTE[tc] || null;
-      const botRgb = OWL_PALETTE[bc] || null;
+// Expanded high-precision Cyber-Owl Hex-Core with 6 orbital matrix nodes for `kronvex crest`
+export function renderKronvexCrest(forceColor = false) {
+  const on = USE_COLOR || forceColor;
+  const col = (r, g, b, s) => (on ? `\x1b[38;2;${r};${g};${b}m${s}\x1b[0m` : s);
+  const cyan = (s) => col(0, 212, 255, s);
+  const azure = (s) => col(24, 138, 255, s);
+  const green = (s) => col(34, 229, 58, s);
+  const gold = (s) => col(255, 224, 36, s);
+  const amber = (s) => col(255, 172, 18, s);
+  const ruby = (s) => col(255, 46, 76, s);
+  const rubyHi = (s) => col(255, 140, 160, s);
+  const dim = (s) => col(70, 92, 128, s);
 
-      if (!colorEnabled) {
-        if (topRgb && botRgb) line += tc === 'G' || bc === 'G' ? '◈' : tc === 'P' || tc === 'R' ? '●' : '█';
-        else if (topRgb) line += '▀';
-        else if (botRgb) line += '▄';
-        else line += ' ';
-        continue;
-      }
-
-      if (topRgb && botRgb) {
-        line += `\x1b[38;2;${topRgb[0]};${topRgb[1]};${topRgb[2]}m\x1b[48;2;${botRgb[0]};${botRgb[1]};${botRgb[2]}m▀\x1b[0m`;
-      } else if (topRgb && !botRgb) {
-        line += `\x1b[38;2;${topRgb[0]};${topRgb[1]};${topRgb[2]}m▀\x1b[0m`;
-      } else if (!topRgb && botRgb) {
-        line += `\x1b[38;2;${botRgb[0]};${botRgb[1]};${botRgb[2]}m▄\x1b[0m`;
-      } else {
-        line += ' ';
-      }
-    }
-    rows.push(line);
-  }
-  return rows;
+  const lines = [
+    `   ${gold('◥██◣')}  ${cyan('◢██████████◣')}  ${gold('◢██◤')}   `,
+    `    ${gold('◥█◣')}${cyan('◢██▀▀')}      ${cyan('▀▀██◣')}${gold('◢█◤')}    `,
+    `     ${cyan('◢██▀')}  ${green('◢█◣')}  ${green('◢█◣')}  ${cyan('▀██◣')}     `,
+    `    ${cyan('███')}   ${green('██◈██')}${dim('──')}${green('██◈██')}   ${cyan('███')}    `,
+    `    ${cyan('███')}    ${green('◥█◤')}  ${gold('▼▼')}  ${green('◥█◤')}    ${cyan('███')}    `,
+    `    ${azure('███')}       ${gold('◥██◤')}       ${azure('███')}    `,
+    `    ${azure('███')}     ${ruby('·')}  ${ruby('◢██◣')}  ${ruby('·')}     ${azure('███')}    `,
+    `    ${azure('███')}    ${ruby('●')}  ${ruby('██')}${rubyHi('◆◆')}${ruby('██')}  ${ruby('●')}    ${azure('███')}    `,
+    `     ${azure('◥██▄')}   ${ruby('·')}  ${ruby('◥██◤')}  ${ruby('·')}   ${azure('▄██◤')}     `,
+    `    ${amber('◢█◤')}${azure('◥██▄▄')}  ${ruby('●')}   ${azure('▄▄██◤')}${amber('◥█◣')}    `,
+    `   ${amber('◢██◤')}  ${azure('◥██████████◤')}  ${amber('◥██◣')}   `,
+  ];
+  return lines.map((l) => `  ${l}`).join('\n');
 }
 
 // ── 3D Pixel-Block "KRONVEX" Wordmark (Zero Gemini Chevron — Pure KRONVEX!) ─
@@ -314,9 +279,9 @@ function renderWordmarkLines(themeName = ACTIVE_THEME, forceColor = false) {
   return lines;
 }
 
-/** Side-by-side: Authentic TrueColor KRONVEX Owl Logo (16x7) + 3D "KRONVEX" Wordmark (58x7) = 79 cols! */
+/** Side-by-side: Geometric Cyber-Owl Hex-Core (16x7) + 3D "KRONVEX" Wordmark (58x7) = 79 cols! */
 export function renderKronvexHeroHeader(themeName = ACTIVE_THEME, forceColor = false) {
-  const owlLines = renderPixelGridHalfBlock(OWL_MINI_16x14, forceColor);
+  const owlLines = renderCyberOwlHexMini(forceColor);
   const wordLines = renderWordmarkLines(themeName, forceColor);
   const out = [];
   for (let i = 0; i < Math.max(owlLines.length, wordLines.length); i++) {
@@ -325,12 +290,6 @@ export function renderKronvexHeroHeader(themeName = ACTIVE_THEME, forceColor = f
     out.push(`  ${left}   ${right}`);
   }
   return out.join('\n');
-}
-
-export function renderKronvexCrest(forceColor = false) {
-  return renderPixelGridHalfBlock(OWL_CREST_30x28, forceColor)
-    .map((l) => `    ${l}`)
-    .join('\n');
 }
 
 // ── Unified ReplSkin (100% KRONVEX Owl Palette) ─────────────────────────────
@@ -1542,3 +1501,4 @@ if (invokedDirectly) {
   process.exit(code);
 }
 void bg;
+void OWL_PALETTE;

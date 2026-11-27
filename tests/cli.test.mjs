@@ -22,20 +22,21 @@ test('CLI prints version with --version and --json', () => {
   assert.equal(r.status, 0);
   const parsed = JSON.parse(r.stdout);
   assert.equal(parsed.name, 'kronvex');
-  assert.equal(parsed.version, '1.2.0');
+  assert.equal(parsed.version, '1.3.0');
 });
 
-test('CLI renders Owl logo + 3D block wordmark, geometric crest & Owl brand themes cleanly', () => {
+test('CLI renders Cyber-Owl Hex-Core + 3D block wordmark, crest & Owl brand themes cleanly', () => {
   const crestText = runCli(['crest']);
   assert.equal(crestText.status, 0);
   assert.match(crestText.stdout, /█/);
   assert.match(crestText.stdout, /░/);
   assert.match(crestText.stdout, /◈/);
+  assert.match(crestText.stdout, /◆◆/);
 
   const crestJson = runCli(['crest', '--json']);
   assert.equal(crestJson.status, 0);
   const obj = JSON.parse(crestJson.stdout);
-  assert.equal(obj.version, '1.2.0');
+  assert.equal(obj.version, '1.3.0');
 
   const themes = runCli(['theme', '--json']);
   assert.equal(themes.status, 0);
