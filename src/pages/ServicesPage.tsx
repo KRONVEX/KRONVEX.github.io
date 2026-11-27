@@ -1,157 +1,171 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  ArrowRight,
-  Brain,
-  CheckCircle2,
-  ChevronDown,
-  Cpu,
-  Layers,
-  LineChart,
-  Rocket,
-  ShieldCheck,
-  Sparkles,
-  Wrench,
-} from 'lucide-react';
+import { ArrowRight, CheckCircle2, ChevronDown, Cpu, Rocket, Sparkles, Wrench } from 'lucide-react';
 import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
+import { useI18n } from '../i18n/I18nContext';
+import { SERVICES_CONTENT, type ServiceIconId } from '../data/servicesContent';
 
-const CAPABILITIES = [
-  {
-    code: '01',
-    icon: Layers,
-    accent: 'text-sky-600 dark:text-sky-400',
-    title: 'Custom Cross-Platform Applications',
-    summary:
-      'Production web platforms, Windows desktop binaries (.EXE/.MSI), and Android apps (.APK) engineered on type-safe TypeScript & Rust/Flutter cores with deterministic SHA-256 releases.',
-    deliverables: ['React 19 / TypeScript Web Apps', 'Windows & Android Packaging', 'Offline-First & 6-Language RTL'],
+const ACCENT_MAP = {
+  cyan: {
+    fill: '#00D4FF',
+    stroke: '#0284C7',
+    badge: 'text-sky-700 dark:text-sky-300',
+    pill: 'bg-sky-500/10 text-sky-900 dark:text-sky-200 border-sky-500/25',
+    hoverBar: 'group-hover:bg-[#00D4FF]',
   },
-  {
-    code: '02',
-    icon: Brain,
-    accent: 'text-indigo-600 dark:text-indigo-400',
-    title: 'AI-Native & Agentic Delivery',
-    summary:
-      'Private RAG pipelines, custom AI agents, portable SKILL.md workflows, MCP gateways, and zero-cloud WebGPU/ONNX inference running directly on your users’ hardware.',
-    deliverables: ['Private LLM & RAG Architecture', 'Custom AI Agents & MCP Tools', 'Local WebGPU / ONNX Models'],
+  azure: {
+    fill: '#188AFF',
+    stroke: '#1D4ED8',
+    badge: 'text-blue-700 dark:text-sky-300',
+    pill: 'bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/25',
+    hoverBar: 'group-hover:bg-[#188AFF]',
   },
-  {
-    code: '03',
-    icon: LineChart,
-    accent: 'text-emerald-600 dark:text-emerald-400',
-    title: 'Market Intelligence & Data Pipelines',
-    summary:
-      'High-signal data ingestion, automated research radars, quantitative telemetry, and zero-server edge pipelines that convert raw streams into executive clarity.',
-    deliverables: ['Automated Telemetry Pipelines', 'Real-Time Analytics & Dashboards', 'Zero-Server Static Edge Sync'],
+  green: {
+    fill: '#22E53A',
+    stroke: '#059669',
+    badge: 'text-emerald-700 dark:text-emerald-300',
+    pill: 'bg-emerald-500/10 text-emerald-900 dark:text-emerald-200 border-emerald-500/25',
+    hoverBar: 'group-hover:bg-[#22E53A]',
   },
-  {
-    code: '04',
-    icon: ShieldCheck,
-    accent: 'text-amber-600 dark:text-amber-400',
-    title: 'Performance, SEO/AEO & Security Hardening',
-    summary:
-      'Lighthouse 100/100 engineering, technical SEO & AI Answer-Engine (AEO/GEO) architecture, WCAG AA accessibility, and zero-tracking privacy hardening.',
-    deliverables: ['Lighthouse 100/100 Optimization', 'Technical SEO + AEO / JSON-LD', 'Security Headers & 48h SLA'],
+  gold: {
+    fill: '#FFAC12',
+    stroke: '#D97706',
+    badge: 'text-amber-700 dark:text-amber-300',
+    pill: 'bg-amber-500/10 text-amber-950 dark:text-amber-200 border-amber-500/30',
+    hoverBar: 'group-hover:bg-[#FFE024]',
   },
-];
+  ruby: {
+    fill: '#FF2E4C',
+    stroke: '#DC2626',
+    badge: 'text-rose-700 dark:text-rose-300',
+    pill: 'bg-rose-500/10 text-rose-900 dark:text-rose-200 border-rose-500/25',
+    hoverBar: 'group-hover:bg-[#FF2E4C]',
+  },
+} as const;
 
-const DELIVERY_STEPS = [
-  {
-    step: '01',
-    title: 'Discovery & Architecture',
-    detail: 'Audit goals, constraints, data sensitivity, and target platforms. Output a concrete system spec before writing code.',
-  },
-  {
-    step: '02',
-    title: 'Vertical Slice Prototype',
-    detail: 'Ship a working, testable end-to-end slice fast so your team validates real UX and data flows in week one.',
-  },
-  {
-    step: '03',
-    title: 'Hardened Production Build',
-    detail: 'Type-safe implementation, automated CI gates, Lighthouse 100 checks, accessibility verification, and security review.',
-  },
-  {
-    step: '04',
-    title: 'Handover, Telemetry & Scale',
-    detail: 'Clean documentation, full source & IP transfer, signed releases, and optional ongoing AI-native engineering partnership.',
-  },
-];
+const STAT_TONES = {
+  ink: 'text-black dark:text-white',
+  green: 'text-emerald-700 dark:text-emerald-400',
+  cyan: 'text-sky-700 dark:text-sky-400',
+  gold: 'text-amber-700 dark:text-amber-300',
+} as const;
 
-const ENGAGEMENT_MODELS = [
-  {
-    tag: '2 – 4 WEEKS',
-    name: 'Architecture & Prototype Sprint',
-    idealFor: 'Founders & R&D teams validating an AI product, custom tool, or system modernization.',
-    points: [
-      'Complete technical blueprint & stack validation',
-      'Working clickable prototype or local AI proof-of-concept',
-      'Performance, security & SEO/AEO readiness baseline',
-    ],
-    topic: 'Architecture & Prototype Sprint',
-  },
-  {
-    tag: '1 – 3 MONTHS',
-    name: 'Full Product Delivery',
-    idealFor: 'Businesses shipping a production cross-platform app, private RAG platform, or data pipeline.',
-    points: [
-      'End-to-end engineering across web, desktop, mobile & AI',
-      'Automated CI/CD, SHA-256 release signing & zero-tracking setup',
-      'Full source code ownership and engineering playbook handover',
-    ],
-    topic: 'Full Product Delivery',
-  },
-  {
-    tag: 'ONGOING PARTNER',
-    name: 'Dedicated AI-Native Partner',
-    idealFor: 'Organizations scaling continuously with custom AI agents, workflows, and engineering rigor.',
-    points: [
-      'Direct collaboration with KRONVEX lead architecture',
-      'Custom agentic delivery workflows (SKILL.md & MCP)',
-      'Continuous performance, security & research upgrades',
-    ],
-    topic: 'Dedicated AI-Native Engineering Partner',
-  },
-];
-
-const FAQS = [
-  {
-    q: 'What software and AI services does KRONVEX provide?',
-    a: 'KRONVEX delivers custom web, Windows, and Android software development, private AI and RAG systems, custom AI agents and MCP workflows, market intelligence data pipelines, and Lighthouse 100 / SEO-AEO performance hardening.',
-  },
-  {
-    q: 'Do we keep 100% ownership of the source code and IP?',
-    a: 'Yes. Every custom project delivered by KRONVEX transfers full source code, build scripts, documentation, and intellectual property directly to your organization with zero vendor lock-in.',
-  },
-  {
-    q: 'Can KRONVEX deploy private AI without sending our data to third-party clouds?',
-    a: 'Yes. We specialize in local-first and private AI architectures—running quantized GGUF/ONNX models on your own infrastructure or directly inside the browser via WebGPU/WASM with zero external telemetry.',
-  },
-  {
-    q: 'How fast can we start a project or architecture sprint?',
-    a: 'Initial technical scoping takes 48 hours. An Architecture & Prototype Sprint kicks off within one week and delivers a working vertical slice in 2 to 4 weeks.',
-  },
-  {
-    q: 'How does KRONVEX guarantee software quality and performance?',
-    a: 'Every release passes strict TypeScript compilation, deterministic verification gates, WCAG accessibility checks, technical SEO/AEO audits, and zero-tracking privacy verification before handover.',
-  },
-  {
-    q: 'How do I estimate scope or request a custom build?',
-    a: 'Use our interactive Scope Builder on the Enterprise page or click any engagement model above to generate a structured technical brief with zero cookies or tracking.',
-  },
-];
+/** Custom zero-GPU duotone geometric SVG icons styled in the authentic KRONVEX Owl palette */
+function ServiceGlyph({ id, accent }: { id: ServiceIconId; accent: keyof typeof ACCENT_MAP }) {
+  const c = ACCENT_MAP[accent];
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      width="40"
+      height="40"
+      fill="none"
+      aria-hidden="true"
+      className="w-10 h-10 shrink-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5"
+    >
+      {id === 'strategy' && (
+        <>
+          <circle cx="20" cy="20" r="14" fill={c.fill} fillOpacity="0.22" stroke={c.stroke} strokeWidth="1.8" />
+          <circle cx="20" cy="20" r="8.5" fill={c.fill} fillOpacity="0.38" stroke={c.stroke} strokeWidth="1.6" />
+          <circle cx="20" cy="20" r="3.2" fill="currentColor" />
+        </>
+      )}
+      {id === 'design' && (
+        <>
+          <path
+            d="M20 6C13.9 6 9 10.7 9 16.5C9 20.4 11.2 23.7 14.5 25.5V28.5C14.5 29.6 15.4 30.5 16.5 30.5H23.5C24.6 30.5 25.5 29.6 25.5 28.5V25.5C28.8 23.7 31 20.4 31 16.5C31 10.7 26.1 6 20 6Z"
+            fill={c.fill}
+            fillOpacity="0.26"
+            stroke={c.stroke}
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+          <path d="M16 34H24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          <path d="M17.2 19.5C17.2 17.5 18.5 16 20 16C21.5 16 22.8 17.5 22.8 19.5C22.8 21.2 21.5 22.2 20 22.2V25.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        </>
+      )}
+      {id === 'apps' && (
+        <>
+          <circle cx="19" cy="19" r="12.5" fill={c.fill} fillOpacity="0.22" stroke={c.stroke} strokeWidth="1.8" />
+          <ellipse cx="19" cy="19" rx="5.5" ry="12.5" stroke={c.stroke} strokeWidth="1.5" />
+          <path d="M7.5 15H30.5M7.5 23H30.5" stroke={c.stroke} strokeWidth="1.5" />
+          <polygon points="24,22 34,27 28.5,29 27,34.5" fill="currentColor" />
+        </>
+      )}
+      {id === 'ai' && (
+        <>
+          <polygon points="20,5 33,12.5 33,27.5 20,35 7,27.5 7,12.5" fill={c.fill} fillOpacity="0.22" stroke={c.stroke} strokeWidth="1.8" strokeLinejoin="round" />
+          <circle cx="20" cy="20" r="4.5" fill={c.fill} stroke="currentColor" strokeWidth="1.6" />
+          <path d="M20 10V15.5M20 24.5V30M11.5 15L16 17.6M24 22.4L28.5 25M28.5 15L24 17.6M16 22.4L11.5 25" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </>
+      )}
+      {id === 'api' && (
+        <>
+          <rect x="6" y="8" width="28" height="24" rx="5" fill={c.fill} fillOpacity="0.2" stroke={c.stroke} strokeWidth="1.8" />
+          <path d="M14 16L10 20L14 24M26 16L30 20L26 24M21.5 14.5L18.5 25.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      )}
+      {id === 'cloud' && (
+        <>
+          <path
+            d="M12.5 25.5H28.5C32.1 25.5 35 22.8 35 19.4C35 16.3 32.6 13.8 29.4 13.4C28.4 9.2 24.6 6 20 6C15.1 6 11.1 9.6 10.5 14.3C7.4 14.9 5 17.5 5 20.6C5 23.3 8.3 25.5 12.5 25.5Z"
+            fill={c.fill}
+            fillOpacity="0.26"
+            stroke={c.stroke}
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+          <path d="M15 25.5V32.5M20 25.5V34.5M25 25.5V32.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          <circle cx="15" cy="33" r="1.6" fill="currentColor" />
+          <circle cx="20" cy="35" r="1.6" fill="currentColor" />
+          <circle cx="25" cy="33" r="1.6" fill="currentColor" />
+        </>
+      )}
+      {id === 'intel' && (
+        <>
+          <rect x="7" y="21" width="5.5" height="12" rx="1.5" fill={c.fill} fillOpacity="0.35" stroke={c.stroke} strokeWidth="1.6" />
+          <rect x="17.2" y="14" width="5.5" height="19" rx="1.5" fill={c.fill} fillOpacity="0.55" stroke={c.stroke} strokeWidth="1.6" />
+          <rect x="27.5" y="8" width="5.5" height="25" rx="1.5" fill={c.fill} fillOpacity="0.8" stroke={c.stroke} strokeWidth="1.6" />
+          <path d="M8 15L16 10L23 12L32 5.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      )}
+      {id === 'security' && (
+        <>
+          <path
+            d="M20 5L32 9.5V19.5C32 27 26.8 32.8 20 35.5C13.2 32.8 8 27 8 19.5V9.5L20 5Z"
+            fill={c.fill}
+            fillOpacity="0.24"
+            stroke={c.stroke}
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+          <path d="M15 20.5L18.5 24L25.5 16.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      )}
+      {id === 'seo' && (
+        <>
+          <circle cx="18" cy="18" r="10.5" fill={c.fill} fillOpacity="0.24" stroke={c.stroke} strokeWidth="1.8" />
+          <path d="M26 26L33.5 33.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+          <path d="M13 20.5L16.5 17L19 19.5L23.5 14" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      )}
+    </svg>
+  );
+}
 
 export function ServicesPage() {
   const navigate = useNavigate();
+  const { locale } = useI18n();
+  const copy = SERVICES_CONTENT[locale] ?? SERVICES_CONTENT.en;
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  const startInquiry = (modelName: string) => {
+  const startInquiry = (selectedName: string) => {
     const brief = [
-      'Hello KRONVEX Engineering team,',
+      copy.inquiryGreeting,
       '',
-      `Selected Engagement Model: ${modelName}`,
+      `${copy.inquirySelectedLabel} ${selectedName}`,
       '',
-      'Project Goals & Technical Context:',
-      '(Describe your target platform, AI requirements, or timeline here...)',
+      copy.inquiryGoalsLabel,
+      copy.inquiryPlaceholder,
     ].join('\n');
     navigate(`/contact?topic=${encodeURIComponent('Partnership / Enterprise')}&brief=${encodeURIComponent(brief)}`);
   };
@@ -162,97 +176,114 @@ export function ServicesPage() {
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
         <div className="lg:col-span-8 space-y-6">
           <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-emerald-700 dark:text-emerald-300 uppercase">
-            <Wrench className="w-4 h-4" /> KRONVEX SERVICES · AI-NATIVE ENGINEERING
+            <Wrench className="w-4 h-4 shrink-0" /> {copy.heroEyebrow}
           </div>
-          <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white leading-[1.08] tracking-tight">
-            Custom Software Development &amp;{' '}
+          <h1 className="font-display font-bold text-3xl sm:text-5xl text-black dark:text-white leading-[1.1] tracking-tight">
+            {copy.heroTitlePrefix}
             <span className="font-editorial italic font-normal text-sky-700 dark:text-emerald-300">
-              AI-Native Engineering
-            </span>{' '}
-            Services
+              {copy.heroTitleAccent}
+            </span>
+            {copy.heroTitleSuffix}
           </h1>
           <p className="text-base sm:text-lg text-slate-900 dark:text-slate-100 leading-relaxed max-w-3xl">
-            We partner with founders, engineering teams, and enterprises to design, build, and harden cross-platform
-            applications, private AI &amp; RAG systems, custom agent workflows, and real-time market intelligence
-            platforms.
+            {copy.heroSubtitle}
           </p>
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-emerald-500/35 bg-emerald-500/10 text-xs font-mono font-bold text-emerald-900 dark:text-emerald-200">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span>{copy.turnkeyBadge}</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 pt-1">
             <Link
               to="/enterprise#scope-builder"
               className="px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm inline-flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition"
             >
-              <Sparkles className="w-4 h-4" /> Build Your Project Scope
+              <Sparkles className="w-4 h-4 shrink-0" /> {copy.ctaScope}
             </Link>
             <Link
               to="/work"
               className="px-5 py-3 rounded-full border border-slate-300 dark:border-white/20 hover:border-sky-500 dark:hover:border-emerald-400 text-sm font-bold text-black dark:text-white inline-flex items-center gap-2 transition"
             >
-              View Engineering Case Studies <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+              {copy.ctaWork} <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
             </Link>
           </div>
         </div>
 
         {/* Measured Standards Strip */}
         <div className="lg:col-span-4 grid grid-cols-2 gap-4 border-t lg:border-t-0 lg:border-s border-slate-300/70 dark:border-white/15 pt-6 lg:pt-0 lg:ps-8">
-          <div>
-            <div className="font-brand text-2xl sm:text-3xl font-bold text-black dark:text-white">100/100</div>
-            <div className="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">Lighthouse Performance</div>
-          </div>
-          <div>
-            <div className="font-brand text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-emerald-400">Zero</div>
-            <div className="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">Third-Party Tracking</div>
-          </div>
-          <div>
-            <div className="font-brand text-2xl sm:text-3xl font-bold text-sky-600 dark:text-sky-400">100%</div>
-            <div className="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">Client Code &amp; IP Ownership</div>
-          </div>
-          <div>
-            <div className="font-brand text-2xl sm:text-3xl font-bold text-indigo-600 dark:text-indigo-400">48h</div>
-            <div className="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">Scoping &amp; Security SLA</div>
-          </div>
+          {copy.stats.map((st) => (
+            <div key={st.label}>
+              <div className={`font-brand text-2xl sm:text-3xl font-bold ${STAT_TONES[st.tone]}`}>{st.value}</div>
+              <div className="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">{st.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Core Capabilities */}
+      {/* 3x3 Architectural Hairline Service Matrix */}
       <section className="space-y-10 border-t border-slate-300/70 dark:border-white/15 pt-16">
-        <div className="max-w-3xl space-y-3">
+        <div className="max-w-4xl space-y-3">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-sky-700 dark:text-sky-300">
-            CORE CAPABILITIES
+            {copy.gridEyebrow}
           </div>
           <ScrollScrubText
             as="h2"
-            text="What does KRONVEX engineer for production teams?"
+            text={copy.gridTitle}
             className="font-display font-bold text-2xl sm:text-4xl text-black dark:text-white"
           />
+          <p className="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed max-w-3xl">
+            {copy.gridSubtitle}
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {CAPABILITIES.map((cap, idx) => {
-            const Icon = cap.icon;
+        {/* Clean Hairline-Bordered 3x3 Editorial Grid (1px architectural dividers) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-s border-slate-300/90 dark:border-white/15 rounded-2xl overflow-hidden bg-white dark:bg-[#080E1B] shadow-sm">
+          {copy.services.map((svc) => {
+            const theme = ACCENT_MAP[svc.accent];
             return (
-              <ScrollReveal key={cap.code} delayMs={idx * 70}>
-                <div className="h-full p-7 rounded-2xl border border-slate-300/80 dark:border-white/15 bg-white/75 dark:bg-white/[0.03] backdrop-blur-sm space-y-5 flex flex-col justify-between">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className={`font-brand text-lg font-bold ${cap.accent}`}>{cap.code}</span>
-                      <Icon className={`w-5 h-5 ${cap.accent}`} />
-                    </div>
-                    <h3 className="font-display font-bold text-xl text-black dark:text-white">{cap.title}</h3>
-                    <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">{cap.summary}</p>
+              <article
+                key={svc.id}
+                className="group relative flex flex-col justify-between p-7 sm:p-8 border-e border-b border-slate-300/90 dark:border-white/15 bg-white dark:bg-[#080E1B] hover:bg-slate-50/95 dark:hover:bg-white/[0.03] transition-colors duration-200"
+              >
+                {/* Top subtle hairline accent bar on hover */}
+                <div
+                  className={`absolute inset-x-0 top-0 h-[2.5px] bg-transparent ${theme.hoverBar} transition-colors duration-200`}
+                />
+
+                <div className="space-y-5">
+                  <div className="flex items-start justify-between gap-4 text-slate-900 dark:text-white">
+                    <ServiceGlyph id={svc.icon} accent={svc.accent} />
+                    <span className={`font-mono text-xs font-bold tracking-wider ${theme.badge}`}>{svc.code}</span>
                   </div>
-                  <ul className="pt-4 border-t border-slate-200/80 dark:border-white/10 space-y-2">
-                    {cap.deliverables.map((d) => (
-                      <li
-                        key={d}
-                        className="text-xs font-mono text-slate-900 dark:text-slate-100 flex items-center gap-2"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                        <span>{d}</span>
-                      </li>
-                    ))}
-                  </ul>
+
+                  <div className="space-y-2.5">
+                    <h3 className="font-display font-bold text-xl sm:text-[22px] text-black dark:text-white leading-snug tracking-tight">
+                      {svc.title}
+                    </h3>
+                    <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">{svc.summary}</p>
+                  </div>
                 </div>
-              </ScrollReveal>
+
+                <div className="pt-6 mt-6 border-t border-slate-200/80 dark:border-white/10 space-y-4">
+                  <div className="flex flex-wrap gap-1.5">
+                    {svc.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold border ${theme.pill}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => startInquiry(svc.topic)}
+                    className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-900 dark:text-slate-100 hover:text-sky-700 dark:hover:text-emerald-300 transition"
+                  >
+                    <span>{copy.requestServiceLabel}</span>
+                    <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 transition-transform duration-200 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
+                  </button>
+                </div>
+              </article>
             );
           })}
         </div>
@@ -262,21 +293,21 @@ export function ServicesPage() {
       <section className="space-y-10 border-t border-slate-300/70 dark:border-white/15 pt-16">
         <div className="max-w-3xl space-y-3">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-300">
-            DELIVERY METHODOLOGY
+            {copy.processEyebrow}
           </div>
           <ScrollScrubText
             as="h2"
-            text="How does KRONVEX take software from concept to launch?"
+            text={copy.processTitle}
             className="font-display font-bold text-2xl sm:text-4xl text-black dark:text-white"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {DELIVERY_STEPS.map((s, idx) => (
+          {copy.steps.map((s, idx) => (
             <ScrollReveal key={s.step} delayMs={idx * 70}>
               <div className="h-full pt-5 border-t-2 border-emerald-500/60 space-y-2.5">
-                <div className="font-brand text-sm font-bold text-emerald-600 dark:text-emerald-400">
-                  PHASE {s.step}
+                <div className="font-brand text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                  {copy.phaseLabel} {s.step}
                 </div>
                 <h3 className="font-display font-bold text-lg text-black dark:text-white">{s.title}</h3>
                 <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">{s.detail}</p>
@@ -289,22 +320,22 @@ export function ServicesPage() {
       {/* Engagement Models */}
       <section className="space-y-10 border-t border-slate-300/70 dark:border-white/15 pt-16">
         <div className="max-w-3xl space-y-3">
-          <div className="font-mono text-xs font-bold uppercase tracking-widest text-indigo-700 dark:text-indigo-300">
-            ENGAGEMENT MODELS
+          <div className="font-mono text-xs font-bold uppercase tracking-widest text-sky-700 dark:text-sky-300">
+            {copy.modelsEyebrow}
           </div>
           <ScrollScrubText
             as="h2"
-            text="Flexible collaboration models built for speed and clarity."
+            text={copy.modelsTitle}
             className="font-display font-bold text-2xl sm:text-4xl text-black dark:text-white"
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
-          {ENGAGEMENT_MODELS.map((m, idx) => (
+          {copy.models.map((m, idx) => (
             <ScrollReveal key={m.name} delayMs={idx * 80}>
-              <div className="h-full p-7 rounded-2xl border border-slate-300/80 dark:border-white/15 bg-white/80 dark:bg-white/[0.03] flex flex-col justify-between gap-6">
+              <div className="h-full p-7 rounded-2xl border border-slate-300/80 dark:border-white/15 bg-white/85 dark:bg-white/[0.03] flex flex-col justify-between gap-6">
                 <div className="space-y-4">
-                  <span className="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-sky-500/15 text-sky-800 dark:text-sky-300 border border-sky-500/30">
+                  <span className="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-sky-500/15 text-sky-900 dark:text-sky-300 border border-sky-500/30">
                     {m.tag}
                   </span>
                   <h3 className="font-display font-bold text-xl text-black dark:text-white">{m.name}</h3>
@@ -312,7 +343,7 @@ export function ServicesPage() {
                   <ul className="space-y-2.5 pt-2">
                     {m.points.map((pt) => (
                       <li key={pt} className="text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                         <span>{pt}</span>
                       </li>
                     ))}
@@ -323,7 +354,7 @@ export function ServicesPage() {
                   onClick={() => startInquiry(m.topic)}
                   className="w-full py-2.5 px-4 rounded-xl bg-slate-950 dark:bg-white hover:opacity-90 text-white dark:text-slate-950 font-mono font-bold text-xs inline-flex items-center justify-center gap-2 transition"
                 >
-                  <Rocket className="w-3.5 h-3.5" /> Start {m.name}
+                  <Rocket className="w-3.5 h-3.5 shrink-0" /> {copy.startPrefix} {m.name}
                 </button>
               </div>
             </ScrollReveal>
@@ -335,17 +366,17 @@ export function ServicesPage() {
       <section className="space-y-8 border-t border-slate-300/70 dark:border-white/15 pt-16">
         <div className="max-w-3xl space-y-3">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-sky-700 dark:text-sky-300">
-            FREQUENTLY ASKED QUESTIONS
+            {copy.faqEyebrow}
           </div>
           <ScrollScrubText
             as="h2"
-            text="Answers about KRONVEX engineering, IP ownership & local AI."
+            text={copy.faqTitle}
             className="font-display font-bold text-2xl sm:text-4xl text-black dark:text-white"
           />
         </div>
 
         <div className="divide-y divide-slate-300/70 dark:divide-white/15 border-y border-slate-300/70 dark:border-white/15">
-          {FAQS.map((item, idx) => {
+          {copy.faqs.map((item, idx) => {
             const isOpen = openFaq === idx;
             return (
               <div key={item.q} className="py-5">
@@ -372,14 +403,14 @@ export function ServicesPage() {
 
         <div className="flex flex-wrap items-center justify-between gap-4 pt-4">
           <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-200">
-            <Cpu className="w-4 h-4 text-emerald-500" />
-            <span>Want to inspect how we engineer every build? Read the KRONVEX Engineering Playbook.</span>
+            <Cpu className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span>{copy.playbookPrompt}</span>
           </div>
           <Link
             to="/playbook"
             className="text-sm font-mono font-bold text-sky-700 dark:text-emerald-300 hover:underline inline-flex items-center gap-1.5"
           >
-            Open Engineering Playbook <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            {copy.playbookCta} <ArrowRight className="w-4 h-4 rtl:rotate-180" />
           </Link>
         </div>
       </section>
