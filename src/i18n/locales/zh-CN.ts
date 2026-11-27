@@ -78,6 +78,9 @@ export const zhCN: TranslationSchema = {
       contributing: '贡献指南',
       codeOfConduct: '行为准则',
       zeroTracking: '零追踪隐私标准',
+      servicesEngagement: '服务与合作模式',
+      workCaseStudies: '案例研究与作品 (Work)',
+      engineeringPlaybook: '工程手册与 AI 术语表',
     },
   },
   home: {

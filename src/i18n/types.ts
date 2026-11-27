@@ -94,6 +94,9 @@ export interface TranslationSchema {
       contributing: string;
       codeOfConduct: string;
       zeroTracking: string;
+      servicesEngagement: string;
+      workCaseStudies: string;
+      engineeringPlaybook: string;
     };
   };
   home: {

@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Cpu, ExternalLink, Flame, Layers, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ExternalLink, Layers, ShieldCheck, Sparkles } from 'lucide-react';
 import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
+import { KRONVEX_MODELS, KRONVEX_SKILLS } from '../data/catalog';
+import liveGithub from '../data/live-github.json';
 
 type CaseCategory = 'All' | 'Systems' | 'AI Core' | 'Market Intel';
 
@@ -19,23 +21,26 @@ interface CaseStudy {
   liveLabel: string;
 }
 
+const SYNC_DATE = liveGithub.syncedAt.slice(0, 10);
+
 const CASE_STUDIES: CaseStudy[] = [
   {
     id: 'kronvex-platform',
     code: 'CASE 01',
     category: 'Systems',
     title: 'KRONVEX Global Edge Platform (kronvex.org)',
-    subtitle: 'Zero-Server Engineering Portal with 100/100 Lighthouse & 6-Language RTL',
+    subtitle: 'Zero-Server Engineering Portal · 100/100 Lighthouse & 98/100 Technical SEO/AEO',
     challenge:
-      'Build a multi-module technical showcase, software distribution hub, and research portal operating at $0 recurring server cost with zero third-party cookies and instant global load times.',
+      'Build a multi-module technical showcase, software distribution hub, and research portal operating at $0 recurring server cost with zero third-party cookies, hardened edge security, and instant global load times.',
     architecture:
-      'React 19 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, static HTTP-200 per-route prerendered entrypoints on GitHub Pages + Cloudflare Full (Strict) TLS, and 60fps canvas particle physics.',
+      'React 19.3 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, 18 static HTTP-200 prerendered route entrypoints on GitHub Pages behind Cloudflare Full (Strict) TLS + HSTS Preload + CSP + Brotli, and 60fps canvas particle physics.',
     metrics: [
-      { label: 'Lighthouse Mobile & Desktop', value: '100 / 100' },
-      { label: 'Technical SEO Audit', value: '97 / 100' },
-      { label: 'Monthly Server Cost', value: '$0 / mo' },
+      { label: 'RankPulse SEO · GEO Audit', value: '100 · 97 / 100' },
+      { label: 'SEOmator & AEO Lint Score', value: '98 / 100 (A)' },
+      { label: 'Static HTTP-200 Routes', value: '18 Routes' },
+      { label: 'npm Audit & Monthly Server Cost', value: '0 Vulns · $0/mo' },
     ],
-    stack: ['React 19', 'TypeScript', 'Vite 6', 'Tailwind CSS', 'Cloudflare', 'GitHub Actions'],
+    stack: ['React 19', 'TypeScript', 'Vite 6', 'Cloudflare HSTS/CSP', 'GitHub Pages', '6-Lang RTL'],
     liveRoute: '/',
     liveLabel: 'Explore Live Platform',
   },
@@ -51,7 +56,7 @@ const CASE_STUDIES: CaseStudy[] = [
       'Client-side hardware capability profiler (OS, CPU threads, RAM heuristic, WebGPU adapter detection) paired with direct Hugging Face ONNX weight streaming via @huggingface/transformers and automatic WASM fallback.',
     metrics: [
       { label: 'Data Sent to External Servers', value: '0 Bytes' },
-      { label: 'Tracked AI Models', value: '7 Verified' },
+      { label: 'Tracked Open-Weight AI Models', value: `${KRONVEX_MODELS.length} Verified` },
       { label: 'Inference Execution', value: '100% Local' },
     ],
     stack: ['WebGPU', 'WebAssembly', 'ONNX', 'Hugging Face Transformers', 'TypeScript'],
@@ -70,8 +75,8 @@ const CASE_STUDIES: CaseStudy[] = [
       'Scheduled GitHub Actions Node.js pipeline aggregating GitHub REST, Hugging Face Hub, and arXiv feeds every 6 hours into deterministic static JSON snapshots with 1-click BibTeX & PDF export.',
     metrics: [
       { label: 'Curated Frontier Papers', value: '21 Verified' },
-      { label: 'Automated Refresh Cadence', value: 'Every 6h' },
-      { label: 'Database Infrastructure Needed', value: 'Zero' },
+      { label: 'Automated Refresh Cadence', value: `Every 6h (${SYNC_DATE})` },
+      { label: 'Database Infrastructure Needed', value: 'Zero ($0/mo)' },
     ],
     stack: ['Node.js CI', 'GitHub REST API', 'Hugging Face API', 'arXiv API', 'Static JSON'],
     liveRoute: '/research',
@@ -88,9 +93,9 @@ const CASE_STUDIES: CaseStudy[] = [
     architecture:
       'Interactive Markdown inspector coupled with an on-demand lazy-loaded client-side JSZip packager that compiles custom multi-skill .ZIP archives directly in browser memory.',
     metrics: [
+      { label: 'Curated Production Skills', value: `${KRONVEX_SKILLS.length} Verified` },
       { label: 'Initial Bundle Impact', value: '0 KB (Lazy)' },
       { label: 'Compatible Agent Runtimes', value: '4+ Runtimes' },
-      { label: 'Server Processing Required', value: 'None' },
     ],
     stack: ['SKILL.md Standard', 'JSZip', 'React Lazy', 'TypeScript'],
     liveRoute: '/skills',
@@ -253,7 +258,4 @@ export function WorkPage() {
   );
 }
 
-// Keep unused icons cleanly avoided (all imported icons used)
 export type { CaseStudy };
-void Cpu;
-void Flame;

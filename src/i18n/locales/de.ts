@@ -78,6 +78,9 @@ export const de: TranslationSchema = {
       contributing: 'Mitwirken-Leitfaden',
       codeOfConduct: 'Verhaltenskodex',
       zeroTracking: 'Zero-Tracking-Datenschutz',
+      servicesEngagement: 'Services & Modelle',
+      workCaseStudies: 'Projekte & Fallstudien (Work)',
+      engineeringPlaybook: 'Playbook & KI-Glossar',
     },
   },
   home: {

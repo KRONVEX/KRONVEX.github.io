@@ -56,8 +56,8 @@ export function Footer({ onOpenTerminal }: FooterProps) {
       {
         heading: t.footer.groups.enterprise,
         items: [
-          { label: 'Services & Engagement Models', to: '/services' },
-          { label: 'Engineering Case Studies', to: '/work' },
+          { label: t.footer.links.servicesEngagement, to: '/services' },
+          { label: t.footer.links.workCaseStudies, to: '/work' },
           { label: t.footer.links.enterpriseOverview, to: '/enterprise' },
           { label: t.footer.links.customApps, to: '/enterprise#custom-apps' },
           { label: t.footer.links.privateAiRag, to: '/enterprise#private-ai' },
@@ -82,7 +82,7 @@ export function Footer({ onOpenTerminal }: FooterProps) {
       {
         heading: t.footer.groups.developers,
         items: [
-          { label: 'Engineering Playbook & Glossary', to: '/playbook' },
+          { label: t.footer.links.engineeringPlaybook, to: '/playbook' },
           { label: t.footer.links.githubOrg, href: ORG_META.githubUrl },
           { label: t.footer.links.platformReleases, href: 'https://github.com/KRONVEX/KRONVEX.github.io/releases' },
           { label: t.footer.links.platformDocs, href: 'https://github.com/KRONVEX/KRONVEX.github.io#readme' },
@@ -198,7 +198,7 @@ export function Footer({ onOpenTerminal }: FooterProps) {
                           <a
                             href={item.href}
                             target={item.href?.startsWith('http') ? '_blank' : undefined}
-                            rel={item.href?.startsWith('http') ? 'noreferrer' : undefined}
+                            rel={item.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                             className="inline-flex items-center gap-1 text-slate-900 dark:text-white hover:text-emerald-700 dark:hover:text-emerald-300 transition"
                           >
                             <span>{item.label}</span>

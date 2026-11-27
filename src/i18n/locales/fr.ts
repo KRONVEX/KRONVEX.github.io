@@ -78,6 +78,9 @@ export const fr: TranslationSchema = {
       contributing: 'Guide de Contribution',
       codeOfConduct: 'Code de Conduite',
       zeroTracking: 'Confidentialité Zéro Tracking',
+      servicesEngagement: 'Services & Modèles',
+      workCaseStudies: 'Réalisations & Études (Work)',
+      engineeringPlaybook: 'Playbook & Glossaire IA',
     },
   },
   home: {

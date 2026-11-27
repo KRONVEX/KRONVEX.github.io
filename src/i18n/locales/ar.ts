@@ -78,6 +78,9 @@ export const ar: TranslationSchema = {
       contributing: 'دليل المساهمة',
       codeOfConduct: 'قواعد السلوك',
       zeroTracking: 'خصوصية بلا تتبع',
+      servicesEngagement: 'الخدمات ونماذج التعاقد',
+      workCaseStudies: 'أعمالنا ودراسات الحالة (Work)',
+      engineeringPlaybook: 'دليل المنهجية ومعجم الـ AI',
     },
   },
   home: {
