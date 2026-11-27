@@ -61,6 +61,8 @@
   "staticEndpoints": {
     "catalog": "https://kronvex.org/api/catalog.json",
     "research": "https://kronvex.org/api/research.json",
-    "top21": "https://kronvex.org/api/top21.json"
+    "top21": "https://kronvex.org/api/top21.json",
+    "openapi": "https://kronvex.org/openapi.json",
+    "restApi": "https://api.kronvex.org/v1/health"
   }
 }

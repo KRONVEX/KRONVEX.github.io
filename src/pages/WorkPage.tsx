@@ -33,11 +33,11 @@ const CASE_STUDIES: CaseStudy[] = [
     challenge:
       'Build a multi-module technical showcase, software distribution hub, and research portal operating at $0 recurring server cost with zero third-party cookies, hardened edge security, and instant global load times.',
     architecture:
-      'React 19.3 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, 22 static HTTP-200 prerendered route entrypoints on GitHub Pages behind Cloudflare Full (Strict) TLS + HSTS Preload + CSP + Brotli, and 60fps canvas particle physics.',
+      'React 19.3 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, 24 static HTTP-200 prerendered route entrypoints on GitHub Pages behind Cloudflare Full (Strict) TLS + HSTS Preload + CSP + Brotli, and 60fps canvas particle physics.',
     metrics: [
       { label: 'RankPulse SEO · GEO Audit', value: '100 · 97 / 100' },
       { label: 'SEOmator & AEO Lint Score', value: '98 / 100 (A)' },
-      { label: 'Static HTTP-200 Routes', value: '22 Routes' },
+      { label: 'Static HTTP-200 Routes', value: '24 Routes' },
       { label: 'npm Audit & Monthly Server Cost', value: '0 Vulns · $0/mo' },
     ],
     stack: ['React 19', 'TypeScript', 'Vite 6', 'Cloudflare HSTS/CSP', 'GitHub Pages', '6-Lang RTL'],
@@ -138,6 +138,25 @@ const CASE_STUDIES: CaseStudy[] = [
     stack: ['Node.js ESM', 'ReplSkin ANSI', 'NDJSON Stream', 'MCP Client', 'SKILL.md'],
     liveRoute: '/cli',
     liveLabel: 'Install KRONVEX CLI',
+  },
+  {
+    id: 'kronvex-public-rest-api',
+    code: 'CASE 07',
+    category: 'Systems',
+    title: 'KRONVEX Unified REST API v1 & OpenAPI 3.1 (api.kronvex.org)',
+    subtitle: 'Three Unified Edge Surfaces (REST /v1 + OpenAPI 3.1 + MCP) · Tier-1 JSON & Batch Runner',
+    challenge:
+      'External apps, workflow platforms (n8n, Zapier, Make), Postman teams, and custom GPT Actions need typed, zero-auth, low-latency REST endpoints with field projection and formal OpenAPI contracts—without paying for idle API servers.',
+    architecture:
+      'Unified Cloudflare Edge Worker serving 17 read-only /v1/* endpoints, POST /v1/batch (10 ops/call), OpenAPI 3.1.0 (/openapi.json), Postman v2.1 Collection, and api-anything Tier-1 spec alongside our live /mcp gateway—verified by automated contract tests.',
+    metrics: [
+      { label: 'Unified Edge Surfaces', value: 'REST · OpenAPI · MCP' },
+      { label: 'Batch & Token Projection', value: '10 Ops · fields=' },
+      { label: 'Contract Tests & Cost', value: '100% Pass · $0/mo' },
+    ],
+    stack: ['OpenAPI 3.1', 'Cloudflare Workers', 'Postman v2.1', 'api-anything', 'REST JSON'],
+    liveRoute: '/api-docs',
+    liveLabel: 'Open API Docs & Explorer',
   },
 ];
 

@@ -83,6 +83,7 @@ export const de: TranslationSchema = {
       engineeringPlaybook: 'Playbook & KI-Glossar',
       mcpServer: 'MCP-Server (Code Mode)',
       officialCli: 'Offizielle Terminal-CLI (kronvex)',
+      publicApi: 'Öffentliche REST-API & OpenAPI 3.1',
     },
   },
   home: {

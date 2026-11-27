@@ -65,9 +65,18 @@
       "description": "Zero-dependency Node.js CLI with branded REPL, --json & stream-json output, live MCP client, hardware-fit model recommender, BibTeX export & SKILL.md installer.",
       "tags": ["cli", "terminal", "repl", "json", "mcp"],
       "url": "https://kronvex.org/cli"
+    },
+    {
+      "id": "kronvex-public-rest-api",
+      "name": "KRONVEX Public REST API v1 & OpenAPI 3.1",
+      "description": "Zero-auth Tier-1 read-only REST API (api.kronvex.org/v1/*) with field projection, POST /v1/batch, OpenAPI 3.1.0 contract, Postman v2.1 collection & api-anything spec.",
+      "tags": ["rest-api", "openapi", "postman", "api-anything", "batch"],
+      "url": "https://kronvex.org/api-docs"
     }
   ],
   "links": {
+    "openapi": "https://kronvex.org/openapi.json",
+    "restApi": "https://api.kronvex.org/v1/health",
     "mcp": "https://kronvex.org/.well-known/mcp.json",
     "cli": "https://kronvex.org/cli",
     "cliSkill": "https://kronvex.org/cli/SKILL.md",

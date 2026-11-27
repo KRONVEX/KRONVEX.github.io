@@ -83,6 +83,7 @@ export const zhCN: TranslationSchema = {
       engineeringPlaybook: '工程手册与 AI 术语表',
       mcpServer: 'MCP 服务器 (Code Mode)',
       officialCli: '官方终端 CLI (kronvex)',
+      publicApi: '公开 REST API 与 OpenAPI 3.1',
     },
   },
   home: {

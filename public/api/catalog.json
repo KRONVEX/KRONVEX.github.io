@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-11-27T15:27:14.338Z",
+  "generatedAt": "2026-11-27T15:50:47.825Z",
   "syncedAt": "2026-11-22T11:25:18.609Z",
   "organization": {
     "name": "KRONVEX",
@@ -862,7 +862,7 @@
     },
     {
       "id": "kronvex-official-cli",
-      "title": "KRONVEX Official Terminal CLI (kronvex / kvx v2.0.0)",
+      "title": "KRONVEX Official Terminal CLI (kronvex / kvx v2.0.1)",
       "category": "Systems",
       "metrics": {
         "capabilities": 33,
@@ -871,6 +871,18 @@
         "mcpClient": "Live mcp.kronvex.org/mcp"
       },
       "url": "https://kronvex.org/cli"
+    },
+    {
+      "id": "kronvex-public-rest-api",
+      "title": "KRONVEX Unified REST API v1 & OpenAPI 3.1 (api.kronvex.org)",
+      "category": "Systems",
+      "metrics": {
+        "surfaces": "REST /v1 + OpenAPI 3.1 + MCP",
+        "envelope": "api-anything Tier-1 JSON",
+        "batchLimit": "10 ops / call",
+        "serverCost": "$0/mo"
+      },
+      "url": "https://kronvex.org/api-docs"
     }
   ],
   "githubStats": {

@@ -85,6 +85,12 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://kronvex.org/api-docs</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://kronvex.org/vision</loc>
     <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>

@@ -83,6 +83,7 @@ export const ar: TranslationSchema = {
       engineeringPlaybook: 'دليل المنهجية ومعجم الـ AI',
       mcpServer: 'خادم MCP (وضع Code Mode)',
       officialCli: 'طرفية CLI الرسمية (kronvex)',
+      publicApi: 'واجهة REST API وOpenAPI 3.1',
     },
   },
   home: {

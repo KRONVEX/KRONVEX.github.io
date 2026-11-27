@@ -99,6 +99,7 @@ export interface TranslationSchema {
       engineeringPlaybook: string;
       mcpServer: string;
       officialCli: string;
+      publicApi: string;
     };
   };
   home: {

@@ -137,6 +137,19 @@ const ROUTES = [
     canonicalSlug: 'cli',
   },
   {
+    slug: 'api-docs',
+    title: 'KRONVEX Public REST API v1 & OpenAPI 3.1 | Developers',
+    description: 'Interactive KRONVEX REST API v1 documentation & live explorer (https://api.kronvex.org/v1/*), OpenAPI 3.1.0 contract, Postman collection & api-anything spec.',
+    h1: 'KRONVEX Official Public REST API v1 & OpenAPI 3.1',
+  },
+  {
+    slug: 'developers',
+    title: 'KRONVEX Public REST API v1 & OpenAPI 3.1 | Developers',
+    description: 'Interactive KRONVEX REST API v1 documentation & live explorer (https://api.kronvex.org/v1/*), OpenAPI 3.1.0 contract, Postman collection & api-anything spec.',
+    h1: 'KRONVEX Official Public REST API v1 & OpenAPI 3.1',
+    canonicalSlug: 'api-docs',
+  },
+  {
     slug: 'vision',
     title: 'Vision, Privacy & Strategic Roadmap | KRONVEX',
     description: 'Read the KRONVEX engineering manifesto, zero-tracking privacy guarantees, open-source governance, and multi-phase roadmap.',

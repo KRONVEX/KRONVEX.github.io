@@ -25,6 +25,7 @@ const WorkPage = lazy(() => import('./pages/WorkPage').then((m) => ({ default: m
 const PlaybookPage = lazy(() => import('./pages/PlaybookPage').then((m) => ({ default: m.PlaybookPage })));
 const McpPage = lazy(() => import('./pages/McpPage').then((m) => ({ default: m.McpPage })));
 const CliPage = lazy(() => import('./pages/CliPage').then((m) => ({ default: m.CliPage })));
+const ApiDocsPage = lazy(() => import('./pages/ApiDocsPage').then((m) => ({ default: m.ApiDocsPage })));
 const CommandTerminal = lazy(() =>
   import('./components/CommandTerminal').then((m) => ({ default: m.CommandTerminal }))
 );
@@ -189,6 +190,8 @@ export function App() {
                 <Route path="/mcp-server" element={<McpPage />} />
                 <Route path="/cli" element={<CliPage />} />
                 <Route path="/terminal" element={<CliPage />} />
+                <Route path="/api-docs" element={<ApiDocsPage />} />
+                <Route path="/developers" element={<ApiDocsPage />} />
                 <Route path="/vision" element={<VisionPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route

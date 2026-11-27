@@ -1,0 +1,345 @@
+{
+  "info": {
+    "name": "KRONVEX Official Public REST API v1",
+    "description": "Zero-auth Tier-1 REST API for kronvex.org (Apps, Local WebGPU AI Models, SKILL.md Workflows, Top 21 Research + BibTeX, Playbook & Batch Runner).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.kronvex.org",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET Health",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/health"
+      }
+    },
+    {
+      "name": "GET Unified Search (webgpu)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/search?q=webgpu&limit=5&fields=type,id,title,url"
+      }
+    },
+    {
+      "name": "GET Apps Catalog",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/apps"
+      }
+    },
+    {
+      "name": "GET Local AI Models",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/models"
+      }
+    },
+    {
+      "name": "GET Model Hardware Fit (16GB RAM)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/models/recommend?ramGb=16"
+      }
+    },
+    {
+      "name": "GET AI Agent Skills",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/skills"
+      }
+    },
+    {
+      "name": "GET Top 21 Research Papers",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/research?limit=5"
+      }
+    },
+    {
+      "name": "GET Paper #1 BibTeX",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/research/1/bibtex"
+      }
+    },
+    {
+      "name": "GET Top 21 GitHub Radar",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/top21?board=github&limit=5"
+      }
+    },
+    {
+      "name": "GET Services",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/services"
+      }
+    },
+    {
+      "name": "GET Verified Case Studies",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/work"
+      }
+    },
+    {
+      "name": "GET Playbook & Glossary",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/playbook?q=mcp"
+      }
+    },
+    {
+      "name": "POST Batch Multi-Call",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200 OK\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Envelope ok=true & tier=1\", () => { const j = pm.response.json(); pm.expect(j.ok).to.eql(true); pm.expect(j.tier).to.eql(1); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/batch",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"calls\": [\n    {\n      \"id\": \"models\",\n      \"path\": \"/v1/models/recommend?ramGb=16\"\n    },\n    {\n      \"id\": \"paper1\",\n      \"path\": \"/v1/research/1/bibtex\"\n    }\n  ]\n}"
+        }
+      }
+    }
+  ]
+}

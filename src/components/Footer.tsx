@@ -82,6 +82,7 @@ export function Footer({ onOpenTerminal }: FooterProps) {
       {
         heading: t.footer.groups.developers,
         items: [
+          { label: t.footer.links.publicApi, to: '/api-docs' },
           { label: t.footer.links.officialCli, to: '/cli' },
           { label: t.footer.links.mcpServer, to: '/mcp' },
           { label: t.footer.links.engineeringPlaybook, to: '/playbook' },

@@ -1,0 +1,100 @@
+{
+  "name": "kronvex",
+  "displayName": "KRONVEX Platform",
+  "baseUrl": "https://api.kronvex.org",
+  "openapiUrl": "https://kronvex.org/openapi.json",
+  "mcpUrl": "https://mcp.kronvex.org/mcp",
+  "description": "Official KRONVEX Tier-1 plain-HTTP read operations for cross-platform apps, local WebGPU AI models, SKILL.md workflows, Top 21 research papers + BibTeX, and engineering case studies.",
+  "operations": [
+    {
+      "name": "search",
+      "description": "Search across KRONVEX apps, models, skills, papers, services & work.",
+      "request": {
+        "method": "GET",
+        "url": "https://api.kronvex.org/v1/search?q={q}&category={category}&limit={limit}"
+      },
+      "params": [
+        {
+          "name": "q",
+          "type": "string",
+          "required": true,
+          "example": "webgpu"
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "required": false,
+          "example": "all"
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "required": false,
+          "example": 5
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1
+    },
+    {
+      "name": "recommendModels",
+      "description": "Recommend local WebGPU/GGUF AI models fitting a host RAM size in GB.",
+      "request": {
+        "method": "GET",
+        "url": "https://api.kronvex.org/v1/models/recommend?ramGb={ramGb}"
+      },
+      "params": [
+        {
+          "name": "ramGb",
+          "type": "number",
+          "required": false,
+          "example": 16
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1
+    },
+    {
+      "name": "getPaperBibtex",
+      "description": "Fetch verified BibTeX citation for a Top 21 frontier AI research paper.",
+      "request": {
+        "method": "GET",
+        "url": "https://api.kronvex.org/v1/research/{id}/bibtex"
+      },
+      "params": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "example": "1"
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1
+    },
+    {
+      "name": "getTop21",
+      "description": "Fetch live 6-hour synced GitHub or Hugging Face Top 21 leaderboards.",
+      "request": {
+        "method": "GET",
+        "url": "https://api.kronvex.org/v1/top21?board={board}&limit={limit}"
+      },
+      "params": [
+        {
+          "name": "board",
+          "type": "string",
+          "required": false,
+          "example": "github"
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "required": false,
+          "example": 10
+        }
+      ],
+      "readOnly": true,
+      "minTier": 1
+    }
+  ]
+}
