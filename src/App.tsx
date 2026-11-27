@@ -64,7 +64,7 @@ function GlobalSignalBackdrop() {
 
 function PageFallback() {
   return (
-    <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-24 flex items-center justify-center">
+    <div className="min-h-screen max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-24 flex items-start justify-center">
       <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-xs font-mono text-sky-700 dark:text-sky-300">
         <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
         Loading KRONVEX module...

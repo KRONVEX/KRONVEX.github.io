@@ -36,7 +36,7 @@ export function LanguageSwitcher() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={`${t.nav.languageLabel} (${activeOpt.badge})`}
+        aria-label={`${activeOpt.badge} — ${t.nav.languageLabel}`}
         title={t.nav.languageLabel}
         className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-full text-xs font-mono font-semibold whitespace-nowrap shrink-0 bg-slate-100 dark:bg-slate-900/90 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/80 text-black dark:text-white transition"
       >
@@ -52,7 +52,7 @@ export function LanguageSwitcher() {
       {open && (
         <div
           role="listbox"
-          aria-label={`${t.nav.languageLabel} (${activeOpt.badge})`}
+          aria-label={`${activeOpt.badge} — ${t.nav.languageLabel}`}
           dir="ltr"
           className={`fixed inset-x-3 top-[4.25rem] sm:absolute sm:inset-x-auto sm:top-full ${
             dir === 'rtl' ? 'sm:left-0' : 'sm:right-0'
