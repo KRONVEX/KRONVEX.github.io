@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-11-27T15:12:45.454Z",
+  "generatedAt": "2026-11-27T15:27:14.338Z",
   "stdioSha256": "687a3f272d0496485b65b6c6ec89779d2851ebc0e18e3037f7580ab4d19afa7c",
   "stdioBytes": 19581,
-  "cliSha256": "9bf6a9f93b1a3802bbcb55c763fbb3147c869426fead3cb158236f2a98614379",
-  "cliBytes": 108113,
+  "cliSha256": "de8216949ba565af7b3620a8318db76fd9768938121c727b76a5a0f7eacd41b5",
+  "cliBytes": 114593,
   "counts": {
     "apps": 3,
     "models": 7,

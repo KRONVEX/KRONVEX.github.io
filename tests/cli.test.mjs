@@ -22,7 +22,7 @@ test('CLI prints v2.0.0 version and 33 capability count with --version --json', 
   assert.equal(r.status, 0);
   const parsed = JSON.parse(r.stdout);
   assert.equal(parsed.name, 'kronvex');
-  assert.equal(parsed.version, '2.0.0');
+  assert.equal(parsed.version, '2.0.1');
   assert.equal(parsed.capabilities, 33);
 });
 

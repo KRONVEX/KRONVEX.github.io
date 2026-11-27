@@ -23,7 +23,7 @@ import { spawn } from 'node:child_process';
 import { performance } from 'node:perf_hooks';
 
 export const CLI_NAME = 'kronvex';
-export const CLI_VERSION = '2.0.0';
+export const CLI_VERSION = '2.0.1';
 export const SITE_ORIGIN = 'https://kronvex.org';
 export const MCP_ENDPOINT = 'https://mcp.kronvex.org/mcp';
 
@@ -635,9 +635,10 @@ const CHESS_INITIAL = [
   'RNBQKBNR',
 ];
 const PIECE_VAL = { p: 100, n: 320, b: 330, r: 500, q: 900, k: 20000 };
+// Use U+FE0E text variation selector on pawns/pieces so Windows Terminal renders TrueColor glyphs (never purple emoji)
 const PIECE_UNICODE = {
-  K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙',
-  k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟',
+  K: '♔\uFE0E', Q: '♕\uFE0E', R: '♖\uFE0E', B: '♗\uFE0E', N: '♘\uFE0E', P: '♙\uFE0E',
+  k: '♚\uFE0E', q: '♛\uFE0E', r: '♜\uFE0E', b: '♝\uFE0E', n: '♞\uFE0E', p: '♟\uFE0E',
 };
 
 const isWhitePiece = (p) => p !== '.' && p === p.toUpperCase();
@@ -820,23 +821,71 @@ function pickAiMove(board, depth = 2) {
   return { move: bestMove, uci: `${coordToSq(bestMove.fr, bestMove.fc)}${coordToSq(bestMove.tr, bestMove.tc)}`, evalCp: Math.round(bestVal) };
 }
 
-function renderChessBoard(board, lastMove = null) {
-  const lines = ['', `    ${paint(C.gray, ' a  b  c  d  e  f  g  h ')}`];
+function centerPad(visibleWidth) {
+  const cols = process.stdout.columns || 100;
+  return ' '.repeat(Math.max(2, Math.floor((cols - visibleWidth) / 2)));
+}
+
+function renderChessBoard(board, lastMove = null, hud = null, uiState = null) {
+  // Large tournament-size board: 7 cols x 2 rows per square -> 62 total cols (horizontally & vertically centered!)
+  const sqW = 7;
+  const totalW = 8 * sqW + 6;
+  const pad = centerPad(totalW);
+  const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map((f) => `   ${f}   `).join('');
+  const topBorder = `${pad}  ${paint(C.azure, `╔${'═'.repeat(8 * sqW)}╗`)}`;
+  const botBorder = `${pad}  ${paint(C.azure, `╚${'═'.repeat(8 * sqW)}╝`)}`;
+
+  const cursor = uiState?.cursor ?? null;
+  const selected = uiState?.selected ?? null;
+  const legalTargets = uiState?.legalTargets ?? new Set();
+
+  const lines = [];
+  if (hud) {
+    lines.push(`${pad}  ${paint(C.cyan, '◈ KRONVEX NEURAL CHESS')}   ${paint(C.gray, '│')}   ${paint(C.gold, hud)}`);
+    lines.push('');
+  }
+  lines.push(`${pad}   ${paint(C.gold, files)}`);
+  lines.push(topBorder);
+
   for (let r = 0; r < 8; r++) {
-    let rowStr = `  ${paint(C.gray, String(8 - r))} `;
+    const rankNum = String(8 - r);
+    let topSubRow = `${pad}  ${paint(C.azure, '║')}`;
+    let midSubRow = `${pad}${paint(C.gold, rankNum)} ${paint(C.azure, '║')}`;
+
     for (let c = 0; c < 8; c++) {
       const p = board[r][c];
       const darkSq = (r + c) % 2 === 1;
-      const isHighlight = lastMove && ((lastMove.fr === r && lastMove.fc === c) || (lastMove.tr === r && lastMove.tc === c));
-      const sqBg = isHighlight ? bg(56, 86, 48) : darkSq ? bg(18, 28, 48) : bg(36, 48, 72);
-      const glyph = p === '.' ? ' ' : PIECE_UNICODE[p];
-      const pFg = p === '.' ? '' : isWhitePiece(p) ? fg(0, 224, 255) : fg(255, 76, 104);
-      rowStr += USE_COLOR ? `${sqBg}${pFg} ${glyph} ${C.reset}` : ` ${glyph} `;
+      const isCursor = cursor && cursor.r === r && cursor.c === c;
+      const isSelected = selected && selected.r === r && selected.c === c;
+      const isTarget = legalTargets.has(`${r},${c}`);
+      const isLast = lastMove && ((lastMove.fr === r && lastMove.fc === c) || (lastMove.tr === r && lastMove.tc === c));
+
+      let sqBg = darkSq ? bg(16, 25, 44) : bg(48, 66, 98);
+      if (isLast) sqBg = bg(32, 74, 88);
+      if (isTarget) sqBg = bg(24, 98, 52);
+      if (isSelected) sqBg = bg(138, 102, 16);
+      if (isCursor) sqBg = bg(196, 152, 20);
+
+      const glyph = p === '.' ? (isTarget ? '●' : ' ') : PIECE_UNICODE[p];
+      let pFg = '';
+      if (p === '.' && isTarget) pFg = fg(34, 229, 58);
+      else if (p !== '.') pFg = isCursor ? fg(10, 16, 28) : isWhitePiece(p) ? fg(0, 224, 255) : fg(255, 68, 96);
+
+      if (USE_COLOR) {
+        topSubRow += `${sqBg}${isCursor ? fg(10, 16, 28) + ' ┌───┐ ' : ' '.repeat(sqW)}${C.reset}`;
+        midSubRow += `${sqBg}${C.bold}${pFg}${isCursor ? ' │ ' + glyph + ' │ ' : '   ' + glyph + '   '}${C.reset}`;
+      } else {
+        topSubRow += ' '.repeat(sqW);
+        midSubRow += `   ${glyph}   `;
+      }
     }
-    rowStr += ` ${paint(C.gray, String(8 - r))}`;
-    lines.push(rowStr);
+    topSubRow += paint(C.azure, '║');
+    midSubRow += `${paint(C.azure, '║')} ${paint(C.gold, rankNum)}`;
+    lines.push(topSubRow, midSubRow);
   }
-  lines.push(`    ${paint(C.gray, ' a  b  c  d  e  f  g  h ')}`, '');
+
+  lines.push(botBorder);
+  lines.push(`${pad}   ${paint(C.gold, files)}`);
   return lines.join('\n');
 }
 
@@ -1428,59 +1477,134 @@ async function cmdChess(args, opts) {
     return 0;
   }
 
-  // Interactive TTY Chess Match
+  // Interactive Full-Screen In-Place Chess (Alternate Buffer · Arrow Keys + Space/Enter · Zero Scrolling!)
   const history = [];
   let lastMove = null;
-  process.stdout.write(`\n${ReplSkin.toolCard('KRONVEX Neural Chess', 'You play White (Cyan) vs Alpha-Beta AI (Ruby)', `depth ${depth}`)}\n`);
-  process.stdout.write(renderChessBoard(board));
-  process.stdout.write(`  ${paint(C.slate, 'Enter UCI move like')} ${paint(C.green, 'e2e4')}${paint(C.slate, ', or')} ${paint(C.gold, 'moves')} ${paint(C.slate, '/')} ${paint(C.gold, 'undo')} ${paint(C.slate, '/')} ${paint(C.ruby, 'quit')}\n\n`);
+  let moveNum = 1;
+  let gameOver = false;
+  const cursor = { r: 6, c: 4 }; // Start on e2 White pawn
+  let selected = null;
+  let statusMsg = 'Use Arrows/WASD to move cursor · Enter/Space to pick & place · U undo · Q quit';
 
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  const ask = (q) => new Promise((res) => rl.question(q, res));
-  try {
-    while (true) {
-      const legal = generateLegalMoves(board, 'w');
-      if (!legal.length) {
-        process.stdout.write(ReplSkin.warn(isKingInCheck(board, 'w') ? 'Checkmate! KRONVEX AI wins.' : 'Stalemate! Draw.') + '\n');
-        break;
-      }
-      const raw = (await ask(`  ${paint(C.cyan, 'chess ❯')} `)).trim().toLowerCase();
-      if (!raw) continue;
-      if (raw === 'quit' || raw === 'exit' || raw === 'q') break;
-      if (raw === 'moves') {
-        process.stdout.write(`  ${paint(C.slate, legal.map((m) => `${coordToSq(m.fr, m.fc)}${coordToSq(m.tr, m.tc)}`).join(' '))}\n`);
-        continue;
-      }
-      if (raw === 'undo' && history.length) {
+  const getLegalFor = (r, c) =>
+    generateLegalMoves(board, 'w').filter((m) => m.fr === r && m.fc === c);
+
+  const redraw = () => {
+    const rows = process.stdout.rows || 30;
+    const topPad = '\n'.repeat(Math.max(1, Math.floor((rows - 24) / 2)));
+    const pad = centerPad(62);
+    const legalTargets = new Set(
+      selected ? getLegalFor(selected.r, selected.c).map((m) => `${m.tr},${m.tc}`) : []
+    );
+    const evalScore = (evaluateBoard(board) / 100).toFixed(2);
+    const sqName = coordToSq(cursor.r, cursor.c);
+    const frame =
+      `\x1b[H\x1b[J${topPad}` +
+      renderChessBoard(
+        board,
+        lastMove,
+        `Move #${moveNum} · Eval ${Number(evalScore) >= 0 ? '+' : ''}${evalScore} · Cursor ${sqName.toUpperCase()}`,
+        { cursor, selected, legalTargets }
+      ) +
+      `\n\n${pad}  ${paint(gameOver ? C.gold : C.slate, statusMsg)}\n` +
+      `${pad}  ${paint(C.gray, '[Arrows/WASD] Move   [Enter/Space] Select/Drop   [Esc] Cancel   [U] Undo   [Q] Quit')}\n`;
+    process.stdout.write(frame);
+  };
+
+  return new Promise((resolve) => {
+    readline.emitKeypressEvents(process.stdin);
+    process.stdin.setRawMode(true);
+    process.stdin.resume();
+    process.stdout.write('\x1b[?1049h\x1b[?25l');
+
+    const cleanup = () => {
+      process.stdin.removeListener('keypress', onKey);
+      process.stdin.setRawMode(false);
+      process.stdout.write('\x1b[?25h\x1b[?1049l');
+      process.stdout.write(`\n${ReplSkin.toolCard('KRONVEX Neural Chess', statusMsg, `Moves: ${moveNum}`)}\n\n`);
+      resolve(0);
+    };
+
+    const onKey = (_, key) => {
+      if (!key) return;
+      if (key.name === 'q' || (key.ctrl && key.name === 'c')) return cleanup();
+      if (gameOver) return;
+
+      if (key.name === 'up' || key.name === 'w') cursor.r = (cursor.r + 7) % 8;
+      else if (key.name === 'down' || key.name === 's') cursor.r = (cursor.r + 1) % 8;
+      else if (key.name === 'left' || key.name === 'a') cursor.c = (cursor.c + 7) % 8;
+      else if (key.name === 'right' || key.name === 'd') cursor.c = (cursor.c + 1) % 8;
+      else if (key.name === 'escape') {
+        selected = null;
+        statusMsg = 'Selection cleared. Pick any Cyan (White) piece with Enter/Space.';
+      } else if (key.name === 'u' && history.length) {
         board = history.pop();
         lastMove = null;
-        process.stdout.write(renderChessBoard(board));
-        continue;
+        selected = null;
+        moveNum = Math.max(1, moveNum - 1);
+        statusMsg = 'Undid last move.';
+      } else if (key.name === 'return' || key.name === 'space') {
+        if (!selected) {
+          const piece = board[cursor.r][cursor.c];
+          if (!isWhitePiece(piece)) {
+            statusMsg = 'Select one of your Cyan (White) pieces first.';
+          } else {
+            const movesFromSq = getLegalFor(cursor.r, cursor.c);
+            if (!movesFromSq.length) {
+              statusMsg = `No legal moves for ${coordToSq(cursor.r, cursor.c)}.`;
+            } else {
+              selected = { r: cursor.r, c: cursor.c };
+              statusMsg = `Selected ${coordToSq(selected.r, selected.c).toUpperCase()} — move to any GREEN square and press Enter/Space.`;
+            }
+          }
+        } else if (selected.r === cursor.r && selected.c === cursor.c) {
+          selected = null;
+          statusMsg = 'Deselected piece.';
+        } else {
+          const legalFrom = getLegalFor(selected.r, selected.c);
+          const chosen = legalFrom.find((m) => m.tr === cursor.r && m.tc === cursor.c);
+          if (!chosen) {
+            if (isWhitePiece(board[cursor.r][cursor.c]) && getLegalFor(cursor.r, cursor.c).length) {
+              selected = { r: cursor.r, c: cursor.c };
+              statusMsg = `Switched selection to ${coordToSq(selected.r, selected.c).toUpperCase()}.`;
+            } else {
+              statusMsg = 'Not a legal destination (choose a GREEN highlighted square or press Esc).';
+            }
+          } else {
+            const playerUci = `${coordToSq(chosen.fr, chosen.fc)}${coordToSq(chosen.tr, chosen.tc)}`;
+            history.push(cloneBoard(board));
+            board = applyMove(board, chosen);
+            selected = null;
+            const ai = pickAiMove(board, depth);
+            if (!ai) {
+              lastMove = chosen;
+              gameOver = true;
+              statusMsg = isKingInCheck(board, 'b')
+                ? 'CHECKMATE! You defeated KRONVEX AI! Press Q to exit.'
+                : 'STALEMATE! Draw. Press Q to exit.';
+            } else {
+              board = applyMove(board, ai.move);
+              lastMove = ai.move;
+              moveNum++;
+              const nextLegal = generateLegalMoves(board, 'w');
+              if (!nextLegal.length) {
+                gameOver = true;
+                statusMsg = isKingInCheck(board, 'w')
+                  ? `CHECKMATE! KRONVEX AI played ${ai.uci} and won. Press Q to exit.`
+                  : 'STALEMATE! Draw. Press Q to exit.';
+              } else {
+                statusMsg = `You played ${playerUci}  ·  AI replied ${ai.uci}${isKingInCheck(board, 'w') ? '  ⚠ CHECK!' : ''}`;
+              }
+            }
+          }
+        }
       }
-      const from = sqToCoord(raw.slice(0, 2));
-      const to = sqToCoord(raw.slice(2, 4));
-      const found = from && to && legal.find((m) => m.fr === from.r && m.fc === from.c && m.tr === to.r && m.tc === to.c);
-      if (!found) {
-        process.stdout.write(ReplSkin.error(`Illegal move "${raw}". Type "moves" to see legal moves.\n`));
-        continue;
-      }
-      history.push(cloneBoard(board));
-      board = applyMove(board, found);
-      const ai = pickAiMove(board, depth);
-      if (!ai) {
-        process.stdout.write(renderChessBoard(board, found));
-        process.stdout.write(ReplSkin.success(isKingInCheck(board, 'b') ? 'CHECKMATE! You defeated KRONVEX AI!' : 'Stalemate! Draw.') + '\n');
-        break;
-      }
-      board = applyMove(board, ai.move);
-      lastMove = ai.move;
-      process.stdout.write(renderChessBoard(board, lastMove));
-      process.stdout.write(`  ${paint(C.ruby, '◈ AI played:')} ${paint(C.bold + C.white, ai.uci)}  ${paint(C.gray, `(eval: ${ai.evalCp >= 0 ? '+' : ''}${(ai.evalCp / 100).toFixed(2)})`)}${isKingInCheck(board, 'w') ? paint(C.gold, '  ⚠ CHECK!') : ''}\n\n`);
-    }
-  } finally {
-    rl.close();
-  }
-  return 0;
+      redraw();
+    };
+
+    process.stdin.on('keypress', onKey);
+    redraw();
+  });
 }
 
 // 2. `kronvex quiz` — Trilingual EN/FR/AR Tech & AI Mastery Arena
@@ -1553,8 +1677,13 @@ async function cmdDefender(opts) {
     return 0;
   }
 
-  const W = 44;
-  const H = 14;
+  const cols = process.stdout.columns || 100;
+  const rows = process.stdout.rows || 30;
+  const W = Math.min(76, Math.max(54, Math.floor(cols * 0.7)));
+  const H = Math.min(22, Math.max(16, rows - 8));
+  const pad = centerPad(W + 2);
+  const topPad = '\n'.repeat(Math.max(1, Math.floor((rows - H - 5) / 2)));
+
   let shipX = Math.floor(W / 2);
   let score = 0;
   let lives = 3;
@@ -1562,11 +1691,21 @@ async function cmdDefender(opts) {
   let tick = 0;
   let bullets = [];
   let enemies = [];
+  const stars = Array.from({ length: 24 }, (_, idx) => ({
+    x: (idx * 17 + 5) % (W - 2) + 1,
+    y: (idx * 7 + 2) % (H - 3),
+  }));
 
   const spawnWave = () => {
     enemies = [];
-    for (let i = 0; i < Math.min(10, 4 + wave); i++) {
-      enemies.push({ x: 3 + ((i * 5) % (W - 6)), y: 1 + Math.floor(i / 6), dir: i % 2 === 0 ? 1 : -1 });
+    const count = Math.min(12, 5 + wave);
+    const spacing = Math.max(5, Math.floor((W - 8) / Math.min(6, count)));
+    for (let i = 0; i < count; i++) {
+      enemies.push({
+        x: 4 + (i % 6) * spacing,
+        y: 1 + Math.floor(i / 6) * 2,
+        dir: i % 2 === 0 ? 1 : -1,
+      });
     }
   };
   spawnWave();
@@ -1575,23 +1714,23 @@ async function cmdDefender(opts) {
     readline.emitKeypressEvents(process.stdin);
     process.stdin.setRawMode(true);
     process.stdin.resume();
-    process.stdout.write('\x1b[?25l\x1b[2J');
+    process.stdout.write('\x1b[?1049h\x1b[?25l\x1b[2J');
 
     const cleanup = () => {
       clearInterval(loop);
       process.stdin.removeListener('keypress', onKey);
       process.stdin.setRawMode(false);
-      process.stdout.write('\x1b[?25h\n');
+      process.stdout.write('\x1b[?25h\x1b[?1049l');
       saveArcadeHighScore(score);
-      process.stdout.write(`${ReplSkin.toolCard('Orbital Defender — Game Over', `Final Score: ${score} · Wave ${wave}`, `Best: ${Math.max(highScore, score)}`)}\n\n`);
+      process.stdout.write(`\n${ReplSkin.toolCard('Orbital Defender — Game Over', `Final Score: ${score} · Wave ${wave}`, `Best: ${Math.max(highScore, score)}`)}\n\n`);
       resolve(0);
     };
 
     const onKey = (_, key) => {
       if (!key) return;
       if (key.name === 'q' || (key.ctrl && key.name === 'c')) return cleanup();
-      if (key.name === 'left' || key.name === 'a') shipX = Math.max(1, shipX - 2);
-      if (key.name === 'right' || key.name === 'd') shipX = Math.min(W - 2, shipX + 2);
+      if (key.name === 'left' || key.name === 'a') shipX = Math.max(2, shipX - 3);
+      if (key.name === 'right' || key.name === 'd') shipX = Math.min(W - 3, shipX + 3);
       if (key.name === 'space') bullets.push({ x: shipX, y: H - 2 });
     };
     process.stdin.on('keypress', onKey);
@@ -1602,14 +1741,13 @@ async function cmdDefender(opts) {
 
       if (tick % Math.max(3, 8 - wave) === 0) {
         for (const e of enemies) {
-          e.x += e.dir;
-          if (e.x <= 1 || e.x >= W - 2) { e.dir *= -1; e.y++; }
+          e.x += e.dir * 2;
+          if (e.x <= 2 || e.x >= W - 3) { e.dir *= -1; e.y++; }
         }
       }
 
-      // Collisions
       for (let bi = bullets.length - 1; bi >= 0; bi--) {
-        const hitIdx = enemies.findIndex((e) => Math.abs(e.x - bullets[bi].x) <= 1 && e.y === bullets[bi].y);
+        const hitIdx = enemies.findIndex((e) => Math.abs(e.x - bullets[bi].x) <= 2 && e.y === bullets[bi].y);
         if (hitIdx !== -1) {
           enemies.splice(hitIdx, 1);
           bullets.splice(bi, 1);
@@ -1628,26 +1766,40 @@ async function cmdDefender(opts) {
       if (enemies.length === 0) { wave++; spawnWave(); }
 
       const grid = Array.from({ length: H }, () => Array(W).fill(' '));
-      for (const e of enemies) if (e.y >= 0 && e.y < H) grid[e.y][e.x] = 'E';
+      for (const s of stars) grid[s.y][s.x] = '.';
+      for (const e of enemies) {
+        if (e.y >= 0 && e.y < H) {
+          if (e.x > 0) grid[e.y][e.x - 1] = '<';
+          grid[e.y][e.x] = 'E';
+          if (e.x + 1 < W) grid[e.y][e.x + 1] = '>';
+        }
+      }
       for (const b of bullets) if (b.y >= 0 && b.y < H) grid[b.y][b.x] = '|';
+      if (shipX > 0) grid[H - 1][shipX - 1] = '/';
       grid[H - 1][shipX] = '^';
+      if (shipX + 1 < W) grid[H - 1][shipX + 1] = '\\';
 
-      let frame = `\x1b[H  ${paint(C.cyan, '◈ KRONVEX ORBITAL DEFENDER')}  ${paint(C.gold, `SCORE:${score}`)}  ${paint(C.green, `WAVE:${wave}`)}  ${paint(C.ruby, `LIVES:${'♥'.repeat(lives)}`)}  ${paint(C.gray, '[A/D Space Q]')}\n`;
-      frame += `  ${paint(C.azure, `╭${'─'.repeat(W)}╮`)}\n`;
+      let frame = `\x1b[H${topPad}${pad}${paint(C.cyan, '◈ KRONVEX ORBITAL DEFENDER')}   ${paint(C.gold, `SCORE:${score}`)}   ${paint(C.green, `WAVE:${wave}`)}   ${paint(C.ruby, `LIVES:${'♥'.repeat(lives)}`)}   ${paint(C.gray, '[A/D · Space · Q]')}\n`;
+      frame += `${pad}${paint(C.azure, `╔${'═'.repeat(W)}╗`)}\n`;
       for (let y = 0; y < H; y++) {
         let row = '';
         for (let x = 0; x < W; x++) {
           const ch = grid[y][x];
           if (ch === '^') row += paint(C.cyan, '▲');
+          else if (ch === '/') row += paint(C.azure, '◢');
+          else if (ch === '\\') row += paint(C.azure, '◣');
           else if (ch === 'E') row += paint(C.ruby, '◈');
-          else if (ch === '|') row += paint(C.gold, '│');
+          else if (ch === '<') row += paint(C.gold, '◄');
+          else if (ch === '>') row += paint(C.gold, '►');
+          else if (ch === '|') row += paint(C.green, '┃');
+          else if (ch === '.') row += paint(C.gray, '·');
           else row += ' ';
         }
-        frame += `  ${paint(C.azure, '│')}${row}${paint(C.azure, '│')}\n`;
+        frame += `${pad}${paint(C.azure, '║')}${row}${paint(C.azure, '║')}\n`;
       }
-      frame += `  ${paint(C.azure, `╰${'─'.repeat(W)}╯`)}\n`;
+      frame += `${pad}${paint(C.azure, `╚${'═'.repeat(W)}╝`)}\n`;
       process.stdout.write(frame);
-    }, 65);
+    }, 60);
   });
 }
 
@@ -2326,7 +2478,11 @@ async function runRepl() {
 
       const tokens = splitReplLine(line);
       if (jsonMode && !tokens.includes('--json')) tokens.push('--json');
+      const baseCmd = (tokens[0] || '').replace(/^\//, '').toLowerCase();
+      const needsExclusiveStdin = ['chess', 'defender', 'arcade', 'quiz', 'play'].includes(baseCmd) && !tokens.includes('--json');
+      if (needsExclusiveStdin) rl.pause();
       await dispatch(tokens);
+      if (needsExclusiveStdin) rl.resume();
       printPromptBar();
     });
 
