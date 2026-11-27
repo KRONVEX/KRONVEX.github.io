@@ -461,7 +461,7 @@ export function MatrixChamberModal({
                   <a
                     href="https://nodejs.org/"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="text-sky-300 hover:underline inline-flex items-center gap-1"
                   >
                     nodejs.org <ExternalLink className="w-3 h-3" />

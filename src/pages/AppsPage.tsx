@@ -125,7 +125,7 @@ export function AppsPage({ hardware }: AppsPageProps) {
               <a
                 href={app.repoUrl}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="group text-sm font-semibold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 inline-flex items-center gap-1.5 shrink-0 transition"
               >
                 <span>GitHub Releases</span>
@@ -200,7 +200,7 @@ export function AppsPage({ hardware }: AppsPageProps) {
                           <a
                             href={art.downloadUrl}
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             className={`px-4 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 transition ${
                               isRecommended
                                 ? 'bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold'

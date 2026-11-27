@@ -959,7 +959,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={repo.url}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="font-display font-bold text-base sm:text-lg text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-300 max-w-full min-w-0 inline-flex items-center gap-1.5"
                       >
                         <span className="truncate">{repo.fullName}</span>
@@ -1039,7 +1039,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                     <a
                       href={ghMode === 'downloads' ? `${repo.url}/releases` : repo.url}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-black font-bold text-xs inline-flex items-center gap-1 transition"
                     >
                       {ghMode === 'downloads' ? t.top21.releasesBtn : t.top21.openBtn} <ExternalLink className="w-3 h-3" />
@@ -1080,7 +1080,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={model.url}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="font-display font-bold text-base sm:text-lg text-black dark:text-white hover:text-amber-600 dark:hover:text-amber-300 max-w-full min-w-0 inline-flex items-center gap-1.5"
                       >
                         <span className="truncate">{model.id}</span>
@@ -1149,7 +1149,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                     <a
                       href={model.url}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-bold text-xs inline-flex items-center gap-1 transition"
                     >
                       Hugging Face <ExternalLink className="w-3 h-3" />
@@ -1189,7 +1189,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                         <a
                           href={paper.arxivUrl}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="font-display font-bold text-base sm:text-lg text-black dark:text-white hover:text-emerald-600 dark:hover:text-emerald-300 leading-snug inline-flex items-center gap-1.5"
                         >
                           <span>{paper.title}</span>
@@ -1262,7 +1262,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={paper.labPortalUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-mono font-semibold text-black dark:text-white hover:border-sky-500 inline-flex items-center gap-1 transition"
                       >
                         {t.top21.labPortalBtn} <ExternalLink className="w-3 h-3" />
@@ -1270,7 +1270,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={paper.arxivUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-black font-bold text-xs inline-flex items-center gap-1 transition"
                       >
                         arXiv <ExternalLink className="w-3 h-3" />
@@ -1278,7 +1278,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={paper.pdfUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs inline-flex items-center gap-1 transition"
                       >
                         <FileText className="w-3.5 h-3.5" /> {t.top21.pdfBtn}
@@ -1320,7 +1320,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                         <a
                           href={paper.arxivUrl}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="font-display font-bold text-base sm:text-lg text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-300 leading-snug inline-flex items-center gap-1.5"
                         >
                           <span>{paper.title}</span>
@@ -1384,7 +1384,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={paper.arxivUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-black font-bold text-xs inline-flex items-center gap-1 transition"
                       >
                         arXiv <ExternalLink className="w-3 h-3" />
@@ -1392,7 +1392,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={paper.pdfUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs inline-flex items-center gap-1 transition"
                       >
                         <FileText className="w-3.5 h-3.5" /> {t.top21.pdfBtn}
@@ -1435,7 +1435,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                         <a
                           href={paper.hfUrl}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="font-display font-bold text-base sm:text-lg text-black dark:text-white hover:text-indigo-600 dark:hover:text-indigo-300 leading-snug inline-flex items-center gap-1.5"
                         >
                           <span>{paper.title}</span>
@@ -1518,7 +1518,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                         <a
                           href={paper.githubRepo}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-mono font-semibold text-black dark:text-white hover:border-sky-500 inline-flex items-center gap-1 transition"
                         >
                           <Code2 className="w-3.5 h-3.5" /> Code
@@ -1527,7 +1527,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={paper.arxivUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-black font-bold text-xs inline-flex items-center gap-1 transition"
                       >
                         arXiv <ExternalLink className="w-3 h-3" />
@@ -1535,7 +1535,7 @@ export function Index21Page({ defaultTab = 'github' }: Index21PageProps = {}) {
                       <a
                         href={paper.pdfUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs inline-flex items-center gap-1 transition"
                       >
                         <FileText className="w-3.5 h-3.5" /> {t.top21.pdfBtn}

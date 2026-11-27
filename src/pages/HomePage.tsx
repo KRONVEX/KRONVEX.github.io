@@ -521,7 +521,7 @@ export function HomePage({ hardware, onOpenTerminal }: HomePageProps) {
             <a
               href={ORG_META.githubUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="group text-sm font-bold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 inline-flex items-center gap-2 transition"
             >
               <Github className="w-4 h-4" />

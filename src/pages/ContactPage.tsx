@@ -76,7 +76,7 @@ export function ContactPage() {
           <a
             href={ORG_META.githubUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="group block py-6 first:pt-0 space-y-2 transition"
           >
             <div className="flex items-center justify-between gap-3">
@@ -153,7 +153,7 @@ export function ContactPage() {
           <a
             href={`${ORG_META.orgProfileRepoUrl}/blob/main/SECURITY.md`}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="group block py-6 space-y-2 transition"
           >
             <div className="flex items-center justify-between gap-3">
@@ -241,7 +241,7 @@ export function ContactPage() {
             <a
               href={githubIssueHref}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="px-6 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-black font-bold text-sm inline-flex items-center gap-2 transition"
             >
               <MessageSquare className="w-4 h-4" /> {t.contact.submitGithub}

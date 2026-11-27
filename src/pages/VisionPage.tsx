@@ -170,7 +170,7 @@ export function VisionPage() {
             <a
               href={ORG_META.founderGithub}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="group py-2 flex items-center justify-between text-sm font-semibold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition"
             >
               <span className="inline-flex items-center gap-2.5">
@@ -181,7 +181,7 @@ export function VisionPage() {
             <a
               href={ORG_META.founderSite}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="group py-2 flex items-center justify-between text-sm font-semibold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition"
             >
               <span className="inline-flex items-center gap-2.5">

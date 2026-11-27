@@ -219,7 +219,7 @@ export function ModelsPage({ hardware }: ModelsPageProps) {
                       <a
                         href={activeVar.downloadUrl}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="mt-1 px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs inline-flex items-center gap-2 transition"
                       >
                         <Download className="w-3.5 h-3.5" /> {t.models.directDownload} ({activeVar.format} ·{' '}
