@@ -33,11 +33,11 @@ const CASE_STUDIES: CaseStudy[] = [
     challenge:
       'Build a multi-module technical showcase, software distribution hub, and research portal operating at $0 recurring server cost with zero third-party cookies, hardened edge security, and instant global load times.',
     architecture:
-      'React 19.3 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, 18 static HTTP-200 prerendered route entrypoints on GitHub Pages behind Cloudflare Full (Strict) TLS + HSTS Preload + CSP + Brotli, and 60fps canvas particle physics.',
+      'React 19.3 + TypeScript + Vite 6 code-split architecture with route-level lazy loading, 20 static HTTP-200 prerendered route entrypoints on GitHub Pages behind Cloudflare Full (Strict) TLS + HSTS Preload + CSP + Brotli, and 60fps canvas particle physics.',
     metrics: [
       { label: 'RankPulse SEO · GEO Audit', value: '100 · 97 / 100' },
       { label: 'SEOmator & AEO Lint Score', value: '98 / 100 (A)' },
-      { label: 'Static HTTP-200 Routes', value: '18 Routes' },
+      { label: 'Static HTTP-200 Routes', value: '20 Routes' },
       { label: 'npm Audit & Monthly Server Cost', value: '0 Vulns · $0/mo' },
     ],
     stack: ['React 19', 'TypeScript', 'Vite 6', 'Cloudflare HSTS/CSP', 'GitHub Pages', '6-Lang RTL'],
@@ -100,6 +100,25 @@ const CASE_STUDIES: CaseStudy[] = [
     stack: ['SKILL.md Standard', 'JSZip', 'React Lazy', 'TypeScript'],
     liveRoute: '/skills',
     liveLabel: 'Open Skills Marketplace',
+  },
+  {
+    id: 'kronvex-mcp-gateway',
+    code: 'CASE 05',
+    category: 'AI Core',
+    title: 'Official KRONVEX Code-Mode MCP Gateway (mcp.kronvex.org)',
+    subtitle: 'Dual-Transport AI Agent Server · 98.4% Token Reduction & 100/100 Security Audit',
+    challenge:
+      'Traditional MCP servers dump 50+ bloated JSON tool schemas (40,000+ tokens) into every AI agent prompt, burning context windows and raising latency while requiring costly always-on backends.',
+    architecture:
+      'Built on NexusMCP Code Mode: collapses apps, local AI models, SKILL.md library, and Top 21 research into 2 read-only tools (~650 tokens) over stateless Streamable HTTP (Cloudflare Worker at mcp.kronvex.org/mcp) plus a 0-dependency local stdio server (kronvex-mcp.mjs) backed by static edge JSON snapshots.',
+    metrics: [
+      { label: 'Context Token Reduction', value: '98.4% (~650 tok)' },
+      { label: 'NexusMCP Security Audit', value: '100 / 100 (0 P0)' },
+      { label: 'Transports & Monthly Cost', value: 'HTTP + stdio · $0' },
+    ],
+    stack: ['MCP 2026-07-28', 'Code Mode', 'Cloudflare Workers', 'JSON-RPC 2.0', 'Node.js 0-Deps'],
+    liveRoute: '/mcp',
+    liveLabel: 'Open MCP Hub & Playground',
   },
 ];
 

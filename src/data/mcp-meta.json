@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-11-27T12:34:35.462Z",
+  "generatedAt": "2026-11-27T13:15:16.243Z",
   "stdioSha256": "687a3f272d0496485b65b6c6ec89779d2851ebc0e18e3037f7580ab4d19afa7c",
   "stdioBytes": 19581,
   "counts": {
@@ -9,6 +9,6 @@
     "skills": 6,
     "papers": 21,
     "services": 4,
-    "caseStudies": 4
+    "caseStudies": 5
   }
 }

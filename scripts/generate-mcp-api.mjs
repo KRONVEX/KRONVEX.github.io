@@ -110,6 +110,13 @@ const catalogPayload = {
       metrics: { curatedSkills: catalogMod.KRONVEX_SKILLS.length, initialBundleImpact: '0 KB (Lazy)', compatibleRuntimes: '4+' },
       url: 'https://kronvex.org/skills',
     },
+    {
+      id: 'kronvex-mcp-gateway',
+      title: 'Official KRONVEX Code-Mode MCP Gateway (mcp.kronvex.org)',
+      category: 'AI Core',
+      metrics: { tokenReduction: '98.4% (~650 tokens)', securityAudit: '100/100', transports: 'Streamable HTTP + stdio', serverCost: '$0/mo' },
+      url: 'https://kronvex.org/mcp',
+    },
   ],
   githubStats: liveGithub.stats,
   repositories: liveGithub.repos,
