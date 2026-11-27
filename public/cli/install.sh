@@ -12,7 +12,7 @@ INSTALL_DIR="${HOME}/.kronvex/bin"
 mkdir -p "${INSTALL_DIR}"
 
 CLI_PATH="${INSTALL_DIR}/kronvex.mjs"
-echo "Downloading KRONVEX CLI v1.3.0 from https://kronvex.org/cli/kronvex.mjs ..."
+echo "Downloading KRONVEX CLI v2.0.0 from https://kronvex.org/cli/kronvex.mjs ..."
 curl -fsSL "https://kronvex.org/cli/kronvex.mjs" -o "${CLI_PATH}"
 chmod +x "${CLI_PATH}"
 

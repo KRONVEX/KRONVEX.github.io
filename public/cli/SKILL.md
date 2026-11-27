@@ -1,26 +1,20 @@
 ---
 name: kronvex-cli
-description: Official KRONVEX Terminal CLI (kronvex / kvx) for querying apps, local WebGPU AI models, SKILL.md agent workflows, Top 21 research papers + BibTeX, live GitHub/Hugging Face radar, and remote Code-Mode MCP (mcp.kronvex.org/mcp).
+description: Official KRONVEX Terminal CLI v2.0.0 (33 capabilities) — live Code-Mode MCP, local Ollama AI chat, local compute benchmark, secret leak scanner, live SEO/Security URL auditor, SHA-256 verifier, codebase tree/LOC analyzer, BibTeX papers, SKILL.md installer, and terminal Arcade games (Chess, EN/FR/AR Quiz, Orbital Defender).
 ---
 
-# KRONVEX Official CLI (`kronvex` / `kvx`)
+# KRONVEX Official CLI v2.0.0 (`kronvex` / `kvx`)
 
-Zero-dependency Node.js (`>=18`) terminal CLI engineered with the dual **Stateful REPL + Subcommand** architecture, deterministic `--json` and `--output-format stream-json` agent protocols, and built-in live MCP inspection against `https://mcp.kronvex.org/mcp`.
+Zero-dependency Node.js (`>=18`) agent-native terminal platform with **33 capabilities**, branded Cyber-Owl Hex-Core TrueColor REPL, deterministic `--json` and `--output-format stream-json` protocols, and built-in live MCP client (`https://mcp.kronvex.org/mcp`).
 
 ## Installation
 - **Windows (PowerShell):** `irm https://kronvex.org/cli/install.ps1 | iex`
 - **macOS / Linux:** `curl -fsSL https://kronvex.org/cli/install.sh | sh`
-- **Direct Run:** `node kronvex.mjs --help`
+- **Self-Update:** `kronvex update`
 
-## Agent-First Usage (`--json` & `stream-json`)
-| Command | Purpose |
-| :--- | :--- |
-| `kronvex doctor --json` | Check live health/latency of `kronvex.org`, `mcp.kronvex.org/mcp`, and host RAM/CPU |
-| `kronvex search "<q>" --json` | Live fuzzy search via `https://mcp.kronvex.org/mcp` |
-| `kronvex apps list --json` | List signed Windows & Android apps |
-| `kronvex models recommend --json` | Match local WebGPU/GGUF AI models to host RAM/CPU |
-| `kronvex skills install <id> --dir ./.skills` | Install a KRONVEX `SKILL.md` workflow locally |
-| `kronvex research bibtex <rank\|arxivId>` | Export verified frontier arXiv BibTeX citations |
-| `kronvex top21 [github\|hf\|weekly] --json` | Live 6h synced GitHub & Hugging Face Top 21 radar |
-| `kronvex mcp discover --json` | Probe 2026-07-28 MCP discovery manifest & tools |
-| `kronvex mcp config <client>` | Generate ready-to-paste MCP config for 8 coding agents |
+## 33 Capabilities Overview
+- **Platform & MCP:** `doctor`, `search "<q>"`, `apps [list|info]`, `models [list|info|recommend]`, `skills [list|inspect|install]`, `research [list|search|bibtex]`, `top21 [github|hf|weekly]`, `mcp [discover|tools|call|config]`, `services`, `work`, `open <page>`
+- **Local AI & Engineering:** `chat "<prompt>"` (local Ollama), `playbook [term]`, `bench` (SHA-256 + CPU + Tier S/A/B/C)
+- **Security & Auditing:** `scan [dir]` (secret leak CI gate), `audit <url>` (Security Headers + SEO/GEO/AEO score), `hash <file> --verify <hex>`, `tree [dir]` (topology + LOC)
+- **Terminal Arcade:** `chess [--move e2e4]`, `quiz [--lang en|fr|ar]`, `defender`
+- **System & Brand:** `crest`, `theme [kronvex|medallion|ruby|sentinel]`, `completion [powershell|bash|zsh]`, `cache [status|clear]`, `skill-md`, `update`

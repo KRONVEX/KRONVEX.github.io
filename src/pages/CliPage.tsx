@@ -18,7 +18,7 @@ import { ScrollReveal, ScrollScrubText } from '../components/KineticScrollText';
 import mcpMeta from '../data/mcp-meta.json';
 
 type InstallTab = 'windows' | 'unix' | 'direct' | 'agent';
-type DemoTab = 'repl' | 'doctor' | 'search' | 'models' | 'bibtex' | 'mcp';
+type DemoTab = 'repl' | 'audit' | 'scan' | 'chess' | 'bench' | 'search' | 'mcp';
 
 const INSTALL_SNIPPETS: Record<InstallTab, { label: string; shell: string; cmd: string; note: string }> = {
   windows: {
@@ -67,23 +67,55 @@ const TERMINAL_DEMOS: Record<DemoTab, { label: string; command: string; output: 
   3. Type /help for all commands · /crest for full Cyber-Owl Hex emblem · /theme for palettes.
 
   ╭──────────────────────────────────────────────────────────────────────────╮
-  │ ● Connected to kronvex.org & mcp.kronvex.org/mcp · Read-Only · 0 Deps    │
+  │ ● 33 Capabilities · Live MCP (mcp.kronvex.org) · Arcade · Security       │
   ╰──────────────────────────────────────────────────────────────────────────╯
-  ~/projects (kronvex v1.3.0)  ·  mcp.kronvex.org/mcp (read-only)  ·  theme:kronvex
+  ~/projects (kronvex v2.0.0)  ·  mcp.kronvex.org/mcp (read-only)  ·  theme:kronvex
   ❯ `,
   },
-  doctor: {
-    label: 'kronvex doctor',
-    command: 'kronvex doctor',
+  audit: {
+    label: 'audit <url>',
+    command: 'kronvex audit https://kronvex.org',
     output: `  ╭──────────────────────────────────────────────────────────────────────────╮
-  │ ✦ Diagnostics  Probed kronvex.org & mcp.kronvex.org/mcp (OPERATIONAL)    │
+  │ ◈ Live Security & SEO/GEO Audit  https://kronvex.org (Grade A+ · 100/100)│
   ╰──────────────────────────────────────────────────────────────────────────╯
 
-    Platform API           ONLINE (64ms · synced 2026-11-27)
-    Remote MCP Gateway     ONLINE (48ms · MCP 2026-07-28)
-    MCP Code-Mode Tools    kronvex_search, kronvex_query
-    Host OS / Runtime      win32 10.0 (x64) · Node v24.15.0
-    Host Hardware          16 CPU cores · 32.0 GB RAM`,
+    Security Headers Score   100 / 100  (HSTS, CSP, X-Frame, Referrer, Permissions)
+    SEO & GEO/AI Score       100 / 100  (Title, Canonical, JSON-LD, robots.txt, llms.txt)`,
+  },
+  scan: {
+    label: 'scan (secrets)',
+    command: 'kronvex scan .',
+    output: `  ╭──────────────────────────────────────────────────────────────────────────╮
+  │ ◈ Secret Leak Scanner  Scanned 64 files in project (CLEAN · 0 LEAKS)     │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+
+  ✓ Zero leaked API keys, tokens, or private keys detected.`,
+  },
+  chess: {
+    label: 'chess (AI)',
+    command: 'kronvex chess --move e2e4',
+    output: `  ╭──────────────────────────────────────────────────────────────────────────╮
+  │ ◈ Neural Chess  You: e2e4 · AI: d7d5 (depth 2)                           │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+
+     a  b  c  d  e  f  g  h
+  8  ♜  ♞  ♝  ♛  ♚  ♝  ♞  ♜  8
+  7  ♟  ♟  ♟     ♟  ♟  ♟  ♟  7
+  5           ♟              5
+  4              ♙           4
+  2  ♙  ♙  ♙  ♙     ♙  ♙  ♙  2
+  1  ♖  ♘  ♗  ♕  ♔  ♗  ♘  ♖  1`,
+  },
+  bench: {
+    label: 'bench (AI Tier)',
+    command: 'kronvex bench',
+    output: `  ╭──────────────────────────────────────────────────────────────────────────╮
+  │ ◈ Local Compute Benchmark  Readiness Tier: S (Workstation AI)            │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+
+    SHA-256 Throughput       1,240 MB/s
+    CPU Sieve (250k)         4.2 ms (22,044 primes)
+    Recommended Local LLM    14B - 32B Q4_K_M`,
   },
   search: {
     label: 'search --json',
@@ -104,33 +136,10 @@ const TERMINAL_DEMOS: Record<DemoTab, { label: string; command: string; output: 
   ]
 }`,
   },
-  models: {
-    label: 'models recommend',
-    command: 'kronvex models recommend',
-    output: `✓ Local AI Hardware Fit for 32.0 GB RAM · 16 CPU Threads
-┌────────────────────────────────────┬────────┬──────────┬─────────┬───────────┐
-│ MODEL                              │ PARAMS │ FORMAT   │ MIN RAM │ FIT       │
-├────────────────────────────────────┼────────┼──────────┼─────────┼───────────┤
-│ Kronvex Nano-135M (Browser Ready)  │ 135M   │ ONNX-Q4  │ 4 GB    │ OPTIMAL   │
-│ Kronvex Pulse-360M (Browser Ready) │ 360M   │ ONNX-Q4  │ 4 GB    │ OPTIMAL   │
-│ Qwen2.5-Coder-7B-Instruct          │ 7B     │ GGUF-Q4  │ 8 GB    │ OPTIMAL   │
-└────────────────────────────────────┴────────┴──────────┴─────────┴───────────┘`,
-  },
-  bibtex: {
-    label: 'research bibtex',
-    command: 'kronvex research bibtex 1',
-    output: `@article{kronvex_2025_alphaevolveaco,
-  title     = {AlphaEvolve: A coding agent for scientific and algorithmic discovery},
-  author    = {Google DeepMind},
-  year      = {2025},
-  journal   = {arXiv preprint arXiv:2506.13131},
-  url       = {https://arxiv.org/abs/2506.13131}
-}`,
-  },
   mcp: {
     label: 'mcp config',
     command: 'kronvex mcp config antigravity',
-    output: `● MCP Configuration for antigravity (http)
+    output: `◈ MCP Config  Generated HTTP setup for antigravity (https://mcp.kronvex.org/mcp)
 
 {
   "mcpServers": {
@@ -144,20 +153,26 @@ const TERMINAL_DEMOS: Record<DemoTab, { label: string; command: string; output: 
 };
 
 const COMMAND_GROUPS = [
-  { cmd: 'kronvex', mode: 'REPL', desc: 'Launch branded interactive REPL with persistent history, tab autocomplete & /json toggle' },
-  { cmd: 'kronvex doctor', mode: 'Both', desc: 'Probe live latency of kronvex.org & mcp.kronvex.org/mcp + host CPU/RAM diagnostics' },
-  { cmd: 'kronvex search "<q>"', mode: 'Both', desc: 'Live fuzzy search via Remote Code-Mode MCP (auto-falls back to local offline cache)' },
-  { cmd: 'kronvex apps [list|info <id>]', mode: 'Both', desc: 'Inspect signed Windows (.EXE/.MSI) & Android (.APK) software artifacts' },
-  { cmd: 'kronvex models [list|recommend]', mode: 'Both', desc: 'Inspect local WebGPU/ONNX/GGUF AI models & match against your local RAM/CPU' },
-  { cmd: 'kronvex skills [list|inspect|install <id>]', mode: 'Both', desc: 'Browse and install production SKILL.md agent bundles directly into your workspace' },
-  { cmd: 'kronvex research [list|search|bibtex <id>]', mode: 'Both', desc: 'Query Top 21 frontier arXiv papers and pipe verified BibTeX citations to stdout' },
-  { cmd: 'kronvex top21 [github|hf|weekly]', mode: 'Both', desc: 'View live 6-hour synced GitHub & Hugging Face Top 21 leaderboards in terminal tables' },
-  { cmd: 'kronvex mcp [discover|tools|call|config]', mode: 'Both', desc: 'Inspect mcp.kronvex.org/mcp and print ready-to-paste configs for 8 coding agents' },
-  { cmd: 'kronvex services / work', mode: 'Both', desc: 'Query KRONVEX engineering services and verified production case studies' },
-  { cmd: 'kronvex skill-md', mode: 'Agent', desc: 'Print canonical SKILL.md manifest for autonomous agent discovery' },
-  { cmd: 'kronvex crest / theme [name]', mode: 'TUI', desc: 'Render the full 30x28 TrueColor KRONVEX Owl emblem or switch Owl brand themes (kronvex, medallion, ruby, sentinel)' },
-  { cmd: 'kronvex update', mode: 'Local', desc: 'Self-update kronvex.mjs directly from kronvex.org/cli/kronvex.mjs with SHA-256 verification' },
-  { cmd: 'kronvex cache [status|clear]', mode: 'Local', desc: 'Inspect or purge the 10-minute ~/.kronvex/cache offline JSON snapshots' },
+  { cmd: 'kronvex', mode: 'REPL', desc: 'Launch Cyber-Owl Hex-Core interactive REPL with persistent history, Tab autocomplete & /json toggle' },
+  { cmd: 'kronvex doctor', mode: 'Platform', desc: 'Probe live latency of kronvex.org & mcp.kronvex.org/mcp + host CPU/RAM diagnostics' },
+  { cmd: 'kronvex search "<q>"', mode: 'MCP', desc: 'Live fuzzy search via Remote Code-Mode MCP (auto-falls back to local offline cache)' },
+  { cmd: 'kronvex apps / models / skills', mode: 'Catalog', desc: 'Inspect signed apps, match local AI models to host RAM (`models recommend`), and install `SKILL.md`' },
+  { cmd: 'kronvex research / top21', mode: 'Intel', desc: 'Query Top 21 frontier arXiv papers (+ BibTeX export) and live 6h GitHub & Hugging Face radar' },
+  { cmd: 'kronvex mcp [discover|tools|call|config]', mode: 'MCP', desc: 'Inspect mcp.kronvex.org/mcp, invoke Code-Mode tools, and generate configs for 8 coding agents' },
+  { cmd: 'kronvex chat [prompt]', mode: 'Local AI', desc: 'Stream private local AI chat via Ollama (127.0.0.1:11434) with automatic model detection' },
+  { cmd: 'kronvex playbook [term]', mode: 'Knowledge', desc: 'Read KRONVEX 6 engineering laws & search the 16-term AI/MCP/WebGPU/GEO glossary' },
+  { cmd: 'kronvex bench', mode: 'Local AI', desc: 'Benchmark host SHA-256 MB/s, CPU prime sieve & JSON speed to compute Local-AI Readiness Tier (S/A/B/C)' },
+  { cmd: 'kronvex scan [dir]', mode: 'Security', desc: 'Recursive zero-dep repository secret & API-key leak scanner (CI/pre-push gate with redacted matches)' },
+  { cmd: 'kronvex audit <url>', mode: 'Sec + SEO', desc: 'Live Security Headers (HSTS/CSP/XFO) + SEO/GEO/AEO (JSON-LD, robots.txt, llms.txt) score out of 100' },
+  { cmd: 'kronvex hash <file> --verify <hex>', mode: 'Security', desc: 'Streaming SHA-256 / SHA-512 cryptographic integrity verification for binaries & releases' },
+  { cmd: 'kronvex tree [dir]', mode: 'Codebase', desc: 'Color-coded project topology tree with automatic language breakdown and Lines-of-Code counter' },
+  { cmd: 'kronvex chess [--move e2e4]', mode: 'Arcade', desc: 'Play Alpha-Beta Neural Chess on a TrueColor Unicode board (interactive TTY or `--json` agent mode)' },
+  { cmd: 'kronvex quiz [--lang en|fr|ar]', mode: 'Arcade', desc: 'Trilingual Python, JS/TS, LLM, MCP & Security quiz arena right in your terminal' },
+  { cmd: 'kronvex defender', mode: 'Arcade', desc: 'Real-time ANSI Orbital Defender arcade game with wave progression & saved local high scores' },
+  { cmd: 'kronvex open [page]', mode: 'System', desc: 'Launch any KRONVEX platform page (`mcp`, `work`, `research`, `github`, etc.) in your browser' },
+  { cmd: 'kronvex completion [pwsh|bash|zsh]', mode: 'System', desc: 'Generate native OS shell Tab-completion script covering all commands' },
+  { cmd: 'kronvex crest / theme [name]', mode: 'Brand', desc: 'Render the Cyber-Owl Hex-Core emblem or switch 4 Owl brand themes (kronvex, medallion, ruby, sentinel)' },
+  { cmd: 'kronvex skill-md / cache / update', mode: 'Agent', desc: 'Export agent SKILL.md, manage local ~/.kronvex/cache, or self-update with SHA-256 verification' },
 ];
 
 export function CliPage() {
@@ -240,9 +255,9 @@ export function CliPage() {
             </div>
           </div>
           <div>
-            <div className="font-brand text-2xl sm:text-3xl font-bold text-black dark:text-white">12 Groups</div>
+            <div className="font-brand text-2xl sm:text-3xl font-bold text-black dark:text-white">33 Tools</div>
             <div className="font-mono text-[11px] text-slate-700 dark:text-slate-300 mt-1">
-              Subprocess E2E Verified
+              Arcade · Audits · Local AI · MCP
             </div>
           </div>
         </div>
@@ -383,7 +398,7 @@ export function CliPage() {
                 <Cpu className="w-3.5 h-3.5" /> Complete Command Surface
               </div>
               <h2 className="font-display font-bold text-2xl sm:text-3xl text-black dark:text-white mt-1">
-                12 Self-Describing Command Groups
+                33 Self-Describing Terminal Capabilities
               </h2>
             </div>
             <span className="font-mono text-xs text-slate-600 dark:text-slate-400">

@@ -131,8 +131,8 @@ const CASE_STUDIES: CaseStudy[] = [
     architecture:
       'Pure Node.js >=18 single-file CLI with zero external dependencies, unified ANSI ReplSkin interactive shell, deterministic --json and NDJSON stream-json protocols, native https://mcp.kronvex.org/mcp client with local disk cache fallback, and 1-line Windows/macOS/Linux installers.',
     metrics: [
-      { label: 'Runtime Dependencies & Boot', value: '0 Deps · ~55ms' },
-      { label: 'Output Protocols Supported', value: 'REPL · JSON · NDJSON' },
+      { label: 'Capabilities & Zero Deps', value: '33 Tools · 0 Deps' },
+      { label: 'Output Protocols & Arcade', value: 'REPL · JSON · 3 Games' },
       { label: 'Subprocess E2E Verification', value: '100% Passing' },
     ],
     stack: ['Node.js ESM', 'ReplSkin ANSI', 'NDJSON Stream', 'MCP Client', 'SKILL.md'],

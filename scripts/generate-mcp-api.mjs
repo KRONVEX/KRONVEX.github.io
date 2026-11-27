@@ -119,9 +119,9 @@ const catalogPayload = {
     },
     {
       id: 'kronvex-official-cli',
-      title: 'KRONVEX Official Terminal CLI (kronvex / kvx)',
+      title: 'KRONVEX Official Terminal CLI (kronvex / kvx v2.0.0)',
       category: 'Systems',
-      metrics: { dependencies: '0 Deps (Node >=18)', protocols: 'REPL + --json + stream-json', mcpClient: 'Live mcp.kronvex.org/mcp' },
+      metrics: { capabilities: 33, dependencies: '0 Deps (Node >=18)', protocols: 'REPL + --json + stream-json', mcpClient: 'Live mcp.kronvex.org/mcp' },
       url: 'https://kronvex.org/cli',
     },
   ],
