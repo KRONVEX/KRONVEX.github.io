@@ -10,36 +10,36 @@ const ACCENT_MAP = {
     fill: '#00D4FF',
     stroke: '#0284C7',
     badge: 'text-sky-700 dark:text-sky-300',
-    pill: 'bg-sky-500/10 text-sky-900 dark:text-sky-200 border-sky-500/25',
-    hoverBar: 'group-hover:bg-[#00D4FF]',
+    topRule: 'group-hover:border-sky-500 dark:group-hover:border-[#00D4FF]',
+    titleHover: 'group-hover:text-sky-700 dark:group-hover:text-[#00D4FF]',
   },
   azure: {
     fill: '#188AFF',
     stroke: '#1D4ED8',
     badge: 'text-blue-700 dark:text-sky-300',
-    pill: 'bg-blue-500/10 text-blue-900 dark:text-blue-200 border-blue-500/25',
-    hoverBar: 'group-hover:bg-[#188AFF]',
+    topRule: 'group-hover:border-blue-600 dark:group-hover:border-[#188AFF]',
+    titleHover: 'group-hover:text-blue-700 dark:group-hover:text-sky-300',
   },
   green: {
     fill: '#22E53A',
     stroke: '#059669',
     badge: 'text-emerald-700 dark:text-emerald-300',
-    pill: 'bg-emerald-500/10 text-emerald-900 dark:text-emerald-200 border-emerald-500/25',
-    hoverBar: 'group-hover:bg-[#22E53A]',
+    topRule: 'group-hover:border-emerald-500 dark:group-hover:border-[#22E53A]',
+    titleHover: 'group-hover:text-emerald-700 dark:group-hover:text-emerald-300',
   },
   gold: {
     fill: '#FFAC12',
     stroke: '#D97706',
     badge: 'text-amber-700 dark:text-amber-300',
-    pill: 'bg-amber-500/10 text-amber-950 dark:text-amber-200 border-amber-500/30',
-    hoverBar: 'group-hover:bg-[#FFE024]',
+    topRule: 'group-hover:border-amber-500 dark:group-hover:border-[#FFE024]',
+    titleHover: 'group-hover:text-amber-700 dark:group-hover:text-amber-300',
   },
   ruby: {
     fill: '#FF2E4C',
     stroke: '#DC2626',
     badge: 'text-rose-700 dark:text-rose-300',
-    pill: 'bg-rose-500/10 text-rose-900 dark:text-rose-200 border-rose-500/25',
-    hoverBar: 'group-hover:bg-[#FF2E4C]',
+    topRule: 'group-hover:border-rose-500 dark:group-hover:border-[#FF2E4C]',
+    titleHover: 'group-hover:text-rose-700 dark:group-hover:text-rose-300',
   },
 } as const;
 
@@ -235,55 +235,48 @@ export function ServicesPage() {
           </p>
         </div>
 
-        {/* Clean Hairline-Bordered 3x3 Editorial Grid (1px architectural dividers) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-s border-slate-300/90 dark:border-white/15 rounded-2xl overflow-hidden bg-white dark:bg-[#080E1B] shadow-sm">
-          {copy.services.map((svc) => {
+        {/* Open Transparent 3x3 Editorial Grid — Zero Opaque Boxes, Flowing Directly Over Live Canvas */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 lg:gap-x-14 gap-y-12">
+          {copy.services.map((svc, idx) => {
             const theme = ACCENT_MAP[svc.accent];
             return (
-              <article
-                key={svc.id}
-                className="group relative flex flex-col justify-between p-7 sm:p-8 border-e border-b border-slate-300/90 dark:border-white/15 bg-white dark:bg-[#080E1B] hover:bg-slate-50/95 dark:hover:bg-white/[0.03] transition-colors duration-200"
-              >
-                {/* Top subtle hairline accent bar on hover */}
-                <div
-                  className={`absolute inset-x-0 top-0 h-[2.5px] bg-transparent ${theme.hoverBar} transition-colors duration-200`}
-                />
+              <ScrollReveal key={svc.id} delayMs={(idx % 3) * 65} className="h-full">
+                <article
+                  className={`group h-full pt-7 border-t border-slate-300/80 dark:border-white/15 ${theme.topRule} transition-colors duration-200 flex flex-col justify-between gap-6`}
+                >
+                  <div className="space-y-5">
+                    <div className="flex items-start justify-between gap-4 text-slate-900 dark:text-white">
+                      <ServiceGlyph id={svc.icon} accent={svc.accent} />
+                      <span className={`font-mono text-xs font-bold tracking-wider ${theme.badge}`}>{svc.code}</span>
+                    </div>
 
-                <div className="space-y-5">
-                  <div className="flex items-start justify-between gap-4 text-slate-900 dark:text-white">
-                    <ServiceGlyph id={svc.icon} accent={svc.accent} />
-                    <span className={`font-mono text-xs font-bold tracking-wider ${theme.badge}`}>{svc.code}</span>
-                  </div>
-
-                  <div className="space-y-2.5">
-                    <h3 className="font-display font-bold text-xl sm:text-[22px] text-black dark:text-white leading-snug tracking-tight">
-                      {svc.title}
-                    </h3>
-                    <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">{svc.summary}</p>
-                  </div>
-                </div>
-
-                <div className="pt-6 mt-6 border-t border-slate-200/80 dark:border-white/10 space-y-4">
-                  <div className="flex flex-wrap gap-1.5">
-                    {svc.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold border ${theme.pill}`}
+                    <div className="space-y-2.5">
+                      <h3
+                        className={`font-display font-bold text-xl sm:text-[22px] text-black dark:text-white leading-snug tracking-tight transition-colors ${theme.titleHover}`}
                       >
-                        {tag}
-                      </span>
-                    ))}
+                        {svc.title}
+                      </h3>
+                      <p className="text-sm sm:text-[15px] text-slate-900 dark:text-slate-100 leading-relaxed">
+                        {svc.summary}
+                      </p>
+                    </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => startInquiry(svc.topic)}
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-900 dark:text-slate-100 hover:text-sky-700 dark:hover:text-emerald-300 transition"
-                  >
-                    <span>{copy.requestServiceLabel}</span>
-                    <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 transition-transform duration-200 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
-                  </button>
-                </div>
-              </article>
+
+                  <div className="pt-4 border-t border-slate-300/50 dark:border-white/10 space-y-3.5">
+                    <div className={`font-mono text-xs font-semibold tracking-wide ${theme.badge}`}>
+                      {svc.tags.join(' · ')}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => startInquiry(svc.topic)}
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-black dark:text-white hover:text-sky-700 dark:hover:text-emerald-300 transition"
+                    >
+                      <span>{copy.requestServiceLabel}</span>
+                      <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                    </button>
+                  </div>
+                </article>
+              </ScrollReveal>
             );
           })}
         </div>
@@ -330,16 +323,16 @@ export function ServicesPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-12">
           {copy.models.map((m, idx) => (
-            <ScrollReveal key={m.name} delayMs={idx * 80}>
-              <div className="h-full p-7 rounded-2xl border border-slate-300/80 dark:border-white/15 bg-white/85 dark:bg-white/[0.03] flex flex-col justify-between gap-6">
+            <ScrollReveal key={m.name} delayMs={idx * 80} className="h-full">
+              <div className="h-full pt-7 border-t-2 border-slate-300/80 dark:border-white/15 hover:border-sky-500 dark:hover:border-emerald-400 transition-colors flex flex-col justify-between gap-7">
                 <div className="space-y-4">
-                  <span className="inline-block px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-sky-500/15 text-sky-900 dark:text-sky-300 border border-sky-500/30">
+                  <span className="inline-block font-mono text-[11px] font-bold tracking-wider uppercase text-sky-700 dark:text-sky-300">
                     {m.tag}
                   </span>
-                  <h3 className="font-display font-bold text-xl text-black dark:text-white">{m.name}</h3>
-                  <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">{m.idealFor}</p>
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-black dark:text-white">{m.name}</h3>
+                  <p className="text-sm text-slate-900 dark:text-slate-100 leading-relaxed">{m.idealFor}</p>
                   <ul className="space-y-2.5 pt-2">
                     {m.points.map((pt) => (
                       <li key={pt} className="text-xs sm:text-sm text-slate-900 dark:text-slate-100 flex items-start gap-2">
@@ -352,7 +345,7 @@ export function ServicesPage() {
                 <button
                   type="button"
                   onClick={() => startInquiry(m.topic)}
-                  className="w-full py-2.5 px-4 rounded-xl bg-slate-950 dark:bg-white hover:opacity-90 text-white dark:text-slate-950 font-mono font-bold text-xs inline-flex items-center justify-center gap-2 transition"
+                  className="w-full py-2.5 px-4 rounded-full bg-slate-950 dark:bg-white hover:opacity-90 text-white dark:text-slate-950 font-mono font-bold text-xs inline-flex items-center justify-center gap-2 transition"
                 >
                   <Rocket className="w-3.5 h-3.5 shrink-0" /> {copy.startPrefix} {m.name}
                 </button>
