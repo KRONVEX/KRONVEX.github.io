@@ -1,9 +1,14 @@
 #!/usr/bin/env node
 /**
- * KRONVEX Official CLI (kronvex / kvx) — v1.0.0
- * Production-grade Agent-Native & Human-First Terminal CLI
- * Architecture inspired by CLI-Anything (ReplSkin + Dual REPL/Subcommand + --json + SKILL.md)
- * and Gemini CLI (--output-format text|json|stream-json + Live MCP Client + Zero-Latency UX).
+ * KRONVEX Official CLI (kronvex / kvx) — v1.1.0
+ * Flagship Agent-Native & Human-First Terminal Interface
+ * Features:
+ *   - 24-bit TrueColor 3D Pixel-Block "> KRONVEX" Gradient Wordmark + Dithered Drop-Shadow
+ *   - Geometric KRONVEX Owl/Matrix ANSI Crest (/crest) & Theme Switcher (/theme)
+ *   - Boxed Tool-Execution Cards, Animated Braille Spinner & Persistent Status Bar
+ *   - Dual Interaction Model: Stateful Branded REPL + One-Shot Subcommand CLI
+ *   - Agent-First Protocols: --json & --output-format stream-json (NDJSON)
+ *   - Live MCP Client (https://mcp.kronvex.org/mcp) + 10-Min Offline Cache + Self-Updater
  *
  * Pure Node.js >= 18 · Zero Dependencies · Cross-Platform (Windows / macOS / Linux)
  * Docs & Install: https://kronvex.org/cli
@@ -17,54 +22,354 @@ import crypto from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 
 export const CLI_NAME = 'kronvex';
-export const CLI_VERSION = '1.0.0';
+export const CLI_VERSION = '1.1.0';
 export const SITE_ORIGIN = 'https://kronvex.org';
 export const MCP_ENDPOINT = 'https://mcp.kronvex.org/mcp';
 
 const CACHE_DIR = path.join(os.homedir(), '.kronvex', 'cache');
 const HISTORY_FILE = path.join(os.homedir(), '.kronvex', 'history.txt');
+const CONFIG_FILE = path.join(os.homedir(), '.kronvex', 'config.json');
 const CACHE_TTL_MS = 10 * 60 * 1000;
 
-// ── ANSI & ReplSkin (CLI-Anything Inspired Unified Terminal Skin) ───────────
+// ── 24-Bit TrueColor Engine & Multi-Stop Gradient Themes ────────────────────
 const USE_COLOR = Boolean(process.stdout.isTTY) && !process.env.NO_COLOR && process.env.TERM !== 'dumb';
 
+const THEMES = {
+  kronvex: {
+    name: 'kronvex',
+    label: 'KRONVEX Signature (Sky -> Emerald -> Violet -> Crimson)',
+    stops: [
+      [56, 189, 248],   // #38BDF8 Electric Sky
+      [52, 211, 153],   // #34D399 KRONVEX Emerald
+      [129, 140, 248],  // #818CF8 Quantum Violet
+      [244, 63, 94],    // #F43F5E Sovereign Crimson Core
+    ],
+    accent: [52, 211, 153],
+    secondary: [56, 189, 248],
+    border: [71, 85, 105],
+    warnBorder: [217, 159, 98],
+  },
+  spectrum: {
+    name: 'spectrum',
+    label: 'Spectrum Horizon (Cyan -> Indigo -> Orchid -> Coral)',
+    stops: [
+      [56, 189, 248],   // #38BDF8
+      [110, 142, 251],  // #6E8EFB
+      [176, 114, 219],  // #B072DB
+      [235, 108, 134],  // #EB6C86
+    ],
+    accent: [110, 142, 251],
+    secondary: [235, 108, 134],
+    border: [82, 88, 108],
+    warnBorder: [222, 165, 110],
+  },
+  emerald: {
+    name: 'emerald',
+    label: 'Matrix Emerald (Mint -> Emerald -> Teal -> Cyan)',
+    stops: [
+      [110, 231, 183],
+      [16, 185, 129],
+      [20, 184, 166],
+      [56, 189, 248],
+    ],
+    accent: [52, 211, 153],
+    secondary: [34, 211, 238],
+    border: [51, 92, 82],
+    warnBorder: [217, 159, 98],
+  },
+  crimson: {
+    name: 'crimson',
+    label: 'Sovereign Crimson (Amber -> Rose -> Crimson -> Violet)',
+    stops: [
+      [251, 191, 36],
+      [244, 63, 94],
+      [225, 29, 72],
+      [139, 92, 246],
+    ],
+    accent: [244, 63, 94],
+    secondary: [251, 191, 36],
+    border: [110, 56, 68],
+    warnBorder: [251, 191, 36],
+  },
+};
+
+function loadSavedTheme() {
+  try {
+    if (fs.existsSync(CONFIG_FILE)) {
+      const cfg = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf-8'));
+      if (cfg.theme && THEMES[cfg.theme]) return cfg.theme;
+    }
+  } catch {
+    // Ignore config read errors
+  }
+  return 'kronvex';
+}
+
+function saveTheme(themeName) {
+  try {
+    ensureDir(path.dirname(CONFIG_FILE));
+    fs.writeFileSync(CONFIG_FILE, JSON.stringify({ theme: themeName }, null, 2), 'utf-8');
+  } catch {
+    // Ignore config write errors
+  }
+}
+
+let ACTIVE_THEME = loadSavedTheme();
+
+const rgb = (r, g, b) => (USE_COLOR ? `\x1b[38;2;${r};${g};${b}m` : '');
 const C = {
   reset: USE_COLOR ? '\x1b[0m' : '',
   bold: USE_COLOR ? '\x1b[1m' : '',
   dim: USE_COLOR ? '\x1b[2m' : '',
-  italic: USE_COLOR ? '\x1b[3m' : '',
-  cyan: USE_COLOR ? '\x1b[38;5;45m' : '',
-  emerald: USE_COLOR ? '\x1b[38;5;48m' : '',
-  amber: USE_COLOR ? '\x1b[38;5;214m' : '',
-  rose: USE_COLOR ? '\x1b[38;5;204m' : '',
-  violet: USE_COLOR ? '\x1b[38;5;141m' : '',
-  white: USE_COLOR ? '\x1b[97m' : '',
-  gray: USE_COLOR ? '\x1b[90m' : '',
+  cyan: rgb(56, 189, 248),
+  emerald: rgb(52, 211, 153),
+  amber: rgb(251, 191, 36),
+  rose: rgb(244, 63, 94),
+  violet: rgb(167, 139, 250),
+  white: rgb(248, 250, 252),
+  slate: rgb(148, 163, 184),
+  gray: rgb(100, 116, 139),
 };
 
 const paint = (color, text) => `${color}${text}${C.reset}`;
 
+function interpolateStops(stops, t) {
+  const clamped = Math.max(0, Math.min(1, t));
+  const scaled = clamped * (stops.length - 1);
+  const idx = Math.min(Math.floor(scaled), stops.length - 2);
+  const localT = scaled - idx;
+  const a = stops[idx];
+  const b = stops[idx + 1];
+  return [
+    Math.round(a[0] + (b[0] - a[0]) * localT),
+    Math.round(a[1] + (b[1] - a[1]) * localT),
+    Math.round(a[2] + (b[2] - a[2]) * localT),
+  ];
+}
+
+// ── 3D Pixel-Block "> KRONVEX" Font + Programmatic Dithered Drop-Shadow ─────
+const GLYPHS = {
+  '>': [
+    '##....',
+    '..##..',
+    '....##',
+    '....##',
+    '..##..',
+    '##....',
+  ],
+  K: [
+    '##...##',
+    '##..##.',
+    '#####..',
+    '##..##.',
+    '##...##',
+    '##...##',
+  ],
+  R: [
+    '######.',
+    '##...##',
+    '######.',
+    '##..##.',
+    '##...##',
+    '##...##',
+  ],
+  O: [
+    '.#####.',
+    '##...##',
+    '##...##',
+    '##...##',
+    '##...##',
+    '.#####.',
+  ],
+  N: [
+    '##....##',
+    '###...##',
+    '####..##',
+    '##.##.##',
+    '##..####',
+    '##...###',
+  ],
+  V: [
+    '##....##',
+    '##....##',
+    '##....##',
+    '.##..##.',
+    '..####..',
+    '...##...',
+  ],
+  E: [
+    '#######',
+    '##.....',
+    '#####..',
+    '##.....',
+    '##.....',
+    '#######',
+  ],
+  X: [
+    '##...##',
+    '.##.##.',
+    '..###..',
+    '..###..',
+    '.##.##.',
+    '##...##',
+  ],
+};
+
+export function renderKronvexWordmark(themeName = ACTIVE_THEME, forceColor = false) {
+  const theme = THEMES[themeName] || THEMES.kronvex;
+  const colorEnabled = USE_COLOR || forceColor;
+  const fgRgb = (r, g, b) => (colorEnabled ? `\x1b[38;2;${r};${g};${b}m` : '');
+  const rst = colorEnabled ? '\x1b[0m' : '';
+
+  const chars = ['>', 'K', 'R', 'O', 'N', 'V', 'E', 'X'];
+  const rows = 6;
+  const grid = Array.from({ length: rows }, () => []);
+
+  for (let ci = 0; ci < chars.length; ci++) {
+    const glyph = GLYPHS[chars[ci]];
+    const gap = ci === 0 ? 3 : 2;
+    for (let r = 0; r < rows; r++) {
+      for (const ch of glyph[r]) grid[r].push(ch === '#');
+      if (ci < chars.length - 1) {
+        for (let g = 0; g < gap; g++) grid[r].push(false);
+      }
+    }
+  }
+
+  const totalCols = grid[0].length;
+  const lines = [];
+
+  // Render 6 foreground rows + 1 bottom drop-shadow row (total 7 rows, 74 cols)
+  for (let r = 0; r <= rows; r++) {
+    let line = '';
+    for (let c = 0; c <= totalCols; c++) {
+      const isSolid = r < rows && c < totalCols && grid[r][c];
+      const isShadow =
+        !isSolid &&
+        ((r > 0 && c < totalCols && grid[r - 1][c]) ||
+          (r < rows && c > 0 && grid[r][c - 1]) ||
+          (r > 0 && c > 0 && grid[r - 1][c - 1]));
+
+      if (isSolid) {
+        const [rr, gg, bb] = interpolateStops(theme.stops, c / Math.max(1, totalCols));
+        line += `${fgRgb(rr, gg, bb)}█`;
+      } else if (isShadow) {
+        const [rr, gg, bb] = interpolateStops(theme.stops, c / Math.max(1, totalCols));
+        const sr = Math.round(rr * 0.42);
+        const sg = Math.round(gg * 0.42);
+        const sb = Math.round(bb * 0.42);
+        line += `${fgRgb(sr, sg, sb)}░`;
+      } else {
+        line += ' ';
+      }
+    }
+    lines.push(line + rst);
+  }
+  return lines.join('\n');
+}
+
+// ── Geometric KRONVEX Owl/Matrix ANSI Crest (/crest) ────────────────────────
+export function renderKronvexCrest(themeName = ACTIVE_THEME) {
+  const theme = THEMES[themeName] || THEMES.kronvex;
+  const raw = [
+    '          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄          ',
+    '       ▄██▀▀░░░░░░░░░░▀▀██▄       ',
+    '     ▄██▀   ▄█▄    ▄█▄   ▀██▄     ',
+    '    ██▀    ██◈██  ██◈██    ▀██    ',
+    '   ██▌      ▀▀▀ ▄▄ ▀▀▀      ▐██   ',
+    '   ██▌         ████         ▐██   ',
+    '    ██▄     ▄▄▄ ▀▀ ▄▄▄     ▄██    ',
+    '     ▀██▄  ▀██████████▀  ▄██▀     ',
+    '       ▀██▄▄░░░████░░░▄▄██▀       ',
+    '          ▀▀██████████▀▀          ',
+  ];
+  return raw
+    .map((line, r) => {
+      const [rr, gg, bb] = interpolateStops(theme.stops, r / Math.max(1, raw.length - 1));
+      return `${rgb(rr, gg, bb)}${line}${C.reset}`;
+    })
+    .join('\n');
+}
+
+// ── Unified ReplSkin + Gemini-CLI-Grade Boxed Tool Cards & Status Bar ───────
+function termWidth() {
+  return Math.min(92, Math.max(64, process.stdout.columns || 84));
+}
+
+function stripAnsi(s) {
+  return String(s).replace(/\x1b\[[0-9;]*m/g, '');
+}
+
+function shortCwd() {
+  const cwd = process.cwd();
+  const home = os.homedir();
+  return cwd.startsWith(home) ? `~${cwd.slice(home.length).replace(/\\/g, '/')}` : cwd.replace(/\\/g, '/');
+}
+
 export const ReplSkin = {
   banner() {
-    const line = '─'.repeat(62);
-    const out = [
+    const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
+    const w = Math.min(78, termWidth() - 2);
+    const borderRgb = rgb(...theme.warnBorder);
+    const accentRgb = rgb(...theme.accent);
+    const secRgb = rgb(...theme.secondary);
+    const ramGb = (os.totalmem() / 1024 ** 3).toFixed(0);
+    const cores = os.cpus().length;
+
+    const noticeText = `Connected to kronvex.org & mcp.kronvex.org/mcp · Read-Only Code Mode · 0 Deps`;
+    const padNotice = Math.max(0, w - 4 - noticeText.length);
+
+    return [
       '',
-      paint(C.emerald, `╭${line}╮`),
-      `${paint(C.emerald, '│')}  ${paint(C.bold + C.white, 'KRONVEX CLI')} ${paint(C.cyan, `v${CLI_VERSION}`)}  ${paint(C.gray, '·')}  ${paint(C.dim, 'Agent-Native Engineering Terminal')}     ${paint(C.emerald, '│')}`,
-      `${paint(C.emerald, '│')}  ${paint(C.gray, 'Platform:')} ${paint(C.white, 'kronvex.org')}  ${paint(C.gray, '·')}  ${paint(C.gray, 'MCP:')} ${paint(C.emerald, 'mcp.kronvex.org/mcp')}   ${paint(C.emerald, '│')}`,
-      `${paint(C.emerald, '│')}  ${paint(C.gray, 'Type')} ${paint(C.cyan, 'help')} ${paint(C.gray, 'for commands ·')} ${paint(C.cyan, '--json')} ${paint(C.gray, 'for agents ·')} ${paint(C.cyan, 'exit')} ${paint(C.gray, 'to quit')}    ${paint(C.emerald, '│')}`,
-      paint(C.emerald, `╰${line}╯`),
+      renderKronvexWordmark(ACTIVE_THEME),
       '',
-    ];
-    return out.join('\n');
+      `${paint(C.slate, '  Tips for getting started:')}`,
+      `  ${paint(C.gray, '1.')} Run ${paint(accentRgb, 'doctor')}, ${paint(accentRgb, 'search "webgpu"')}, or ${paint(accentRgb, 'models recommend')} to inspect KRONVEX live.`,
+      `  ${paint(C.gray, '2.')} Pass ${paint(secRgb, '--json')} or toggle ${paint(secRgb, '/json')} for deterministic AI-agent output.`,
+      `  ${paint(C.gray, '3.')} Type ${paint(accentRgb, '/help')} for all 12 commands · ${paint(accentRgb, '/crest')} for emblem · ${paint(accentRgb, '/theme')} to switch colors.`,
+      '',
+      `  ${paint(borderRgb, `╭${'─'.repeat(w - 2)}╮`)}`,
+      `  ${paint(borderRgb, '│')} ${paint(C.amber, '✦')} ${paint(C.white, noticeText)}${' '.repeat(padNotice)}${paint(borderRgb, '│')}`,
+      `  ${paint(borderRgb, `╰${'─'.repeat(w - 2)}╯`)}`,
+      '',
+      `  ${paint(C.gray, `Workspace: ${shortCwd()}`)}   ${paint(C.gray, '│')}   ${paint(secRgb, `v${CLI_VERSION}`)}   ${paint(C.gray, '│')}   ${paint(C.slate, `${ramGb}GB RAM · ${cores} cores`)}   ${paint(C.gray, '│')}   ${paint(accentRgb, `theme:${ACTIVE_THEME}`)}`,
+      '',
+    ].join('\n');
   },
-  success: (msg) => `${paint(C.emerald, '✓')} ${msg}`,
-  error: (msg) => `${paint(C.rose, '✗')} ${msg}`,
-  warn: (msg) => `${paint(C.amber, '⚠')} ${msg}`,
-  info: (msg) => `${paint(C.cyan, '●')} ${msg}`,
-  kv: (k, v) => `  ${paint(C.gray, k.padEnd(22))} ${paint(C.white, String(v))}`,
-  table(headers, rows, maxColWidth = 48) {
-    if (!rows.length) return paint(C.gray, '  (no results)');
+
+  toolCard(toolLabel, detail, meta = '') {
+    const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
+    const w = Math.min(78, termWidth() - 2);
+    const borderRgb = rgb(...theme.border);
+    const accentRgb = rgb(...theme.accent);
+    const content = `✦ ${toolLabel}  ${detail}${meta ? `  (${meta})` : ''}`;
+    const trimmed = content.length > w - 4 ? `${content.slice(0, w - 5)}…` : content;
+    const pad = Math.max(0, w - 4 - trimmed.length);
+    return [
+      `  ${paint(borderRgb, `╭${'─'.repeat(w - 2)}╮`)}`,
+      `  ${paint(borderRgb, '│')} ${paint(accentRgb, '✦')} ${paint(C.bold + C.white, toolLabel)}  ${paint(C.slate, detail)}${meta ? `  ${paint(C.gray, `(${meta})`)}` : ''}${' '.repeat(pad)} ${paint(borderRgb, '│')}`,
+      `  ${paint(borderRgb, `╰${'─'.repeat(w - 2)}╯`)}`,
+    ].join('\n');
+  },
+
+  statusFooter(jsonMode = false) {
+    const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
+    const secRgb = rgb(...theme.secondary);
+    const accentRgb = rgb(...theme.accent);
+    const left = `${paint(secRgb, shortCwd())} ${paint(C.gray, `(kronvex v${CLI_VERSION})`)}`;
+    const mid = jsonMode ? paint(C.amber, 'mode: JSON') : paint(C.emerald, 'mcp.kronvex.org/mcp (read-only)');
+    const right = paint(C.violet, `theme:${ACTIVE_THEME}`);
+    return `${paint(C.gray, '  ' + '─'.repeat(Math.min(76, termWidth() - 4)))}\n  ${left}   ${paint(C.gray, '·')}   ${mid}   ${paint(C.gray, '·')}   ${right}`;
+  },
+
+  success: (msg) => `  ${paint(C.emerald, '✓')} ${msg}`,
+  error: (msg) => `  ${paint(C.rose, '✗')} ${msg}`,
+  warn: (msg) => `  ${paint(C.amber, '⚠')} ${msg}`,
+  info: (msg) => `  ${paint(C.cyan, '◆')} ${msg}`,
+  kv: (k, v) => `    ${paint(C.gray, k.padEnd(22))} ${paint(C.white, String(v))}`,
+
+  table(headers, rows, maxColWidth = 44) {
+    if (!rows.length) return paint(C.gray, '    (no results)');
     const cleanCell = (v) => {
       const s = String(v ?? '').replace(/\s+/g, ' ').trim();
       return s.length > maxColWidth ? `${s.slice(0, maxColWidth - 1)}…` : s;
@@ -72,14 +377,34 @@ export const ReplSkin = {
     const normRows = rows.map((r) => headers.map((_, i) => cleanCell(r[i])));
     const widths = headers.map((h, i) => Math.max(h.length, ...normRows.map((r) => r[i].length)));
 
-    const top = `┌─${widths.map((w) => '─'.repeat(w)).join('─┬─')}─┐`;
-    const mid = `├─${widths.map((w) => '─'.repeat(w)).join('─┼─')}─┤`;
-    const bot = `└─${widths.map((w) => '─'.repeat(w)).join('─┴─')}─┘`;
-    const head = `│ ${headers.map((h, i) => paint(C.bold + C.cyan, h.padEnd(widths[i]))).join(' │ ')} │`;
-    const body = normRows.map((r) => `│ ${r.map((c, i) => c.padEnd(widths[i])).join(' │ ')} │`);
+    const top = `  ┌─${widths.map((w) => '─'.repeat(w)).join('─┬─')}─┐`;
+    const mid = `  ├─${widths.map((w) => '─'.repeat(w)).join('─┼─')}─┤`;
+    const bot = `  └─${widths.map((w) => '─'.repeat(w)).join('─┴─')}─┘`;
+    const head = `  │ ${headers.map((h, i) => paint(C.bold + C.cyan, h.padEnd(widths[i]))).join(' │ ')} │`;
+    const body = normRows.map((r) => `  │ ${r.map((c, i) => c.padEnd(widths[i])).join(' │ ')} │`);
     return [paint(C.gray, top), head, paint(C.gray, mid), ...body, paint(C.gray, bot)].join('\n');
   },
 };
+
+// ── Live Animated Braille Spinner (TTY Text-Mode Only — Zero JSON Pollution)
+function startSpinner(opts, label) {
+  if (opts.format !== 'text' || !USE_COLOR) {
+    return { stop() {} };
+  }
+  const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+  let i = 0;
+  const t0 = performance.now();
+  const id = setInterval(() => {
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    process.stderr.write(`\r  ${paint(C.violet, frames[i++ % frames.length])} ${paint(C.slate, label)} ${paint(C.gray, `(${secs}s)`)}   `);
+  }, 80);
+  return {
+    stop() {
+      clearInterval(id);
+      process.stderr.write('\r' + ' '.repeat(78) + '\r');
+    },
+  };
+}
 
 // ── Output Emitter (text | json | stream-json) ──────────────────────────────
 function emitStreamEvent(type, payload) {
@@ -140,7 +465,6 @@ async function fetchJsonWithCache(name, { noCache = false } = {}) {
     }
     return data;
   } catch (err) {
-    // Fallback to stale disk cache if offline
     if (fs.existsSync(cacheFile)) {
       return JSON.parse(fs.readFileSync(cacheFile, 'utf-8'));
     }
@@ -175,7 +499,6 @@ async function callRemoteMcp(method, params = {}) {
   }
 }
 
-// ── BibTeX Formatter for Frontier Research Papers ───────────────────────────
 function toBibtex(paper) {
   const slug = String(paper.title || 'paper')
     .toLowerCase()
@@ -193,11 +516,10 @@ function toBibtex(paper) {
   ].join('\n');
 }
 
-// ── Canonical Agent SKILL.md Generator (CLI-Anything Phase 6.5 Standard) ────
 function buildAgentSkillMarkdown() {
   return `---
 name: kronvex-cli
-description: Official KRONVEX Terminal CLI (kronvex / kvx) for querying apps, local WebGPU AI models, SKILL.md agent bundles, Top 21 research papers + BibTeX, live GitHub/Hugging Face radar, and remote Code-Mode MCP (mcp.kronvex.org/mcp).
+description: Official KRONVEX Terminal CLI (kronvex / kvx v${CLI_VERSION}) for querying apps, local WebGPU AI models, SKILL.md agent bundles, Top 21 research papers + BibTeX, live GitHub/Hugging Face radar, and remote Code-Mode MCP (mcp.kronvex.org/mcp).
 ---
 
 # KRONVEX Official CLI (\`kronvex\` / \`kvx\`)
@@ -213,10 +535,10 @@ Always pass \`--json\` (or \`--output-format json\`) when invoking from an AI ag
 - \`kronvex research list --json\` / \`kronvex research bibtex <rank|arxivId>\` — Export verified frontier arXiv BibTeX citations.
 - \`kronvex top21 [github|hf|weekly] --json\` — Inspect live 6-hour synced GitHub & Hugging Face Top 21 leaderboards.
 - \`kronvex mcp discover --json\` / \`kronvex mcp tools --json\` / \`kronvex mcp config <antigravity|claude|cursor|vscode|windsurf|cline|codex>\` — Inspect and configure the KRONVEX MCP Server.
+- \`kronvex update\` — Self-update the installed \`kronvex\` binary from \`https://kronvex.org/cli/kronvex.mjs\`.
 `;
 }
 
-// ── MCP Client Config Builder ───────────────────────────────────────────────
 function buildMcpClientConfig(client = 'antigravity', transport = 'http') {
   const c = String(client).toLowerCase();
   if (c === 'codex') {
@@ -255,7 +577,7 @@ function buildMcpClientConfig(client = 'antigravity', transport = 'http') {
   );
 }
 
-// ── Argument Parser (Zero-Dependency, Shell-Safe) ───────────────────────────
+// ── Argument Parser ─────────────────────────────────────────────────────────
 export function parseArgs(argv) {
   const positionals = [];
   const flags = {};
@@ -272,7 +594,11 @@ export function parseArgs(argv) {
       } else {
         const key = tok.slice(2);
         const next = argv[i + 1];
-        if (next !== undefined && !next.startsWith('-') && ['output-format', 'category', 'limit', 'dir', 'transport', 'mode', 'client'].includes(key)) {
+        if (
+          next !== undefined &&
+          !next.startsWith('-') &&
+          ['output-format', 'category', 'limit', 'dir', 'transport', 'mode', 'client', 'theme'].includes(key)
+        ) {
           flags[key] = next;
           i++;
         } else {
@@ -299,6 +625,10 @@ export function parseArgs(argv) {
   else if (typeof flags['output-format'] === 'string') {
     const f = flags['output-format'].toLowerCase();
     if (f === 'json' || f === 'stream-json' || f === 'text') format = f;
+  }
+
+  if (typeof flags.theme === 'string' && THEMES[flags.theme]) {
+    ACTIVE_THEME = flags.theme;
   }
 
   return {
@@ -333,43 +663,36 @@ function splitReplLine(line) {
   return out;
 }
 
-// ── Help Documentation ──────────────────────────────────────────────────────
 function renderMainHelp() {
   return [
-    `${paint(C.bold + C.white, 'KRONVEX CLI')} ${paint(C.cyan, `v${CLI_VERSION}`)} — Official Agent-Native & Developer Terminal for ${paint(C.emerald, 'kronvex.org')}`,
     '',
-    paint(C.bold + C.cyan, 'USAGE'),
-    '  kronvex                         Start interactive branded REPL shell',
-    '  kronvex <command> [sub] [flags] Run a deterministic one-shot command',
+    renderKronvexWordmark(ACTIVE_THEME),
     '',
-    paint(C.bold + C.cyan, 'COMMANDS'),
-    `  ${paint(C.emerald, 'doctor')}                          Live health, latency & local hardware diagnostics`,
-    `  ${paint(C.emerald, 'search <query>')}                  Live fuzzy search via https://mcp.kronvex.org/mcp`,
-    `  ${paint(C.emerald, 'apps [list|info <id>]')}           Inspect signed Windows (.EXE) & Android (.APK) apps`,
-    `  ${paint(C.emerald, 'models [list|info|recommend]')}    Inspect local WebGPU/GGUF AI models & fit host RAM`,
-    `  ${paint(C.emerald, 'skills [list|inspect|install]')}   Browse & install KRONVEX SKILL.md agent workflows`,
-    `  ${paint(C.emerald, 'research [list|search|bibtex]')}   Search Top 21 frontier papers & export BibTeX`,
-    `  ${paint(C.emerald, 'top21 [github|hf|weekly]')}        Live 6h synced GitHub & Hugging Face Top 21 radar`,
-    `  ${paint(C.emerald, 'mcp [discover|tools|call|config]')}Inspect & configure KRONVEX Code-Mode MCP Server`,
-    `  ${paint(C.emerald, 'services')}                        List KRONVEX custom software & AI services`,
-    `  ${paint(C.emerald, 'work')}                            List verified live engineering case studies`,
-    `  ${paint(C.emerald, 'skill-md')}                        Print canonical agent SKILL.md specification`,
-    `  ${paint(C.emerald, 'cache [status|clear]')}            Manage local ~/.kronvex/cache snapshots`,
+    `  ${paint(C.bold + C.white, 'KRONVEX Official CLI')} ${paint(C.cyan, `v${CLI_VERSION}`)} — Agent-Native Terminal for ${paint(C.emerald, 'kronvex.org')}`,
     '',
-    paint(C.bold + C.cyan, 'GLOBAL FLAGS'),
-    '  --json                          Structured JSON output (ideal for AI agents & jq)',
-    '  --output-format <text|json|stream-json>  Select output protocol (Gemini CLI compatible)',
-    '  --no-cache                      Bypass 10-minute local disk cache and fetch fresh edge JSON',
-    '  -h, --help                      Show command help',
-    '  -v, --version                   Print version',
+    `  ${paint(C.bold + C.cyan, 'USAGE')}`,
+    '    kronvex                         Launch branded interactive REPL',
+    '    kronvex <command> [sub] [flags] Run a deterministic one-shot command',
     '',
-    paint(C.bold + C.cyan, 'EXAMPLES'),
-    '  kronvex doctor',
-    '  kronvex search "webgpu" --json',
-    '  kronvex models recommend',
-    '  kronvex research bibtex 1 > alphaevolve.bib',
-    '  kronvex skills install kronvex-architecture-audit --dir ./.skills',
-    '  kronvex mcp config antigravity',
+    `  ${paint(C.bold + C.cyan, 'COMMANDS')}`,
+    `    ${paint(C.emerald, 'doctor')}                          Live health, latency & local hardware diagnostics`,
+    `    ${paint(C.emerald, 'search <query>')}                  Live fuzzy search via https://mcp.kronvex.org/mcp`,
+    `    ${paint(C.emerald, 'apps [list|info <id>]')}           Inspect signed Windows (.EXE) & Android (.APK) apps`,
+    `    ${paint(C.emerald, 'models [list|info|recommend]')}    Inspect local WebGPU/GGUF AI models & fit host RAM`,
+    `    ${paint(C.emerald, 'skills [list|inspect|install]')}   Browse & install KRONVEX SKILL.md agent workflows`,
+    `    ${paint(C.emerald, 'research [list|search|bibtex]')}   Search Top 21 frontier papers & export BibTeX`,
+    `    ${paint(C.emerald, 'top21 [github|hf|weekly]')}        Live 6h synced GitHub & Hugging Face Top 21 radar`,
+    `    ${paint(C.emerald, 'mcp [discover|tools|call|config]')}Inspect & configure KRONVEX Code-Mode MCP Server`,
+    `    ${paint(C.emerald, 'services / work')}                 List engineering services & verified case studies`,
+    `    ${paint(C.emerald, 'crest / theme [name]')}            Display KRONVEX emblem or switch gradient theme`,
+    `    ${paint(C.emerald, 'skill-md / cache / update')}       Print agent SKILL.md, manage cache, or self-update`,
+    '',
+    `  ${paint(C.bold + C.cyan, 'GLOBAL FLAGS')}`,
+    '    --json                                   Deterministic JSON output for AI agents',
+    '    --output-format <text|json|stream-json>  Output protocol (Gemini CLI compatible)',
+    '    --theme <kronvex|spectrum|emerald|crimson> Override banner gradient palette',
+    '    --no-cache                               Bypass local 10-minute cache',
+    '    -h, --help  ·  -v, --version             Show help or print version',
     '',
   ].join('\n');
 }
@@ -377,6 +700,7 @@ function renderMainHelp() {
 // ── Command Handlers ────────────────────────────────────────────────────────
 async function cmdDoctor(opts) {
   if (opts.format === 'stream-json') emitStreamEvent('step', { message: 'Probing kronvex.org and mcp.kronvex.org/mcp' });
+  const spin = startSpinner(opts, 'Probing kronvex.org & mcp.kronvex.org/mcp...');
 
   const totalMemGb = Number((os.totalmem() / 1024 ** 3).toFixed(1));
   const cpuCores = os.cpus().length;
@@ -389,25 +713,34 @@ async function cmdDoctor(opts) {
   };
 
   let mcpHealth = { reachable: false, latencyMs: null, protocolVersion: null, tools: [] };
-  try {
-    const res = await callRemoteMcp('server/discover', {});
+  let apiHealth = { reachable: false, latencyMs: null, syncedAt: null, counts: null };
+
+  const [mcpRes, apiRes] = await Promise.allSettled([
+    callRemoteMcp('server/discover', {}),
+    (async () => {
+      const t0 = performance.now();
+      const catalog = await fetchJsonWithCache('catalog', { noCache: true });
+      return { latencyMs: Math.round(performance.now() - t0), catalog };
+    })(),
+  ]);
+  spin.stop();
+
+  if (mcpRes.status === 'fulfilled') {
     mcpHealth = {
       reachable: true,
-      latencyMs: res.latencyMs,
-      protocolVersion: res.result?.protocolVersion ?? '2026-07-28',
-      tools: res.result?.capabilities?.tools ?? [],
+      latencyMs: mcpRes.value.latencyMs,
+      protocolVersion: mcpRes.value.result?.protocolVersion ?? '2026-07-28',
+      tools: mcpRes.value.result?.capabilities?.tools ?? [],
     };
-  } catch (err) {
-    mcpHealth.error = err instanceof Error ? err.message : String(err);
+  } else {
+    mcpHealth.error = mcpRes.reason instanceof Error ? mcpRes.reason.message : String(mcpRes.reason);
   }
 
-  let apiHealth = { reachable: false, latencyMs: null, syncedAt: null, counts: null };
-  const t0 = performance.now();
-  try {
-    const catalog = await fetchJsonWithCache('catalog', { noCache: true });
+  if (apiRes.status === 'fulfilled') {
+    const { latencyMs, catalog } = apiRes.value;
     apiHealth = {
       reachable: true,
-      latencyMs: Math.round(performance.now() - t0),
+      latencyMs,
       syncedAt: catalog.syncedAt ?? catalog.generatedAt,
       counts: {
         apps: catalog.apps?.length ?? 0,
@@ -416,12 +749,12 @@ async function cmdDoctor(opts) {
         caseStudies: catalog.caseStudies?.length ?? 0,
       },
     };
-  } catch (err) {
-    apiHealth.error = err instanceof Error ? err.message : String(err);
+  } else {
+    apiHealth.error = apiRes.reason instanceof Error ? apiRes.reason.message : String(apiRes.reason);
   }
 
   const report = {
-    cli: { name: CLI_NAME, version: CLI_VERSION },
+    cli: { name: CLI_NAME, version: CLI_VERSION, theme: ACTIVE_THEME },
     status: mcpHealth.reachable && apiHealth.reachable ? 'operational' : 'degraded',
     host,
     endpoints: { mcp: mcpHealth, catalogApi: apiHealth },
@@ -430,7 +763,7 @@ async function cmdDoctor(opts) {
   outputResult(opts, report, () =>
     [
       '',
-      ReplSkin.info(`${paint(C.bold + C.white, 'KRONVEX System Diagnostics')} (${paint(C.cyan, `v${CLI_VERSION}`)})`),
+      ReplSkin.toolCard('Diagnostics', 'Probed kronvex.org & mcp.kronvex.org/mcp', report.status.toUpperCase()),
       '',
       ReplSkin.kv('Platform API', apiHealth.reachable ? paint(C.emerald, `ONLINE (${apiHealth.latencyMs}ms · synced ${String(apiHealth.syncedAt).slice(0, 10)})`) : paint(C.rose, `OFFLINE (${apiHealth.error})`)),
       ReplSkin.kv('Remote MCP Gateway', mcpHealth.reachable ? paint(C.emerald, `ONLINE (${mcpHealth.latencyMs}ms · MCP ${mcpHealth.protocolVersion})`) : paint(C.rose, `OFFLINE (${mcpHealth.error})`)),
@@ -454,6 +787,7 @@ async function cmdSearch(args, opts) {
   const limit = Number(opts.flags.limit) || 10;
 
   if (opts.format === 'stream-json') emitStreamEvent('step', { message: `Querying ${MCP_ENDPOINT} for "${query}"` });
+  const spin = startSpinner(opts, `MCP kronvex_search("${query}")...`);
 
   let payload;
   let source = 'remote-mcp';
@@ -465,7 +799,6 @@ async function cmdSearch(args, opts) {
     payload = rpc.result?.structuredContent ?? { query, totalMatches: 0, results: [] };
     payload.latencyMs = rpc.latencyMs;
   } catch {
-    // Seamless offline/fallback search against cached static JSON
     source = 'edge-cache-fallback';
     const [catalog, research] = await Promise.all([
       fetchJsonWithCache('catalog', opts),
@@ -486,17 +819,20 @@ async function cmdSearch(args, opts) {
       if (`${p.title} ${p.lab} ${p.category}`.toLowerCase().includes(q)) results.push({ type: 'paper', id: p.arxivId, title: p.title, summary: `${p.lab} (${p.year})`, url: p.arxivUrl });
     }
     payload = { query, category, totalMatches: results.length, results: results.slice(0, limit) };
+  } finally {
+    spin.stop();
   }
 
   payload.source = source;
   outputResult(opts, payload, () =>
     [
       '',
-      ReplSkin.success(`Found ${paint(C.bold + C.white, String(payload.totalMatches))} match(es) for "${query}" ${paint(C.gray, `[${source}${payload.latencyMs ? ` · ${payload.latencyMs}ms` : ''}]`)}`),
+      ReplSkin.toolCard('MCP Search', `Query: "${query}" · ${payload.totalMatches} match(es)`, payload.latencyMs ? `${payload.latencyMs}ms` : source),
+      '',
       ReplSkin.table(
         ['TYPE', 'TITLE', 'SUMMARY', 'URL'],
         (payload.results || []).map((r) => [r.type, r.title, r.summary, r.url]),
-        40
+        38
       ),
       '',
     ].join('\n')
@@ -519,14 +855,14 @@ async function cmdApps(args, opts) {
     outputResult(opts, app, () =>
       [
         '',
-        ReplSkin.info(`${paint(C.bold + C.white, app.name)} ${paint(C.cyan, app.version)} (${app.status})`),
+        ReplSkin.toolCard('App Inspect', `${app.name} ${app.version}`, app.status),
+        '',
         ReplSkin.kv('ID', app.id),
         ReplSkin.kv('Pillar', app.pillar),
         ReplSkin.kv('Platforms', (app.platforms || []).join(', ')),
         ReplSkin.kv('License', app.license),
         ReplSkin.kv('Tagline', app.tagline),
         '',
-        paint(C.bold + C.cyan, '  ARTIFACTS'),
         ReplSkin.table(
           ['FORMAT', 'PLATFORM', 'ARCH', 'SIZE', 'LABEL'],
           (app.artifacts || []).map((art) => [art.format, art.platform, art.arch, art.size, art.label])
@@ -540,7 +876,8 @@ async function cmdApps(args, opts) {
   outputResult(opts, { count: apps.length, apps }, () =>
     [
       '',
-      ReplSkin.info(`KRONVEX Cross-Platform Apps (${apps.length})`),
+      ReplSkin.toolCard('Apps Catalog', `Signed Windows & Android Releases`, `${apps.length} apps`),
+      '',
       ReplSkin.table(
         ['ID', 'NAME', 'VERSION', 'PLATFORMS', 'STATUS'],
         apps.map((a) => [a.id, a.name, a.version, (a.platforms || []).join(', '), a.status])
@@ -568,7 +905,8 @@ async function cmdModels(args, opts) {
     outputResult(opts, out, () =>
       [
         '',
-        ReplSkin.success(`Local AI Hardware Fit for ${paint(C.bold + C.white, `${ramGb} GB RAM · ${cores} CPU Threads`)}`),
+        ReplSkin.toolCard('Hardware Fit', `Matched ${models.length} local AI models to host hardware`, `${ramGb} GB RAM · ${cores} threads`),
+        '',
         ReplSkin.table(
           ['MODEL', 'PARAMS', 'FORMAT', 'MIN RAM', 'FIT'],
           scored.map((m) => [m.name, m.params || '-', m.quantization || '-', `${m.minRamGb} GB`, m.fit])
@@ -589,7 +927,8 @@ async function cmdModels(args, opts) {
     outputResult(opts, model, () =>
       [
         '',
-        ReplSkin.info(`${paint(C.bold + C.white, model.name)}`),
+        ReplSkin.toolCard('Model Inspect', model.name, model.params || 'ONNX/GGUF'),
+        '',
         ReplSkin.kv('ID', model.id),
         ReplSkin.kv('Parameters', model.params || '-'),
         ReplSkin.kv('Quantization', model.quantization || '-'),
@@ -603,7 +942,8 @@ async function cmdModels(args, opts) {
   outputResult(opts, { count: models.length, models }, () =>
     [
       '',
-      ReplSkin.info(`KRONVEX Local-First AI Models (${models.length})`),
+      ReplSkin.toolCard('AI Models', 'Local-First WebGPU / ONNX / GGUF Models', `${models.length} verified`),
+      '',
       ReplSkin.table(
         ['ID', 'NAME', 'PARAMS', 'FAMILY / FORMAT'],
         models.map((m) => [m.id, m.name, m.params || '-', m.family || m.quantization || 'ONNX/GGUF'])
@@ -629,13 +969,13 @@ async function cmdSkills(args, opts) {
     outputResult(opts, skill, () =>
       [
         '',
-        ReplSkin.info(`${paint(C.bold + C.white, skill.name)} ${paint(C.cyan, `v${skill.version || '1.0'}`)}`),
+        ReplSkin.toolCard('Skill Inspect', `${skill.name} v${skill.version || '1.0'}`, skill.category),
+        '',
         ReplSkin.kv('ID', skill.id),
-        ReplSkin.kv('Category', skill.category),
         ReplSkin.kv('Agents', (skill.compatibleAgents || []).join(', ')),
         ReplSkin.kv('Tags', (skill.tags || []).join(', ')),
         '',
-        paint(C.gray, skill.contentPreview || skill.description),
+        paint(C.slate, skill.contentPreview || skill.description),
         '',
       ].join('\n')
     );
@@ -659,14 +999,15 @@ async function cmdSkills(args, opts) {
       : `---\nname: ${safeId}\ndescription: ${skill.description}\n---\n\n# ${skill.name}\n\n${skill.description}\n`;
     fs.writeFileSync(targetFile, body, 'utf-8');
     const out = { installed: true, id: skill.id, path: targetFile, bytes: Buffer.byteLength(body, 'utf-8') };
-    outputResult(opts, out, () => `\n${ReplSkin.success(`Installed ${paint(C.bold + C.white, skill.id)} → ${paint(C.cyan, targetFile)} (${out.bytes} bytes)`)}\n`);
+    outputResult(opts, out, () => `\n${ReplSkin.success(`Installed ${paint(C.bold + C.white, skill.id)} -> ${paint(C.cyan, targetFile)} (${out.bytes} bytes)`)}\n`);
     return 0;
   }
 
   outputResult(opts, { count: skills.length, skills }, () =>
     [
       '',
-      ReplSkin.info(`KRONVEX AI Agent Skills (${skills.length})`),
+      ReplSkin.toolCard('Agent Skills', 'Portable SKILL.md Workflows', `${skills.length} curated`),
+      '',
       ReplSkin.table(
         ['ID', 'NAME', 'CATEGORY', 'TAGS'],
         skills.map((s) => [s.id, s.name, s.category, (s.tags || []).slice(0, 3).join(', ')])
@@ -707,11 +1048,12 @@ async function cmdResearch(args, opts) {
   outputResult(opts, { count: filtered.length, papers: filtered }, () =>
     [
       '',
-      ReplSkin.info(`KRONVEX Top 21 Frontier Research Papers (${filtered.length})`),
+      ReplSkin.toolCard('Research Radar', 'Top 21 Frontier AI & Computing Papers', `${filtered.length} papers`),
+      '',
       ReplSkin.table(
         ['#', 'LAB', 'YEAR', 'ARXIV', 'TITLE'],
         filtered.map((p) => [p.rank, p.lab, p.year, p.arxivId, p.title]),
-        44
+        42
       ),
       '',
     ].join('\n')
@@ -740,7 +1082,8 @@ async function cmdTop21(args, opts) {
   outputResult(opts, { board, syncedAt: data.syncedAt, count: sliced.length, items: sliced }, () =>
     [
       '',
-      ReplSkin.info(`${title} ${paint(C.gray, `(synced ${String(data.syncedAt || '').slice(0, 10)})`)}`),
+      ReplSkin.toolCard('Top 21 Radar', title, `synced ${String(data.syncedAt || '').slice(0, 10)}`),
+      '',
       ReplSkin.table(
         ['#', 'NAME / REPO', 'METRIC', 'LANGUAGE / TAG'],
         sliced.map((it, idx) => [
@@ -766,7 +1109,7 @@ async function cmdMcp(args, opts) {
     outputResult(opts, { client, transport, endpoint: MCP_ENDPOINT, config: snippet }, () =>
       [
         '',
-        ReplSkin.info(`MCP Configuration for ${paint(C.bold + C.white, String(client))} (${transport})`),
+        ReplSkin.toolCard('MCP Config', `Generated ${transport.toUpperCase()} setup for ${client}`, MCP_ENDPOINT),
         '',
         snippet,
         '',
@@ -775,55 +1118,64 @@ async function cmdMcp(args, opts) {
     return 0;
   }
 
-  if (sub === 'tools') {
-    const rpc = await callRemoteMcp('tools/list', {});
-    const tools = rpc.result?.tools || [];
-    outputResult(opts, { latencyMs: rpc.latencyMs, count: tools.length, tools }, () =>
+  const spin = startSpinner(opts, `Calling ${MCP_ENDPOINT} (${sub})...`);
+  try {
+    if (sub === 'tools') {
+      const rpc = await callRemoteMcp('tools/list', {});
+      spin.stop();
+      const tools = rpc.result?.tools || [];
+      outputResult(opts, { latencyMs: rpc.latencyMs, count: tools.length, tools }, () =>
+        [
+          '',
+          ReplSkin.toolCard('MCP Tools', `${MCP_ENDPOINT} · Code Mode`, `${rpc.latencyMs}ms · ${tools.length} tools`),
+          '',
+          ReplSkin.table(
+            ['TOOL', 'READ-ONLY', 'DESCRIPTION'],
+            tools.map((t) => [t.name, String(Boolean(t.annotations?.readOnlyHint)), t.description]),
+            52
+          ),
+          '',
+        ].join('\n')
+      );
+      return 0;
+    }
+
+    if (sub === 'call' && args[1]) {
+      const toolName = args[1];
+      let toolArgs = {};
+      if (args[2]) {
+        try {
+          toolArgs = JSON.parse(args.slice(2).join(' '));
+        } catch {
+          spin.stop();
+          process.stderr.write(ReplSkin.error('Tool arguments must be valid JSON, e.g. kronvex mcp call kronvex_search \'{"query":"webgpu"}\'\n'));
+          return 2;
+        }
+      }
+      const rpc = await callRemoteMcp('tools/call', { name: toolName, arguments: toolArgs });
+      spin.stop();
+      outputResult(opts, { latencyMs: rpc.latencyMs, result: rpc.result }, () => JSON.stringify(rpc.result?.structuredContent ?? rpc.result, null, 2));
+      return 0;
+    }
+
+    const rpc = await callRemoteMcp('server/discover', {});
+    spin.stop();
+    outputResult(opts, { endpoint: MCP_ENDPOINT, latencyMs: rpc.latencyMs, discovery: rpc.result }, () =>
       [
         '',
-        ReplSkin.success(`Connected to ${MCP_ENDPOINT} (${rpc.latencyMs}ms · ${tools.length} Code-Mode tools)`),
-        ReplSkin.table(
-          ['TOOL', 'READ-ONLY', 'DESCRIPTION'],
-          tools.map((t) => [t.name, String(Boolean(t.annotations?.readOnlyHint)), t.description]),
-          54
-        ),
+        ReplSkin.toolCard('MCP Discover', MCP_ENDPOINT, `${rpc.latencyMs}ms · ${rpc.result?.protocolVersion}`),
+        '',
+        ReplSkin.kv('Server', `${rpc.result?.serverInfo?.name} v${rpc.result?.serverInfo?.version}`),
+        ReplSkin.kv('Read-Only', String(rpc.result?.readOnly)),
+        ReplSkin.kv('Tools', (rpc.result?.capabilities?.tools || []).join(', ')),
+        ReplSkin.kv('Resources', (rpc.result?.capabilities?.resources || []).join(', ')),
         '',
       ].join('\n')
     );
     return 0;
+  } finally {
+    spin.stop();
   }
-
-  if (sub === 'call' && args[1]) {
-    const toolName = args[1];
-    let toolArgs = {};
-    if (args[2]) {
-      try {
-        toolArgs = JSON.parse(args.slice(2).join(' '));
-      } catch {
-        process.stderr.write(ReplSkin.error('Tool arguments must be valid JSON, e.g. kronvex mcp call kronvex_search \'{"query":"webgpu"}\'\n'));
-        return 2;
-      }
-    }
-    const rpc = await callRemoteMcp('tools/call', { name: toolName, arguments: toolArgs });
-    outputResult(opts, { latencyMs: rpc.latencyMs, result: rpc.result }, () => JSON.stringify(rpc.result?.structuredContent ?? rpc.result, null, 2));
-    return 0;
-  }
-
-  const rpc = await callRemoteMcp('server/discover', {});
-  outputResult(opts, { endpoint: MCP_ENDPOINT, latencyMs: rpc.latencyMs, discovery: rpc.result }, () =>
-    [
-      '',
-      ReplSkin.success(`KRONVEX Remote MCP Discovery (${rpc.latencyMs}ms)`),
-      ReplSkin.kv('Endpoint', MCP_ENDPOINT),
-      ReplSkin.kv('Protocol Version', rpc.result?.protocolVersion),
-      ReplSkin.kv('Server', `${rpc.result?.serverInfo?.name} v${rpc.result?.serverInfo?.version}`),
-      ReplSkin.kv('Read-Only', String(rpc.result?.readOnly)),
-      ReplSkin.kv('Tools', (rpc.result?.capabilities?.tools || []).join(', ')),
-      ReplSkin.kv('Resources', (rpc.result?.capabilities?.resources || []).join(', ')),
-      '',
-    ].join('\n')
-  );
-  return 0;
 }
 
 async function cmdServicesOrWork(kind, opts) {
@@ -833,7 +1185,8 @@ async function cmdServicesOrWork(kind, opts) {
     outputResult(opts, { count: items.length, services: items }, () =>
       [
         '',
-        ReplSkin.info(`KRONVEX Engineering Services (${items.length})`),
+        ReplSkin.toolCard('Services', 'Custom Software & AI-Native Engineering', `${items.length} offerings`),
+        '',
         ReplSkin.table(
           ['ID', 'SERVICE', 'CORE STACK'],
           items.map((s) => [s.id, s.name, (s.stack || []).join(', ')])
@@ -847,7 +1200,8 @@ async function cmdServicesOrWork(kind, opts) {
   outputResult(opts, { count: items.length, caseStudies: items }, () =>
     [
       '',
-      ReplSkin.info(`KRONVEX Verified Case Studies (${items.length})`),
+      ReplSkin.toolCard('Case Studies', 'Verified Production Systems (kronvex.org/work)', `${items.length} systems`),
+      '',
       ReplSkin.table(
         ['ID', 'CATEGORY', 'SYSTEM', 'URL'],
         items.map((c) => [c.id, c.category, c.title, c.url])
@@ -856,6 +1210,64 @@ async function cmdServicesOrWork(kind, opts) {
     ].join('\n')
   );
   return 0;
+}
+
+async function cmdTheme(args, opts) {
+  const req = args[0]?.toLowerCase();
+  if (req) {
+    if (!THEMES[req]) {
+      process.stderr.write(ReplSkin.error(`Unknown theme "${req}". Available: ${Object.keys(THEMES).join(', ')}\n`));
+      return 2;
+    }
+    ACTIVE_THEME = req;
+    saveTheme(req);
+    outputResult(opts, { activeTheme: ACTIVE_THEME, label: THEMES[req].label }, () =>
+      `\n${renderKronvexWordmark(ACTIVE_THEME)}\n\n${ReplSkin.success(`Theme switched to ${paint(C.bold + C.white, req)} — ${THEMES[req].label}`)}\n`
+    );
+    return 0;
+  }
+  const list = Object.values(THEMES).map((t) => ({ name: t.name, label: t.label, active: t.name === ACTIVE_THEME }));
+  outputResult(opts, { activeTheme: ACTIVE_THEME, themes: list }, () =>
+    [
+      '',
+      ReplSkin.toolCard('Themes', `Active: ${ACTIVE_THEME}`, `${list.length} TrueColor palettes`),
+      '',
+      ReplSkin.table(
+        ['THEME', 'STATUS', 'PALETTE'],
+        list.map((t) => [t.name, t.active ? 'ACTIVE' : '-', t.label])
+      ),
+      '',
+    ].join('\n')
+  );
+  return 0;
+}
+
+async function cmdUpdate(opts) {
+  const target = path.join(os.homedir(), '.kronvex', 'bin', 'kronvex.mjs');
+  const spin = startSpinner(opts, `Fetching latest kronvex.mjs from ${SITE_ORIGIN}/cli/kronvex.mjs...`);
+  try {
+    const res = await fetch(`${SITE_ORIGIN}/cli/kronvex.mjs`, {
+      headers: { 'User-Agent': `kronvex-cli/${CLI_VERSION}` },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status} downloading kronvex.mjs`);
+    const text = await res.text();
+    const sha256 = crypto.createHash('sha256').update(text, 'utf-8').digest('hex');
+    ensureDir(path.dirname(target));
+    fs.writeFileSync(target, text, 'utf-8');
+    spin.stop();
+    const out = { updated: true, path: target, bytes: Buffer.byteLength(text, 'utf-8'), sha256 };
+    outputResult(opts, out, () =>
+      [
+        '',
+        ReplSkin.success(`Updated KRONVEX CLI -> ${paint(C.cyan, target)} (${out.bytes} bytes)`),
+        ReplSkin.kv('SHA-256', sha256),
+        '',
+      ].join('\n')
+    );
+    return 0;
+  } finally {
+    spin.stop();
+  }
 }
 
 async function cmdCache(args, opts) {
@@ -880,7 +1292,8 @@ async function cmdCache(args, opts) {
   outputResult(opts, { cacheDir: CACHE_DIR, ttlSeconds: CACHE_TTL_MS / 1000, files }, () =>
     [
       '',
-      ReplSkin.info(`Cache Directory: ${CACHE_DIR}`),
+      ReplSkin.toolCard('Local Cache', CACHE_DIR, `${files.length} snapshot(s)`),
+      '',
       ReplSkin.table(
         ['FILE', 'BYTES', 'AGE (S)'],
         files.map((f) => [f.file, f.bytes, f.ageSeconds])
@@ -894,10 +1307,11 @@ async function cmdCache(args, opts) {
 // ── Main Dispatcher ─────────────────────────────────────────────────────────
 export async function dispatch(argv) {
   const opts = parseArgs(argv);
-  const [cmd, ...rest] = opts.positionals;
+  const [rawCmd, ...rest] = opts.positionals;
+  const cmd = rawCmd ? rawCmd.replace(/^\//, '').toLowerCase() : '';
 
   if (opts.flags.version) {
-    outputResult(opts, { name: CLI_NAME, version: CLI_VERSION, node: process.version }, () => `${CLI_NAME} v${CLI_VERSION}`);
+    outputResult(opts, { name: CLI_NAME, version: CLI_VERSION, theme: ACTIVE_THEME, node: process.version }, () => `${CLI_NAME} v${CLI_VERSION}`);
     return 0;
   }
 
@@ -915,7 +1329,7 @@ export async function dispatch(argv) {
   }
 
   try {
-    switch (cmd.toLowerCase()) {
+    switch (cmd) {
       case 'doctor':
       case 'status':
         return await cmdDoctor(opts);
@@ -939,16 +1353,29 @@ export async function dispatch(argv) {
       case 'work':
       case 'cases':
         return await cmdServicesOrWork('work', opts);
+      case 'crest':
+      case 'logo': {
+        outputResult(
+          opts,
+          { emblem: 'KRONVEX Geometric Crest', theme: ACTIVE_THEME, version: CLI_VERSION },
+          () => `\n${renderKronvexCrest(ACTIVE_THEME)}\n\n${renderKronvexWordmark(ACTIVE_THEME)}\n\n  ${paint(C.slate, 'KRONVEX — Cross-Platform Apps · Market Intelligence · Mission-Critical AI')}\n`
+        );
+        return 0;
+      }
+      case 'theme':
+        return await cmdTheme(rest, opts);
+      case 'update':
+        return await cmdUpdate(opts);
       case 'skill-md':
       case 'skill': {
         const md = buildAgentSkillMarkdown();
-        outputResult(opts, { name: 'kronvex-cli', markdown: md }, () => md);
+        outputResult(opts, { name: 'kronvex-cli', version: CLI_VERSION, markdown: md }, () => md);
         return 0;
       }
       case 'cache':
         return await cmdCache(rest, opts);
       default:
-        process.stderr.write(ReplSkin.error(`Unknown command: "${cmd}". Run \`kronvex --help\` for available commands.\n`));
+        process.stderr.write(ReplSkin.error(`Unknown command: "${rawCmd}". Run \`kronvex --help\` for available commands.\n`));
         return 2;
     }
   } catch (err) {
@@ -964,8 +1391,27 @@ export async function dispatch(argv) {
   }
 }
 
-// ── Stateful Interactive REPL (CLI-Anything ReplSkin + History + Autocomplete)
-const REPL_COMMANDS = ['doctor', 'search', 'apps', 'models', 'skills', 'research', 'top21', 'mcp', 'services', 'work', 'skill-md', 'cache', 'help', 'clear', 'exit', '/json'];
+// ── Stateful Interactive REPL (Gemini-CLI Aesthetic + History + Autocomplete)
+const REPL_COMMANDS = [
+  'doctor',
+  'search',
+  'apps',
+  'models',
+  'skills',
+  'research',
+  'top21',
+  'mcp',
+  'services',
+  'work',
+  '/crest',
+  '/theme',
+  '/json',
+  '/help',
+  '/clear',
+  '/exit',
+  'update',
+  'cache',
+];
 
 async function runRepl() {
   process.stdout.write(ReplSkin.banner());
@@ -991,17 +1437,20 @@ async function runRepl() {
     },
   });
 
-  const promptStr = () =>
-    `${paint(C.emerald, 'kronvex')}${jsonMode ? paint(C.amber, '[json]') : ''}${paint(C.cyan, ' ❯')} `;
+  const printPromptBar = () => {
+    const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
+    const accentRgb = rgb(...theme.accent);
+    process.stdout.write(`${ReplSkin.statusFooter(jsonMode)}\n`);
+    rl.setPrompt(`  ${paint(accentRgb, '❯')}${jsonMode ? paint(C.amber, ' [json]') : ''} `);
+    rl.prompt();
+  };
 
-  rl.setPrompt(promptStr());
-  rl.prompt();
+  printPromptBar();
 
   return new Promise((resolve) => {
     rl.on('line', async (rawLine) => {
       const line = rawLine.trim();
       if (!line) {
-        rl.setPrompt(promptStr());
         rl.prompt();
         return;
       }
@@ -1012,14 +1461,14 @@ async function runRepl() {
       }
       if (line === 'clear' || line === '/clear') {
         process.stdout.write('\x1b[2J\x1b[0f');
-        rl.prompt();
+        process.stdout.write(ReplSkin.banner());
+        printPromptBar();
         return;
       }
       if (line === '/json') {
         jsonMode = !jsonMode;
-        process.stdout.write(ReplSkin.info(`JSON mode ${jsonMode ? 'ENABLED' : 'DISABLED'}\n`));
-        rl.setPrompt(promptStr());
-        rl.prompt();
+        process.stdout.write(`\n${ReplSkin.info(`JSON agent mode ${jsonMode ? paint(C.emerald, 'ENABLED') : paint(C.slate, 'DISABLED')}`)}\n\n`);
+        printPromptBar();
         return;
       }
 
@@ -1034,12 +1483,11 @@ async function runRepl() {
       if (jsonMode && !tokens.includes('--json')) tokens.push('--json');
       await dispatch(tokens);
 
-      rl.setPrompt(promptStr());
-      rl.prompt();
+      printPromptBar();
     });
 
     rl.on('close', () => {
-      process.stdout.write(`\n${ReplSkin.info('Session closed. Keep building with KRONVEX.')}\n`);
+      process.stdout.write(`\n${ReplSkin.info('Session closed. Keep engineering with KRONVEX.')}\n`);
       resolve(0);
     });
   });
@@ -1057,4 +1505,4 @@ if (invokedDirectly) {
   const code = await dispatch(process.argv.slice(2));
   process.exit(code);
 }
-void crypto;
+void stripAnsi;

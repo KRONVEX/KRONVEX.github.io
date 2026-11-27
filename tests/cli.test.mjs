@@ -22,13 +22,29 @@ test('CLI prints version with --version and --json', () => {
   assert.equal(r.status, 0);
   const parsed = JSON.parse(r.stdout);
   assert.equal(parsed.name, 'kronvex');
-  assert.equal(parsed.version, '1.0.0');
+  assert.equal(parsed.version, '1.1.0');
+});
+
+test('CLI renders 3D block wordmark, geometric crest & theme switcher cleanly', () => {
+  const crestText = runCli(['crest']);
+  assert.equal(crestText.status, 0);
+  assert.match(crestText.stdout, /█/);
+  assert.match(crestText.stdout, /░/);
+
+  const crestJson = runCli(['crest', '--json']);
+  assert.equal(crestJson.status, 0);
+  const obj = JSON.parse(crestJson.stdout);
+  assert.equal(obj.version, '1.1.0');
+
+  const themes = runCli(['theme', '--json']);
+  assert.equal(themes.status, 0);
+  assert.ok(JSON.parse(themes.stdout).themes.length >= 4);
 });
 
 test('CLI prints self-describing --help with zero exit code', () => {
   const r = runCli(['--help']);
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /KRONVEX CLI/);
+  assert.match(r.stdout, /KRONVEX Official CLI/);
   assert.match(r.stdout, /--output-format/);
   assert.match(r.stdout, /mcp \[discover\|tools\|call\|config\]/);
 });

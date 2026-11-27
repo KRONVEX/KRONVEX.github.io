@@ -51,27 +51,37 @@ const TERMINAL_DEMOS: Record<DemoTab, { label: string; command: string; output: 
   repl: {
     label: 'Interactive REPL',
     command: 'kronvex',
-    output: `╭──────────────────────────────────────────────────────────────╮
-│  KRONVEX CLI v1.0.0  ·  Agent-Native Engineering Terminal    │
-│  Platform: kronvex.org  ·  MCP: mcp.kronvex.org/mcp          │
-│  Type help for commands · --json for agents · exit to quit   │
-╰──────────────────────────────────────────────────────────────╯
+    output: `██░░░░   ██░░░██░  ██████░░   ░█████░░  ██░░░░██░  ██░░░░██░  ███████░  ██░░░██░
+░░██░░   ██░░██░░  ██░░░██░  ██░░░██░  ███░░░██░  ██░░░░██░  ██░░░░░░  ░██░██░░
+░░░░██░  █████░░░  ██████░░  ██░░░██░  ████░░██░  ██░░░░██░  █████░░░  ░░███░░░
+░░░░██░  ██░░██░░  ██░░██░░  ██░░░██░  ██░██░██░  ░██░░██░░  ██░░░░░░  ░░███░░░
+░░██░░░  ██░░░██░  ██░░░██░  ██░░░██░  ██░░████░  ░░████░░░  ██░░░░░░  ░██░██░░
+██░░░░░  ██░░░██░  ██░░░██░  ░█████░░  ██░░░███░  ░░░██░░░░  ███████░  ██░░░██░
+░░░░░░   ░░░░░░░░  ░░░░░░░░   ░░░░░░░  ░░░░░░░░░  ░░░░░░░░░  ░░░░░░░░  ░░░░░░░░
 
-kronvex ❯ /json
-● JSON mode ENABLED
-kronvex[json] ❯ search "webgpu" --limit 2`,
+  Tips for getting started:
+  1. Run doctor, search "webgpu", or models recommend to inspect KRONVEX live.
+  2. Pass --json or toggle /json for deterministic AI-agent output.
+  3. Type /help for all 12 commands · /crest for emblem · /theme to switch colors.
+
+  ╭──────────────────────────────────────────────────────────────────────────╮
+  │ ✦ Connected to kronvex.org & mcp.kronvex.org/mcp · Read-Only · 0 Deps    │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+  ~/projects (kronvex v1.1.0)  ·  mcp.kronvex.org/mcp (read-only)  ·  theme:kronvex
+  ❯ `,
   },
   doctor: {
     label: 'kronvex doctor',
     command: 'kronvex doctor',
-    output: `● KRONVEX System Diagnostics (v1.0.0)
+    output: `  ╭──────────────────────────────────────────────────────────────────────────╮
+  │ ✦ Diagnostics  Probed kronvex.org & mcp.kronvex.org/mcp (OPERATIONAL)    │
+  ╰──────────────────────────────────────────────────────────────────────────╯
 
-  Platform API           ONLINE (64ms · synced 2026-11-27)
-  Remote MCP Gateway     ONLINE (48ms · MCP 2026-07-28)
-  MCP Code-Mode Tools    kronvex_search, kronvex_query
-  Host OS / Runtime      win32 10.0 (x64) · Node v24.15.0
-  Host Hardware          16 CPU cores · 32.0 GB RAM
-  Local Cache Dir        ~/.kronvex/cache`,
+    Platform API           ONLINE (64ms · synced 2026-11-27)
+    Remote MCP Gateway     ONLINE (48ms · MCP 2026-07-28)
+    MCP Code-Mode Tools    kronvex_search, kronvex_query
+    Host OS / Runtime      win32 10.0 (x64) · Node v24.15.0
+    Host Hardware          16 CPU cores · 32.0 GB RAM`,
   },
   search: {
     label: 'search --json',
@@ -143,6 +153,8 @@ const COMMAND_GROUPS = [
   { cmd: 'kronvex mcp [discover|tools|call|config]', mode: 'Both', desc: 'Inspect mcp.kronvex.org/mcp and print ready-to-paste configs for 8 coding agents' },
   { cmd: 'kronvex services / work', mode: 'Both', desc: 'Query KRONVEX engineering services and verified production case studies' },
   { cmd: 'kronvex skill-md', mode: 'Agent', desc: 'Print canonical SKILL.md manifest for autonomous agent discovery' },
+  { cmd: 'kronvex crest / theme [name]', mode: 'TUI', desc: 'Render the geometric KRONVEX emblem or switch 24-bit TrueColor gradient themes (kronvex, spectrum, emerald, crimson)' },
+  { cmd: 'kronvex update', mode: 'Local', desc: 'Self-update kronvex.mjs directly from kronvex.org/cli/kronvex.mjs with SHA-256 verification' },
   { cmd: 'kronvex cache [status|clear]', mode: 'Local', desc: 'Inspect or purge the 10-minute ~/.kronvex/cache offline JSON snapshots' },
 ];
 
@@ -345,7 +357,9 @@ export function CliPage() {
               </div>
               <span className="font-mono text-[11px] text-emerald-400">UTF-8 · ANSI · Zero Deps</span>
             </div>
-            <pre className="p-5 text-xs sm:text-[13px] font-mono overflow-x-auto leading-relaxed text-emerald-200">
+            <pre
+              className="p-5 text-xs sm:text-[13px] font-mono overflow-x-auto leading-relaxed bg-gradient-to-r from-sky-300 via-emerald-300 via-60% to-rose-300 bg-clip-text text-transparent"
+            >
               <code>{`$ ${activeDemo.command}\n\n${activeDemo.output}`}</code>
             </pre>
           </div>
