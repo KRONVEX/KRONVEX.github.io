@@ -22,23 +22,27 @@ test('CLI prints version with --version and --json', () => {
   assert.equal(r.status, 0);
   const parsed = JSON.parse(r.stdout);
   assert.equal(parsed.name, 'kronvex');
-  assert.equal(parsed.version, '1.1.0');
+  assert.equal(parsed.version, '1.2.0');
 });
 
-test('CLI renders 3D block wordmark, geometric crest & theme switcher cleanly', () => {
+test('CLI renders Owl logo + 3D block wordmark, geometric crest & Owl brand themes cleanly', () => {
   const crestText = runCli(['crest']);
   assert.equal(crestText.status, 0);
   assert.match(crestText.stdout, /█/);
   assert.match(crestText.stdout, /░/);
+  assert.match(crestText.stdout, /◈/);
 
   const crestJson = runCli(['crest', '--json']);
   assert.equal(crestJson.status, 0);
   const obj = JSON.parse(crestJson.stdout);
-  assert.equal(obj.version, '1.1.0');
+  assert.equal(obj.version, '1.2.0');
 
   const themes = runCli(['theme', '--json']);
   assert.equal(themes.status, 0);
-  assert.ok(JSON.parse(themes.stdout).themes.length >= 4);
+  const tData = JSON.parse(themes.stdout);
+  assert.equal(tData.activeTheme, 'kronvex');
+  assert.ok(tData.themes.some((t) => t.name === 'medallion'));
+  assert.ok(tData.themes.some((t) => t.name === 'ruby'));
 });
 
 test('CLI prints self-describing --help with zero exit code', () => {

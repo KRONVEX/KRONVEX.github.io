@@ -12,7 +12,7 @@ $InstallDir = Join-Path $env:USERPROFILE ".kronvex\bin"
 New-Item -ItemType Directory -Force -Path $InstallDir | Out-Null
 
 $CliScript = Join-Path $InstallDir "kronvex.mjs"
-Write-Host "Downloading KRONVEX CLI v1.1.0 from https://kronvex.org/cli/kronvex.mjs ..." -ForegroundColor Cyan
+Write-Host "Downloading KRONVEX CLI v1.2.0 from https://kronvex.org/cli/kronvex.mjs ..." -ForegroundColor Cyan
 Invoke-WebRequest -Uri "https://kronvex.org/cli/kronvex.mjs" -OutFile $CliScript -UseBasicParsing
 
 # Create Windows .cmd wrappers for both `kronvex` and `kvx`

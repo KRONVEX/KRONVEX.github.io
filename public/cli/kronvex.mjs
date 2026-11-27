@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /**
- * KRONVEX Official CLI (kronvex / kvx) — v1.1.0
+ * KRONVEX Official CLI (kronvex / kvx) — v1.2.0
  * Flagship Agent-Native & Human-First Terminal Interface
  * Features:
- *   - 24-bit TrueColor 3D Pixel-Block "> KRONVEX" Gradient Wordmark + Dithered Drop-Shadow
- *   - Geometric KRONVEX Owl/Matrix ANSI Crest (/crest) & Theme Switcher (/theme)
+ *   - Authentic TrueColor Half-Block KRONVEX Owl Medallion Logo side-by-side with 3D "KRONVEX" Wordmark
+ *   - 100% KRONVEX Owl Brand Palette (Medallion Cyan · Owl Neon Green · Crest Gold · Ruby Core)
+ *   - High-Res 30x28 Pixel-Faithful KRONVEX Owl Medallion (/crest) & 4 Brand Themes (/theme)
  *   - Boxed Tool-Execution Cards, Animated Braille Spinner & Persistent Status Bar
  *   - Dual Interaction Model: Stateful Branded REPL + One-Shot Subcommand CLI
  *   - Agent-First Protocols: --json & --output-format stream-json (NDJSON)
@@ -22,7 +23,7 @@ import crypto from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 
 export const CLI_NAME = 'kronvex';
-export const CLI_VERSION = '1.1.0';
+export const CLI_VERSION = '1.2.0';
 export const SITE_ORIGIN = 'https://kronvex.org';
 export const MCP_ENDPOINT = 'https://mcp.kronvex.org/mcp';
 
@@ -31,65 +32,85 @@ const HISTORY_FILE = path.join(os.homedir(), '.kronvex', 'history.txt');
 const CONFIG_FILE = path.join(os.homedir(), '.kronvex', 'config.json');
 const CACHE_TTL_MS = 10 * 60 * 1000;
 
-// ── 24-Bit TrueColor Engine & Multi-Stop Gradient Themes ────────────────────
+// ── Authentic KRONVEX Owl Logo Palette (Sampled Directly from kronvex_avatar_github.png)
 const USE_COLOR = Boolean(process.stdout.isTTY) && !process.env.NO_COLOR && process.env.TERM !== 'dumb';
 
+const OWL_PALETTE = {
+  C: [0, 212, 255],    // Electric Medallion Cyan
+  B: [24, 138, 255],   // Royal Medallion Azure
+  G: [34, 229, 58],    // Owl Neon Eye & Inner Crescent Green
+  Y: [255, 224, 36],   // Solar Gold Upper Crests & Beak
+  A: [255, 172, 18],   // Warm Gold Lower Crests & Arc
+  R: [255, 46, 76],    // Chest Ruby Core & Lower Arc
+  P: [255, 132, 152],  // Ruby Core Center Glow
+  T: [178, 118, 68],   // Owl Warm Bronze Plumage
+  D: [122, 78, 42],    // Owl Deep Bronze Shadow
+  M: [236, 196, 154],  // Owl Cream Eye Disc
+  N: [12, 24, 52],     // Deep Medallion Obsidian Navy
+};
+
+// 100% Authentic KRONVEX Owl-Inspired Themes (Zero third-party palettes)
 const THEMES = {
   kronvex: {
     name: 'kronvex',
-    label: 'KRONVEX Signature (Sky -> Emerald -> Violet -> Crimson)',
+    label: 'KRONVEX Owl Signature (Cyan -> Neon Green -> Solar Gold -> Ruby Core)',
     stops: [
-      [56, 189, 248],   // #38BDF8 Electric Sky
-      [52, 211, 153],   // #34D399 KRONVEX Emerald
-      [129, 140, 248],  // #818CF8 Quantum Violet
-      [244, 63, 94],    // #F43F5E Sovereign Crimson Core
+      [0, 212, 255],    // Medallion Electric Cyan
+      [34, 229, 58],    // Owl Neon Eye Green
+      [255, 224, 36],   // Crest Solar Gold
+      [255, 46, 76],    // Chest Ruby Core
     ],
-    accent: [52, 211, 153],
-    secondary: [56, 189, 248],
-    border: [71, 85, 105],
-    warnBorder: [217, 159, 98],
+    accent: [34, 229, 58],      // Neon Owl Green
+    secondary: [0, 212, 255],   // Medallion Cyan
+    gold: [255, 214, 31],       // Crest Gold
+    ruby: [255, 46, 76],        // Ruby Core
+    border: [24, 138, 255],     // Medallion Azure
+    warnBorder: [255, 172, 18], // Warm Crest Gold
   },
-  spectrum: {
-    name: 'spectrum',
-    label: 'Spectrum Horizon (Cyan -> Indigo -> Orchid -> Coral)',
+  medallion: {
+    name: 'medallion',
+    label: 'Azure Medallion (Electric Cyan -> Royal Azure -> Solar Gold)',
     stops: [
-      [56, 189, 248],   // #38BDF8
-      [110, 142, 251],  // #6E8EFB
-      [176, 114, 219],  // #B072DB
-      [235, 108, 134],  // #EB6C86
+      [0, 212, 255],
+      [24, 138, 255],
+      [255, 224, 36],
     ],
-    accent: [110, 142, 251],
-    secondary: [235, 108, 134],
-    border: [82, 88, 108],
-    warnBorder: [222, 165, 110],
+    accent: [0, 212, 255],
+    secondary: [255, 224, 36],
+    gold: [255, 224, 36],
+    ruby: [255, 46, 76],
+    border: [24, 138, 255],
+    warnBorder: [0, 212, 255],
   },
-  emerald: {
-    name: 'emerald',
-    label: 'Matrix Emerald (Mint -> Emerald -> Teal -> Cyan)',
+  ruby: {
+    name: 'ruby',
+    label: 'Ruby Core (Solar Gold -> Warm Bronze -> Ruby Crimson)',
     stops: [
-      [110, 231, 183],
-      [16, 185, 129],
-      [20, 184, 166],
-      [56, 189, 248],
+      [255, 224, 36],
+      [204, 136, 76],
+      [255, 46, 76],
     ],
-    accent: [52, 211, 153],
-    secondary: [34, 211, 238],
-    border: [51, 92, 82],
-    warnBorder: [217, 159, 98],
+    accent: [255, 46, 76],
+    secondary: [255, 224, 36],
+    gold: [255, 172, 18],
+    ruby: [255, 46, 76],
+    border: [178, 118, 68],
+    warnBorder: [255, 46, 76],
   },
-  crimson: {
-    name: 'crimson',
-    label: 'Sovereign Crimson (Amber -> Rose -> Crimson -> Violet)',
+  sentinel: {
+    name: 'sentinel',
+    label: 'Sentinel Eyes (Neon Owl Green -> Electric Cyan -> Solar Gold)',
     stops: [
-      [251, 191, 36],
-      [244, 63, 94],
-      [225, 29, 72],
-      [139, 92, 246],
+      [34, 229, 58],
+      [0, 212, 255],
+      [255, 224, 36],
     ],
-    accent: [244, 63, 94],
-    secondary: [251, 191, 36],
-    border: [110, 56, 68],
-    warnBorder: [251, 191, 36],
+    accent: [34, 229, 58],
+    secondary: [0, 212, 255],
+    gold: [255, 224, 36],
+    ruby: [255, 46, 76],
+    border: [34, 160, 90],
+    warnBorder: [34, 229, 58],
   },
 };
 
@@ -116,19 +137,22 @@ function saveTheme(themeName) {
 
 let ACTIVE_THEME = loadSavedTheme();
 
-const rgb = (r, g, b) => (USE_COLOR ? `\x1b[38;2;${r};${g};${b}m` : '');
+const fg = (r, g, b) => (USE_COLOR ? `\x1b[38;2;${r};${g};${b}m` : '');
+const bg = (r, g, b) => (USE_COLOR ? `\x1b[48;2;${r};${g};${b}m` : '');
 const C = {
   reset: USE_COLOR ? '\x1b[0m' : '',
   bold: USE_COLOR ? '\x1b[1m' : '',
   dim: USE_COLOR ? '\x1b[2m' : '',
-  cyan: rgb(56, 189, 248),
-  emerald: rgb(52, 211, 153),
-  amber: rgb(251, 191, 36),
-  rose: rgb(244, 63, 94),
-  violet: rgb(167, 139, 250),
-  white: rgb(248, 250, 252),
-  slate: rgb(148, 163, 184),
-  gray: rgb(100, 116, 139),
+  cyan: fg(0, 212, 255),
+  azure: fg(24, 138, 255),
+  green: fg(34, 229, 58),
+  gold: fg(255, 224, 36),
+  amber: fg(255, 172, 18),
+  ruby: fg(255, 46, 76),
+  bronze: fg(204, 142, 86),
+  white: fg(248, 250, 252),
+  slate: fg(165, 180, 200),
+  gray: fg(108, 122, 145),
 };
 
 const paint = (color, text) => `${color}${text}${C.reset}`;
@@ -147,99 +171,124 @@ function interpolateStops(stops, t) {
   ];
 }
 
-// ── 3D Pixel-Block "> KRONVEX" Font + Programmatic Dithered Drop-Shadow ─────
+// ── Authentic KRONVEX Owl Logo Pixel Maps (Half-Block ▀ TrueColor Renderer) ──
+// 16 cols x 14 rows = 7 terminal lines (exact match to 7-line 3D KRONVEX wordmark!)
+const OWL_MINI_16x14 = [
+  '.YY..CCCCCC..YY.',
+  'YYY.CCNNNNCC.YYY',
+  '.Y.CCGNNNNGCC.Y.',
+  '..CCGTNTTNTGCC..',
+  '.CCGNTTTTTTNGCC.',
+  '.BCGMGGTTGGMGCB.',
+  '.BCGMMTYYTMMGCB.',
+  '.BCAGTTTTTTGACB.',
+  '.BARTTTRRTTTRAB.',
+  '.BBRTRRPPRRTRBB.',
+  'A.BBRTRRRRTRBB.A',
+  'AAA.BBTTTTBB.AAA',
+  '.AA..BBBBBB..AA.',
+  '......BBBB......',
+];
+
+// High-resolution 30x28 pixel-faithful KRONVEX Owl Medallion for `kronvex crest`
+const OWL_CREST_30x28 = [
+  '..............................',
+  '.....YY.................YY....',
+  '....YYYY...............YYYY...',
+  '...YYYYY....CCCCCCCC....YYYYY.',
+  '..YYYY...CCCCCCCCCCCCCC...YYYY',
+  '.YYYYT..CCCCBNNNNNNBCCCC..TYYY',
+  '.YY..Y.CCBNNGGNNNNGGNNBCC.Y..Y',
+  '......CCNGGGNNNNNNNNGGGNCC....',
+  '.....BCNGGNNNNNNNNNNNNGGNCB...',
+  '....CCNGGNDDNNNNNNNNDDNGGNCC..',
+  '....CNNGNNTTTTNNNNTTTTNNGNNC..',
+  '...BBNGGNNTTMMTTTTMMTTNNGGNBB.',
+  '...CNNGGNNTMGGTTTTGGMTNNGGNNC.',
+  '...BNBGGNNTMGGTTYYGGMTNNGGBNB.',
+  '...CNBGGNNTMMTTYYYYMMTNNGGBNC.',
+  '...BNAGGNNTTTTTYYYYTTTNNGGANB.',
+  '...BNAGGDTTTTTTTYYTTTTTDGGANB.',
+  '...CNAAADTTTTTTRRRRTTTTDAAANC.',
+  '...BBARADTTTTRTTTTTTRTTDARABB.',
+  '....BARRDTTTRTTPPPPTTRTTDRRAB.',
+  '..A..BBRRTTTTRPPPPPPTRTTTRRBB.',
+  '.AAA..BBRTTTRTTPPPPTTRTTTRBB.A',
+  'AAAA..BBNTTTTTTRRRRTTTTTNBB.AA',
+  '.AAAA..BBNNNTTTTTTTTNNNBB.AAA.',
+  '..AAA...BBBBBBNNNNBBBBBB..AA..',
+  '...AA.....BBBBBBBBBBBB....A...',
+  '.............BBBBBB...........',
+  '..............................',
+];
+
+function renderPixelGridHalfBlock(grid, forceColor = false) {
+  const colorEnabled = USE_COLOR || forceColor;
+  const rows = [];
+  for (let y = 0; y < grid.length; y += 2) {
+    const topRow = grid[y];
+    const botRow = grid[y + 1] || '.'.repeat(topRow.length);
+    let line = '';
+    for (let x = 0; x < topRow.length; x++) {
+      const tc = topRow[x];
+      const bc = botRow[x];
+      const topRgb = OWL_PALETTE[tc] || null;
+      const botRgb = OWL_PALETTE[bc] || null;
+
+      if (!colorEnabled) {
+        if (topRgb && botRgb) line += tc === 'G' || bc === 'G' ? '◈' : tc === 'P' || tc === 'R' ? '●' : '█';
+        else if (topRgb) line += '▀';
+        else if (botRgb) line += '▄';
+        else line += ' ';
+        continue;
+      }
+
+      if (topRgb && botRgb) {
+        line += `\x1b[38;2;${topRgb[0]};${topRgb[1]};${topRgb[2]}m\x1b[48;2;${botRgb[0]};${botRgb[1]};${botRgb[2]}m▀\x1b[0m`;
+      } else if (topRgb && !botRgb) {
+        line += `\x1b[38;2;${topRgb[0]};${topRgb[1]};${topRgb[2]}m▀\x1b[0m`;
+      } else if (!topRgb && botRgb) {
+        line += `\x1b[38;2;${botRgb[0]};${botRgb[1]};${botRgb[2]}m▄\x1b[0m`;
+      } else {
+        line += ' ';
+      }
+    }
+    rows.push(line);
+  }
+  return rows;
+}
+
+// ── 3D Pixel-Block "KRONVEX" Wordmark (Zero Gemini Chevron — Pure KRONVEX!) ─
 const GLYPHS = {
-  '>': [
-    '##....',
-    '..##..',
-    '....##',
-    '....##',
-    '..##..',
-    '##....',
-  ],
-  K: [
-    '##...##',
-    '##..##.',
-    '#####..',
-    '##..##.',
-    '##...##',
-    '##...##',
-  ],
-  R: [
-    '######.',
-    '##...##',
-    '######.',
-    '##..##.',
-    '##...##',
-    '##...##',
-  ],
-  O: [
-    '.#####.',
-    '##...##',
-    '##...##',
-    '##...##',
-    '##...##',
-    '.#####.',
-  ],
-  N: [
-    '##....##',
-    '###...##',
-    '####..##',
-    '##.##.##',
-    '##..####',
-    '##...###',
-  ],
-  V: [
-    '##....##',
-    '##....##',
-    '##....##',
-    '.##..##.',
-    '..####..',
-    '...##...',
-  ],
-  E: [
-    '#######',
-    '##.....',
-    '#####..',
-    '##.....',
-    '##.....',
-    '#######',
-  ],
-  X: [
-    '##...##',
-    '.##.##.',
-    '..###..',
-    '..###..',
-    '.##.##.',
-    '##...##',
-  ],
+  K: ['##...##', '##..##.', '#####..', '##..##.', '##...##', '##...##'],
+  R: ['######.', '##...##', '######.', '##..##.', '##...##', '##...##'],
+  O: ['.#####.', '##...##', '##...##', '##...##', '##...##', '.#####.'],
+  N: ['##....##', '###...##', '####..##', '##.##.##', '##..####', '##...###'],
+  V: ['##....##', '##....##', '##....##', '.##..##.', '..####..', '...##...'],
+  E: ['#######', '##.....', '#####..', '##.....', '##.....', '#######'],
+  X: ['##...##', '.##.##.', '..###..', '..###..', '.##.##.', '##...##'],
 };
 
-export function renderKronvexWordmark(themeName = ACTIVE_THEME, forceColor = false) {
+function renderWordmarkLines(themeName = ACTIVE_THEME, forceColor = false) {
   const theme = THEMES[themeName] || THEMES.kronvex;
   const colorEnabled = USE_COLOR || forceColor;
   const fgRgb = (r, g, b) => (colorEnabled ? `\x1b[38;2;${r};${g};${b}m` : '');
   const rst = colorEnabled ? '\x1b[0m' : '';
 
-  const chars = ['>', 'K', 'R', 'O', 'N', 'V', 'E', 'X'];
+  const chars = ['K', 'R', 'O', 'N', 'V', 'E', 'X'];
   const rows = 6;
   const grid = Array.from({ length: rows }, () => []);
 
   for (let ci = 0; ci < chars.length; ci++) {
     const glyph = GLYPHS[chars[ci]];
-    const gap = ci === 0 ? 3 : 2;
     for (let r = 0; r < rows; r++) {
       for (const ch of glyph[r]) grid[r].push(ch === '#');
-      if (ci < chars.length - 1) {
-        for (let g = 0; g < gap; g++) grid[r].push(false);
-      }
+      if (ci < chars.length - 1) grid[r].push(false); // Tight 1-col kerning -> 58 cols total
     }
   }
 
   const totalCols = grid[0].length;
   const lines = [];
-
-  // Render 6 foreground rows + 1 bottom drop-shadow row (total 7 rows, 74 cols)
   for (let r = 0; r <= rows; r++) {
     let line = '';
     for (let c = 0; c <= totalCols; c++) {
@@ -255,49 +304,38 @@ export function renderKronvexWordmark(themeName = ACTIVE_THEME, forceColor = fal
         line += `${fgRgb(rr, gg, bb)}█`;
       } else if (isShadow) {
         const [rr, gg, bb] = interpolateStops(theme.stops, c / Math.max(1, totalCols));
-        const sr = Math.round(rr * 0.42);
-        const sg = Math.round(gg * 0.42);
-        const sb = Math.round(bb * 0.42);
-        line += `${fgRgb(sr, sg, sb)}░`;
+        line += `${fgRgb(Math.round(rr * 0.4), Math.round(gg * 0.4), Math.round(bb * 0.4))}░`;
       } else {
         line += ' ';
       }
     }
     lines.push(line + rst);
   }
-  return lines.join('\n');
+  return lines;
 }
 
-// ── Geometric KRONVEX Owl/Matrix ANSI Crest (/crest) ────────────────────────
-export function renderKronvexCrest(themeName = ACTIVE_THEME) {
-  const theme = THEMES[themeName] || THEMES.kronvex;
-  const raw = [
-    '          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄          ',
-    '       ▄██▀▀░░░░░░░░░░▀▀██▄       ',
-    '     ▄██▀   ▄█▄    ▄█▄   ▀██▄     ',
-    '    ██▀    ██◈██  ██◈██    ▀██    ',
-    '   ██▌      ▀▀▀ ▄▄ ▀▀▀      ▐██   ',
-    '   ██▌         ████         ▐██   ',
-    '    ██▄     ▄▄▄ ▀▀ ▄▄▄     ▄██    ',
-    '     ▀██▄  ▀██████████▀  ▄██▀     ',
-    '       ▀██▄▄░░░████░░░▄▄██▀       ',
-    '          ▀▀██████████▀▀          ',
-  ];
-  return raw
-    .map((line, r) => {
-      const [rr, gg, bb] = interpolateStops(theme.stops, r / Math.max(1, raw.length - 1));
-      return `${rgb(rr, gg, bb)}${line}${C.reset}`;
-    })
+/** Side-by-side: Authentic TrueColor KRONVEX Owl Logo (16x7) + 3D "KRONVEX" Wordmark (58x7) = 79 cols! */
+export function renderKronvexHeroHeader(themeName = ACTIVE_THEME, forceColor = false) {
+  const owlLines = renderPixelGridHalfBlock(OWL_MINI_16x14, forceColor);
+  const wordLines = renderWordmarkLines(themeName, forceColor);
+  const out = [];
+  for (let i = 0; i < Math.max(owlLines.length, wordLines.length); i++) {
+    const left = owlLines[i] || ' '.repeat(16);
+    const right = wordLines[i] || '';
+    out.push(`  ${left}   ${right}`);
+  }
+  return out.join('\n');
+}
+
+export function renderKronvexCrest(forceColor = false) {
+  return renderPixelGridHalfBlock(OWL_CREST_30x28, forceColor)
+    .map((l) => `    ${l}`)
     .join('\n');
 }
 
-// ── Unified ReplSkin + Gemini-CLI-Grade Boxed Tool Cards & Status Bar ───────
+// ── Unified ReplSkin (100% KRONVEX Owl Palette) ─────────────────────────────
 function termWidth() {
-  return Math.min(92, Math.max(64, process.stdout.columns || 84));
-}
-
-function stripAnsi(s) {
-  return String(s).replace(/\x1b\[[0-9;]*m/g, '');
+  return Math.min(92, Math.max(66, process.stdout.columns || 84));
 }
 
 function shortCwd() {
@@ -310,9 +348,10 @@ export const ReplSkin = {
   banner() {
     const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
     const w = Math.min(78, termWidth() - 2);
-    const borderRgb = rgb(...theme.warnBorder);
-    const accentRgb = rgb(...theme.accent);
-    const secRgb = rgb(...theme.secondary);
+    const borderRgb = fg(...theme.warnBorder);
+    const accentRgb = fg(...theme.accent);
+    const secRgb = fg(...theme.secondary);
+    const goldRgb = fg(...theme.gold);
     const ramGb = (os.totalmem() / 1024 ** 3).toFixed(0);
     const cores = os.cpus().length;
 
@@ -321,18 +360,20 @@ export const ReplSkin = {
 
     return [
       '',
-      renderKronvexWordmark(ACTIVE_THEME),
+      renderKronvexHeroHeader(ACTIVE_THEME),
+      '',
+      `  ${paint(goldRgb, '◈')} ${paint(C.bold + C.white, 'KRONVEX')} ${paint(C.gray, '·')} ${paint(C.slate, 'Cross-Platform Apps · Market Intelligence · Mission-Critical AI')}`,
       '',
       `${paint(C.slate, '  Tips for getting started:')}`,
       `  ${paint(C.gray, '1.')} Run ${paint(accentRgb, 'doctor')}, ${paint(accentRgb, 'search "webgpu"')}, or ${paint(accentRgb, 'models recommend')} to inspect KRONVEX live.`,
       `  ${paint(C.gray, '2.')} Pass ${paint(secRgb, '--json')} or toggle ${paint(secRgb, '/json')} for deterministic AI-agent output.`,
-      `  ${paint(C.gray, '3.')} Type ${paint(accentRgb, '/help')} for all 12 commands · ${paint(accentRgb, '/crest')} for emblem · ${paint(accentRgb, '/theme')} to switch colors.`,
+      `  ${paint(C.gray, '3.')} Type ${paint(goldRgb, '/help')} for all commands · ${paint(goldRgb, '/crest')} for full Owl emblem · ${paint(goldRgb, '/theme')} for palettes.`,
       '',
       `  ${paint(borderRgb, `╭${'─'.repeat(w - 2)}╮`)}`,
-      `  ${paint(borderRgb, '│')} ${paint(C.amber, '✦')} ${paint(C.white, noticeText)}${' '.repeat(padNotice)}${paint(borderRgb, '│')}`,
+      `  ${paint(borderRgb, '│')} ${paint(C.ruby, '●')} ${paint(C.white, noticeText)}${' '.repeat(padNotice)}${paint(borderRgb, '│')}`,
       `  ${paint(borderRgb, `╰${'─'.repeat(w - 2)}╯`)}`,
       '',
-      `  ${paint(C.gray, `Workspace: ${shortCwd()}`)}   ${paint(C.gray, '│')}   ${paint(secRgb, `v${CLI_VERSION}`)}   ${paint(C.gray, '│')}   ${paint(C.slate, `${ramGb}GB RAM · ${cores} cores`)}   ${paint(C.gray, '│')}   ${paint(accentRgb, `theme:${ACTIVE_THEME}`)}`,
+      `  ${paint(C.gray, `Workspace: ${shortCwd()}`)}   ${paint(C.gray, '│')}   ${paint(secRgb, `v${CLI_VERSION}`)}   ${paint(C.gray, '│')}   ${paint(C.bronze, `${ramGb}GB RAM · ${cores} cores`)}   ${paint(C.gray, '│')}   ${paint(accentRgb, `theme:${ACTIVE_THEME}`)}`,
       '',
     ].join('\n');
   },
@@ -340,32 +381,32 @@ export const ReplSkin = {
   toolCard(toolLabel, detail, meta = '') {
     const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
     const w = Math.min(78, termWidth() - 2);
-    const borderRgb = rgb(...theme.border);
-    const accentRgb = rgb(...theme.accent);
-    const content = `✦ ${toolLabel}  ${detail}${meta ? `  (${meta})` : ''}`;
+    const borderRgb = fg(...theme.border);
+    const accentRgb = fg(...theme.accent);
+    const content = `◈ ${toolLabel}  ${detail}${meta ? `  (${meta})` : ''}`;
     const trimmed = content.length > w - 4 ? `${content.slice(0, w - 5)}…` : content;
     const pad = Math.max(0, w - 4 - trimmed.length);
     return [
       `  ${paint(borderRgb, `╭${'─'.repeat(w - 2)}╮`)}`,
-      `  ${paint(borderRgb, '│')} ${paint(accentRgb, '✦')} ${paint(C.bold + C.white, toolLabel)}  ${paint(C.slate, detail)}${meta ? `  ${paint(C.gray, `(${meta})`)}` : ''}${' '.repeat(pad)} ${paint(borderRgb, '│')}`,
+      `  ${paint(borderRgb, '│')} ${paint(accentRgb, '◈')} ${paint(C.bold + C.white, toolLabel)}  ${paint(C.slate, detail)}${meta ? `  ${paint(C.gold, `(${meta})`)}` : ''}${' '.repeat(pad)} ${paint(borderRgb, '│')}`,
       `  ${paint(borderRgb, `╰${'─'.repeat(w - 2)}╯`)}`,
     ].join('\n');
   },
 
   statusFooter(jsonMode = false) {
     const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
-    const secRgb = rgb(...theme.secondary);
-    const accentRgb = rgb(...theme.accent);
+    const secRgb = fg(...theme.secondary);
+    const goldRgb = fg(...theme.gold);
     const left = `${paint(secRgb, shortCwd())} ${paint(C.gray, `(kronvex v${CLI_VERSION})`)}`;
-    const mid = jsonMode ? paint(C.amber, 'mode: JSON') : paint(C.emerald, 'mcp.kronvex.org/mcp (read-only)');
-    const right = paint(C.violet, `theme:${ACTIVE_THEME}`);
+    const mid = jsonMode ? paint(C.gold, 'mode: JSON') : paint(C.green, 'mcp.kronvex.org/mcp (read-only)');
+    const right = paint(goldRgb, `theme:${ACTIVE_THEME}`);
     return `${paint(C.gray, '  ' + '─'.repeat(Math.min(76, termWidth() - 4)))}\n  ${left}   ${paint(C.gray, '·')}   ${mid}   ${paint(C.gray, '·')}   ${right}`;
   },
 
-  success: (msg) => `  ${paint(C.emerald, '✓')} ${msg}`,
-  error: (msg) => `  ${paint(C.rose, '✗')} ${msg}`,
-  warn: (msg) => `  ${paint(C.amber, '⚠')} ${msg}`,
-  info: (msg) => `  ${paint(C.cyan, '◆')} ${msg}`,
+  success: (msg) => `  ${paint(C.green, '✓')} ${msg}`,
+  error: (msg) => `  ${paint(C.ruby, '✗')} ${msg}`,
+  warn: (msg) => `  ${paint(C.gold, '⚠')} ${msg}`,
+  info: (msg) => `  ${paint(C.cyan, '◈')} ${msg}`,
   kv: (k, v) => `    ${paint(C.gray, k.padEnd(22))} ${paint(C.white, String(v))}`,
 
   table(headers, rows, maxColWidth = 44) {
@@ -386,17 +427,14 @@ export const ReplSkin = {
   },
 };
 
-// ── Live Animated Braille Spinner (TTY Text-Mode Only — Zero JSON Pollution)
 function startSpinner(opts, label) {
-  if (opts.format !== 'text' || !USE_COLOR) {
-    return { stop() {} };
-  }
+  if (opts.format !== 'text' || !USE_COLOR) return { stop() {} };
   const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
   let i = 0;
   const t0 = performance.now();
   const id = setInterval(() => {
     const secs = ((performance.now() - t0) / 1000).toFixed(1);
-    process.stderr.write(`\r  ${paint(C.violet, frames[i++ % frames.length])} ${paint(C.slate, label)} ${paint(C.gray, `(${secs}s)`)}   `);
+    process.stderr.write(`\r  ${paint(C.gold, frames[i++ % frames.length])} ${paint(C.slate, label)} ${paint(C.gray, `(${secs}s)`)}   `);
   }, 80);
   return {
     stop() {
@@ -424,12 +462,11 @@ function outputResult(opts, data, humanRenderer) {
   if (rendered !== '') process.stdout.write(rendered + '\n');
 }
 
-// ── Resilient Edge Data Client with Local Disk Cache ────────────────────────
 function ensureDir(dir) {
   try {
     fs.mkdirSync(dir, { recursive: true });
   } catch {
-    // Non-fatal in read-only environments
+    // Non-fatal
   }
 }
 
@@ -444,7 +481,7 @@ async function fetchJsonWithCache(name, { noCache = false } = {}) {
         return JSON.parse(fs.readFileSync(cacheFile, 'utf-8'));
       }
     } catch {
-      // Cache corrupt, refetch
+      // Refetch
     }
   }
 
@@ -666,33 +703,33 @@ function splitReplLine(line) {
 function renderMainHelp() {
   return [
     '',
-    renderKronvexWordmark(ACTIVE_THEME),
+    renderKronvexHeroHeader(ACTIVE_THEME),
     '',
-    `  ${paint(C.bold + C.white, 'KRONVEX Official CLI')} ${paint(C.cyan, `v${CLI_VERSION}`)} — Agent-Native Terminal for ${paint(C.emerald, 'kronvex.org')}`,
+    `  ${paint(C.bold + C.white, 'KRONVEX Official CLI')} ${paint(C.cyan, `v${CLI_VERSION}`)} — Agent-Native Terminal for ${paint(C.green, 'kronvex.org')}`,
     '',
-    `  ${paint(C.bold + C.cyan, 'USAGE')}`,
+    `  ${paint(C.bold + C.gold, 'USAGE')}`,
     '    kronvex                         Launch branded interactive REPL',
     '    kronvex <command> [sub] [flags] Run a deterministic one-shot command',
     '',
-    `  ${paint(C.bold + C.cyan, 'COMMANDS')}`,
-    `    ${paint(C.emerald, 'doctor')}                          Live health, latency & local hardware diagnostics`,
-    `    ${paint(C.emerald, 'search <query>')}                  Live fuzzy search via https://mcp.kronvex.org/mcp`,
-    `    ${paint(C.emerald, 'apps [list|info <id>]')}           Inspect signed Windows (.EXE) & Android (.APK) apps`,
-    `    ${paint(C.emerald, 'models [list|info|recommend]')}    Inspect local WebGPU/GGUF AI models & fit host RAM`,
-    `    ${paint(C.emerald, 'skills [list|inspect|install]')}   Browse & install KRONVEX SKILL.md agent workflows`,
-    `    ${paint(C.emerald, 'research [list|search|bibtex]')}   Search Top 21 frontier papers & export BibTeX`,
-    `    ${paint(C.emerald, 'top21 [github|hf|weekly]')}        Live 6h synced GitHub & Hugging Face Top 21 radar`,
-    `    ${paint(C.emerald, 'mcp [discover|tools|call|config]')}Inspect & configure KRONVEX Code-Mode MCP Server`,
-    `    ${paint(C.emerald, 'services / work')}                 List engineering services & verified case studies`,
-    `    ${paint(C.emerald, 'crest / theme [name]')}            Display KRONVEX emblem or switch gradient theme`,
-    `    ${paint(C.emerald, 'skill-md / cache / update')}       Print agent SKILL.md, manage cache, or self-update`,
+    `  ${paint(C.bold + C.gold, 'COMMANDS')}`,
+    `    ${paint(C.green, 'doctor')}                          Live health, latency & local hardware diagnostics`,
+    `    ${paint(C.green, 'search <query>')}                  Live fuzzy search via https://mcp.kronvex.org/mcp`,
+    `    ${paint(C.green, 'apps [list|info <id>]')}           Inspect signed Windows (.EXE) & Android (.APK) apps`,
+    `    ${paint(C.green, 'models [list|info|recommend]')}    Inspect local WebGPU/GGUF AI models & fit host RAM`,
+    `    ${paint(C.green, 'skills [list|inspect|install]')}   Browse & install KRONVEX SKILL.md agent workflows`,
+    `    ${paint(C.green, 'research [list|search|bibtex]')}   Search Top 21 frontier papers & export BibTeX`,
+    `    ${paint(C.green, 'top21 [github|hf|weekly]')}        Live 6h synced GitHub & Hugging Face Top 21 radar`,
+    `    ${paint(C.green, 'mcp [discover|tools|call|config]')}Inspect & configure KRONVEX Code-Mode MCP Server`,
+    `    ${paint(C.green, 'services / work')}                 List engineering services & verified case studies`,
+    `    ${paint(C.green, 'crest / theme [name]')}            Render full 30x28 KRONVEX Owl emblem or switch theme`,
+    `    ${paint(C.green, 'skill-md / cache / update')}       Print agent SKILL.md, manage cache, or self-update`,
     '',
-    `  ${paint(C.bold + C.cyan, 'GLOBAL FLAGS')}`,
-    '    --json                                   Deterministic JSON output for AI agents',
-    '    --output-format <text|json|stream-json>  Output protocol (Gemini CLI compatible)',
-    '    --theme <kronvex|spectrum|emerald|crimson> Override banner gradient palette',
-    '    --no-cache                               Bypass local 10-minute cache',
-    '    -h, --help  ·  -v, --version             Show help or print version',
+    `  ${paint(C.bold + C.gold, 'GLOBAL FLAGS')}`,
+    '    --json                                      Deterministic JSON output for AI agents',
+    '    --output-format <text|json|stream-json>     Output protocol (NDJSON streaming supported)',
+    '    --theme <kronvex|medallion|ruby|sentinel>   Switch KRONVEX Owl brand color theme',
+    '    --no-cache                                  Bypass local 10-minute cache',
+    '    -h, --help  ·  -v, --version                Show help or print version',
     '',
   ].join('\n');
 }
@@ -765,8 +802,8 @@ async function cmdDoctor(opts) {
       '',
       ReplSkin.toolCard('Diagnostics', 'Probed kronvex.org & mcp.kronvex.org/mcp', report.status.toUpperCase()),
       '',
-      ReplSkin.kv('Platform API', apiHealth.reachable ? paint(C.emerald, `ONLINE (${apiHealth.latencyMs}ms · synced ${String(apiHealth.syncedAt).slice(0, 10)})`) : paint(C.rose, `OFFLINE (${apiHealth.error})`)),
-      ReplSkin.kv('Remote MCP Gateway', mcpHealth.reachable ? paint(C.emerald, `ONLINE (${mcpHealth.latencyMs}ms · MCP ${mcpHealth.protocolVersion})`) : paint(C.rose, `OFFLINE (${mcpHealth.error})`)),
+      ReplSkin.kv('Platform API', apiHealth.reachable ? paint(C.green, `ONLINE (${apiHealth.latencyMs}ms · synced ${String(apiHealth.syncedAt).slice(0, 10)})`) : paint(C.ruby, `OFFLINE (${apiHealth.error})`)),
+      ReplSkin.kv('Remote MCP Gateway', mcpHealth.reachable ? paint(C.green, `ONLINE (${mcpHealth.latencyMs}ms · MCP ${mcpHealth.protocolVersion})`) : paint(C.ruby, `OFFLINE (${mcpHealth.error})`)),
       ReplSkin.kv('MCP Code-Mode Tools', mcpHealth.tools.join(', ') || '-'),
       ReplSkin.kv('Host OS / Runtime', `${host.os} · Node ${host.node}`),
       ReplSkin.kv('Host Hardware', `${host.cpuCores} CPU cores · ${host.ramGb} GB RAM`),
@@ -1222,7 +1259,7 @@ async function cmdTheme(args, opts) {
     ACTIVE_THEME = req;
     saveTheme(req);
     outputResult(opts, { activeTheme: ACTIVE_THEME, label: THEMES[req].label }, () =>
-      `\n${renderKronvexWordmark(ACTIVE_THEME)}\n\n${ReplSkin.success(`Theme switched to ${paint(C.bold + C.white, req)} — ${THEMES[req].label}`)}\n`
+      `\n${renderKronvexHeroHeader(ACTIVE_THEME)}\n\n${ReplSkin.success(`Theme switched to ${paint(C.bold + C.white, req)} — ${THEMES[req].label}`)}\n`
     );
     return 0;
   }
@@ -1230,7 +1267,7 @@ async function cmdTheme(args, opts) {
   outputResult(opts, { activeTheme: ACTIVE_THEME, themes: list }, () =>
     [
       '',
-      ReplSkin.toolCard('Themes', `Active: ${ACTIVE_THEME}`, `${list.length} TrueColor palettes`),
+      ReplSkin.toolCard('KRONVEX Owl Themes', `Active: ${ACTIVE_THEME}`, `${list.length} brand palettes`),
       '',
       ReplSkin.table(
         ['THEME', 'STATUS', 'PALETTE'],
@@ -1357,8 +1394,8 @@ export async function dispatch(argv) {
       case 'logo': {
         outputResult(
           opts,
-          { emblem: 'KRONVEX Geometric Crest', theme: ACTIVE_THEME, version: CLI_VERSION },
-          () => `\n${renderKronvexCrest(ACTIVE_THEME)}\n\n${renderKronvexWordmark(ACTIVE_THEME)}\n\n  ${paint(C.slate, 'KRONVEX — Cross-Platform Apps · Market Intelligence · Mission-Critical AI')}\n`
+          { emblem: 'KRONVEX Authentic Owl Medallion', theme: ACTIVE_THEME, version: CLI_VERSION },
+          () => `\n${renderKronvexCrest()}\n\n${renderKronvexHeroHeader(ACTIVE_THEME)}\n\n  ${paint(C.gold, '◈')} ${paint(C.slate, 'KRONVEX — Cross-Platform Apps · Market Intelligence · Mission-Critical AI')}\n`
         );
         return 0;
       }
@@ -1391,7 +1428,7 @@ export async function dispatch(argv) {
   }
 }
 
-// ── Stateful Interactive REPL (Gemini-CLI Aesthetic + History + Autocomplete)
+// ── Stateful Interactive REPL ───────────────────────────────────────────────
 const REPL_COMMANDS = [
   'doctor',
   'search',
@@ -1422,7 +1459,7 @@ async function runRepl() {
     try {
       history = fs.readFileSync(HISTORY_FILE, 'utf-8').split('\n').filter(Boolean).slice(-100).reverse();
     } catch {
-      // Ignore history read failure
+      // Ignore
     }
   }
 
@@ -1439,9 +1476,9 @@ async function runRepl() {
 
   const printPromptBar = () => {
     const theme = THEMES[ACTIVE_THEME] || THEMES.kronvex;
-    const accentRgb = rgb(...theme.accent);
+    const accentRgb = fg(...theme.accent);
     process.stdout.write(`${ReplSkin.statusFooter(jsonMode)}\n`);
-    rl.setPrompt(`  ${paint(accentRgb, '❯')}${jsonMode ? paint(C.amber, ' [json]') : ''} `);
+    rl.setPrompt(`  ${paint(accentRgb, '❯')}${jsonMode ? paint(C.gold, ' [json]') : ''} `);
     rl.prompt();
   };
 
@@ -1467,7 +1504,7 @@ async function runRepl() {
       }
       if (line === '/json') {
         jsonMode = !jsonMode;
-        process.stdout.write(`\n${ReplSkin.info(`JSON agent mode ${jsonMode ? paint(C.emerald, 'ENABLED') : paint(C.slate, 'DISABLED')}`)}\n\n`);
+        process.stdout.write(`\n${ReplSkin.info(`JSON agent mode ${jsonMode ? paint(C.green, 'ENABLED') : paint(C.slate, 'DISABLED')}`)}\n\n`);
         printPromptBar();
         return;
       }
@@ -1493,7 +1530,6 @@ async function runRepl() {
   });
 }
 
-// Self-invocation check
 const invokedDirectly =
   process.argv[1] &&
   (path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')) ||
@@ -1505,4 +1541,4 @@ if (invokedDirectly) {
   const code = await dispatch(process.argv.slice(2));
   process.exit(code);
 }
-void stripAnsi;
+void bg;

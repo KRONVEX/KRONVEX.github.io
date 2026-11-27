@@ -51,23 +51,25 @@ const TERMINAL_DEMOS: Record<DemoTab, { label: string; command: string; output: 
   repl: {
     label: 'Interactive REPL',
     command: 'kronvex',
-    output: `██░░░░   ██░░░██░  ██████░░   ░█████░░  ██░░░░██░  ██░░░░██░  ███████░  ██░░░██░
-░░██░░   ██░░██░░  ██░░░██░  ██░░░██░  ███░░░██░  ██░░░░██░  ██░░░░░░  ░██░██░░
-░░░░██░  █████░░░  ██████░░  ██░░░██░  ████░░██░  ██░░░░██░  █████░░░  ░░███░░░
-░░░░██░  ██░░██░░  ██░░██░░  ██░░░██░  ██░██░██░  ░██░░██░░  ██░░░░░░  ░░███░░░
-░░██░░░  ██░░░██░  ██░░░██░  ██░░░██░  ██░░████░  ░░████░░░  ██░░░░░░  ░██░██░░
-██░░░░░  ██░░░██░  ██░░░██░  ░█████░░  ██░░░███░  ░░░██░░░░  ███████░  ██░░░██░
-░░░░░░   ░░░░░░░░  ░░░░░░░░   ░░░░░░░  ░░░░░░░░░  ░░░░░░░░░  ░░░░░░░░  ░░░░░░░░
+    output: `██░░░██░ ██████░  ░█████░  ██░░░░██░ ██░░░░██░ ███████░ ██░░░██░
+██░░██░░ ██░░░██░ ██░░░██░ ███░░░██░ ██░░░░██░ ██░░░░░░ ░██░██░░
+█████░░░ ██████░░ ██░░░██░ ████░░██░ ██░░░░██░ █████░░░ ░░███░░░
+██░░██░░ ██░░██░░ ██░░░██░ ██░██░██░ ░██░░██░░ ██░░░░░░ ░░███░░░
+██░░░██░ ██░░░██░ ██░░░██░ ██░░████░ ░░████░░░ ██░░░░░░ ░██░██░░
+██░░░██░ ██░░░██░ ░█████░░ ██░░░███░ ░░░██░░░░ ███████░ ██░░░██░
+░░░░░░░░ ░░░░░░░░  ░░░░░░  ░░░░░░░░░ ░░░░░░░░░ ░░░░░░░░ ░░░░░░░░
+
+  ◈ KRONVEX · Cross-Platform Apps · Market Intelligence · Mission-Critical AI
 
   Tips for getting started:
   1. Run doctor, search "webgpu", or models recommend to inspect KRONVEX live.
   2. Pass --json or toggle /json for deterministic AI-agent output.
-  3. Type /help for all 12 commands · /crest for emblem · /theme to switch colors.
+  3. Type /help for all commands · /crest for full Owl emblem · /theme for palettes.
 
   ╭──────────────────────────────────────────────────────────────────────────╮
-  │ ✦ Connected to kronvex.org & mcp.kronvex.org/mcp · Read-Only · 0 Deps    │
+  │ ● Connected to kronvex.org & mcp.kronvex.org/mcp · Read-Only · 0 Deps    │
   ╰──────────────────────────────────────────────────────────────────────────╯
-  ~/projects (kronvex v1.1.0)  ·  mcp.kronvex.org/mcp (read-only)  ·  theme:kronvex
+  ~/projects (kronvex v1.2.0)  ·  mcp.kronvex.org/mcp (read-only)  ·  theme:kronvex
   ❯ `,
   },
   doctor: {
@@ -153,7 +155,7 @@ const COMMAND_GROUPS = [
   { cmd: 'kronvex mcp [discover|tools|call|config]', mode: 'Both', desc: 'Inspect mcp.kronvex.org/mcp and print ready-to-paste configs for 8 coding agents' },
   { cmd: 'kronvex services / work', mode: 'Both', desc: 'Query KRONVEX engineering services and verified production case studies' },
   { cmd: 'kronvex skill-md', mode: 'Agent', desc: 'Print canonical SKILL.md manifest for autonomous agent discovery' },
-  { cmd: 'kronvex crest / theme [name]', mode: 'TUI', desc: 'Render the geometric KRONVEX emblem or switch 24-bit TrueColor gradient themes (kronvex, spectrum, emerald, crimson)' },
+  { cmd: 'kronvex crest / theme [name]', mode: 'TUI', desc: 'Render the full 30x28 TrueColor KRONVEX Owl emblem or switch Owl brand themes (kronvex, medallion, ruby, sentinel)' },
   { cmd: 'kronvex update', mode: 'Local', desc: 'Self-update kronvex.mjs directly from kronvex.org/cli/kronvex.mjs with SHA-256 verification' },
   { cmd: 'kronvex cache [status|clear]', mode: 'Local', desc: 'Inspect or purge the 10-minute ~/.kronvex/cache offline JSON snapshots' },
 ];
@@ -357,11 +359,26 @@ export function CliPage() {
               </div>
               <span className="font-mono text-[11px] text-emerald-400">UTF-8 · ANSI · Zero Deps</span>
             </div>
-            <pre
-              className="p-5 text-xs sm:text-[13px] font-mono overflow-x-auto leading-relaxed bg-gradient-to-r from-sky-300 via-emerald-300 via-60% to-rose-300 bg-clip-text text-transparent"
-            >
-              <code>{`$ ${activeDemo.command}\n\n${activeDemo.output}`}</code>
-            </pre>
+            <div className="p-5 flex items-start gap-4 overflow-x-auto">
+              {demoTab === 'repl' && (
+                <img
+                  src={`${import.meta.env.BASE_URL}kronvex-logo-96.webp`}
+                  alt="KRONVEX Owl Medallion Logo"
+                  width={84}
+                  height={84}
+                  className="w-16 h-16 sm:w-[84px] sm:h-[84px] rounded-xl ring-1 ring-cyan-400/40 shrink-0 mt-7"
+                />
+              )}
+              <pre
+                className="text-xs sm:text-[13px] font-mono leading-relaxed bg-clip-text text-transparent"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(90deg, #00D4FF 0%, #22E53A 34%, #FFE024 68%, #FF2E4C 100%)',
+                }}
+              >
+                <code>{`$ ${activeDemo.command}\n\n${activeDemo.output}`}</code>
+              </pre>
+            </div>
           </div>
         </section>
       </ScrollReveal>
